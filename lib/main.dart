@@ -1,10 +1,8 @@
-import 'package:flashorder/Presenttion/Screens/home_screen.dart';
+import 'package:flashorder/BussinessLogic/router.dart';
 import 'package:flutter/material.dart';
-import 'package:getxfire/getxfire.dart';
+import 'package:get/get.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await GetxFire.init();
   runApp(const MyApp());
 }
 
@@ -17,10 +15,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'FlashOrder',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomeScreen(),
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "Cairo"),
+      getPages: routes,
     );
   }
 }

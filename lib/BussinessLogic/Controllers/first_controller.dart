@@ -1,10 +1,9 @@
 import 'package:get/get.dart';
 
 class FirstContoller extends GetxController {
-  int count = 0;
+  var count = 10.obs;
 
   void increment() {
     count++;
-    update();
   }
 }
