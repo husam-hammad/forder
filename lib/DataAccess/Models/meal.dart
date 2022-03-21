@@ -1,0 +1,39 @@
+import 'dart:convert';
+
+import 'package:flashorder/DataAccess/Models/restaurent.dart';
+
+class Meal {
+  late int id;
+  late String name;
+  late String image;
+  late List<String> components;
+  late String description;
+  late Restaurent restaurent;
+  late bool available;
+  late double price;
+  Meal({
+    required this.id,
+    required this.name,
+    required this.image,
+    required this.components,
+    required this.description,
+    required this.restaurent,
+    required this.available,
+    required this.price,
+  });
+
+  factory Meal.fromMap(Map<String, dynamic> map) {
+    return Meal(
+      id: map['id'],
+      name: map['name'],
+      image: map['image'],
+      components: map['components'],
+      description: map['description'],
+      restaurent: Restaurent.fromMap(map['restaurent']),
+      available: map['available'],
+      price: map['price'],
+    );
+  }
+
+  factory Meal.fromJson(String source) => Meal.fromMap(json.decode(source));
+}

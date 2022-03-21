@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, use_key_in_widget_constructors
 
+import 'package:flashorder/Constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:story_view/story_view.dart';
 
 class StoryViewScreen extends StatelessWidget {
@@ -9,105 +11,122 @@ class StoryViewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Delicious Ghanaian Meals"),
-      ),
-      body: Container(
-        margin: EdgeInsets.all(
-          8,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.pink,
+          title: Text("العروض والقصص"),
+          centerTitle: true,
         ),
-        child: ListView(
-          children: <Widget>[
-            Container(
-              height: 300,
-              child: StoryView(
-                controller: controller,
-                storyItems: [
-                  StoryItem.text(
-                    title:
-                        "Hello world!\nHave a look at some great Ghanaian delicacies. I'm sorry if your mouth waters. \n\nTap!",
-                    backgroundColor: Colors.orange,
-                    roundedTop: true,
-                  ),
-                  // StoryItem.inlineImage(
-                  //   NetworkImage(
-                  //       "https://image.ibb.co/gCZFbx/Banku-and-tilapia.jpg"),
-                  //   caption: Text(
-                  //     "Banku & Tilapia. The food to keep you charged whole day.\n#1 Local food.",
-                  //     style: TextStyle(
-                  //       color: Colors.white,
-                  //       backgroundColor: Colors.black54,
-                  //       fontSize: 17,
-                  //     ),
-                  //   ),
-                  // ),
-                  StoryItem.inlineImage(
-                    url:
-                        "https://image.ibb.co/cU4WGx/Omotuo-Groundnut-Soup-braperucci-com-1.jpg",
-                    controller: controller,
-                    caption: Text(
-                      "Omotuo & Nkatekwan; You will love this meal if taken as supper.",
-                      style: TextStyle(
-                        color: Colors.white,
-                        backgroundColor: Colors.black54,
-                        fontSize: 17,
-                      ),
-                    ),
-                  ),
-                  StoryItem.inlineImage(
-                    url:
-                        "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
-                    controller: controller,
-                    caption: Text(
-                      "Hektas, sektas and skatad",
-                      style: TextStyle(
-                        color: Colors.white,
-                        backgroundColor: Colors.black54,
-                        fontSize: 17,
-                      ),
-                    ),
-                  )
-                ],
-                onStoryShow: (s) {},
-                onComplete: () {},
-                progressPosition: ProgressPosition.bottom,
-                repeat: false,
-                inline: true,
-              ),
-            ),
-            Material(
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => MoreStories()));
-                },
+        body: Container(
+          height: Get.height,
+          width: Get.width,
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                flex: 10,
                 child: Container(
-                  decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius:
-                          BorderRadius.vertical(bottom: Radius.circular(8))),
-                  padding: EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Icon(
-                        Icons.arrow_forward,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Text(
-                        "View more stories",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ],
+                  height: Get.height,
+                  child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: StoryView(
+                      controller: controller,
+                      storyItems: [
+                        StoryItem.text(
+                          title:
+                              "Hello world!\nHave a look at some great Ghanaian delicacies. I'm sorry if your mouth waters. \n\nTap!",
+                          backgroundColor: Colors.orange,
+                          roundedTop: true,
+                        ),
+                        StoryItem.inlineImage(
+                          controller: controller,
+                          url:
+                              "https://image.ibb.co/gCZFbx/Banku-and-tilapia.jpg",
+                          caption: Text(
+                            "أقوى العروض من مطعم أرارات",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              backgroundColor: Colors.black54,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                        StoryItem.inlineImage(
+                          url:
+                              "https://image.ibb.co/cU4WGx/Omotuo-Groundnut-Soup-braperucci-com-1.jpg",
+                          controller: controller,
+                          caption: Text(
+                            "Omotuo & Nkatekwan; You will love this meal if taken as supper.",
+                            style: TextStyle(
+                              color: Colors.white,
+                              backgroundColor: Colors.black54,
+                              fontSize: 17,
+                            ),
+                          ),
+                        ),
+                        StoryItem.inlineImage(
+                          url:
+                              "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
+                          controller: controller,
+                          caption: Text(
+                            "Hektas, sektas and skatad",
+                            style: TextStyle(
+                              color: Colors.white,
+                              backgroundColor: Colors.black54,
+                              fontSize: 17,
+                            ),
+                          ),
+                        )
+                      ],
+                      onStoryShow: (s) {},
+                      onComplete: () {
+                        Get.back();
+                      },
+                      progressPosition: ProgressPosition.top,
+                      repeat: false,
+                      inline: true,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              Expanded(
+                flex: 1,
+                child: Material(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MoreStories()));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: AppColors.green,
+                          borderRadius: BorderRadius.vertical(
+                              bottom: Radius.circular(8))),
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const <Widget>[
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Text(
+                            "المزيد من العروضس",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -132,7 +151,7 @@ class _MoreStoriesState extends State<MoreStories> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("More"),
+        title: Text("المزيد من العروض"),
       ),
       body: StoryView(
         storyItems: [
@@ -170,7 +189,9 @@ class _MoreStoriesState extends State<MoreStories> {
           ),
         ],
         onStoryShow: (s) {},
-        onComplete: () {},
+        onComplete: () {
+          Get.back();
+        },
         progressPosition: ProgressPosition.top,
         repeat: false,
         controller: storyController,

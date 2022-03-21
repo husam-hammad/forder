@@ -1,16 +1,18 @@
 import 'dart:convert';
 
 class Restaurent {
-  final int id;
-  final String name;
-  final String imageUrl;
+  late int id;
+  late String name;
+  late String logo;
+  late String cover;
   late double lat;
   late double long;
   late String adrees;
   Restaurent({
     required this.id,
     required this.name,
-    required this.imageUrl,
+    required this.logo,
+    required this.cover,
     required this.lat,
     required this.long,
     required this.adrees,
@@ -20,7 +22,8 @@ class Restaurent {
     return {
       'id': id,
       'name': name,
-      'imageUrl': imageUrl,
+      'logo': logo,
+      'cover': cover,
       'lat': lat,
       'long': long,
       'adrees': adrees,
@@ -29,12 +32,13 @@ class Restaurent {
 
   factory Restaurent.fromMap(Map<String, dynamic> map) {
     return Restaurent(
-      id: map['id']?.toInt() ?? 0,
-      name: map['name'] ?? '',
-      imageUrl: map['imageUrl'] ?? '',
-      lat: map['lat'] ?? 0,
-      long: map['long'] ?? 0,
-      adrees: map['adrees'] ?? '',
+      id: map['data']['id']?.toInt() ?? 0,
+      name: map['data']['name'] ?? '',
+      logo: map['data']['logo'] ?? '',
+      cover: map['data']['cover'] ?? '',
+      lat: map['data']['lat'] ?? 0,
+      long: map['data']['long'] ?? 0,
+      adrees: map['data']['adrees'] ?? '',
     );
   }
 
