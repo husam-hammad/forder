@@ -1,6 +1,8 @@
 import 'package:flashorder/Constants/colors.dart';
-import 'package:flashorder/Constants/textstyles.dart';
+import 'package:flashorder/helpers/image_helper.dart';
 import 'package:flutter/material.dart';
+
+import '../../Constants/textstyles.dart';
 
 class RestaurentIcon extends StatelessWidget {
   const RestaurentIcon(
@@ -22,13 +24,20 @@ class RestaurentIcon extends StatelessWidget {
           CircleAvatar(
             backgroundColor: AppColors.grey,
             radius: smallicon ? 30 : 10,
+            child: ClipOval(
+              child: FadeInImage(
+                placeholder: const AssetImage(
+                    "assets/images/placeholders/restaurent.png"),
+                image: NetworkImage(ImageHelper.buildImage(logo)),
+              ),
+            ),
           ),
           const SizedBox(
             height: 10,
           ),
           smallicon == true
-              ? const Text(
-                  "اسم المطعم",
+              ? Text(
+                  name,
                   style: AppTextStyles.greyregular,
                 )
               : const SizedBox()

@@ -10,7 +10,7 @@ class Meal {
   late String description;
   late Restaurent restaurent;
   late bool available;
-  late double price;
+  late num price;
   Meal({
     required this.id,
     required this.name,
@@ -27,11 +27,11 @@ class Meal {
       id: map['id'],
       name: map['name'],
       image: map['image'],
-      components: map['components'],
-      description: map['description'],
+      components: map['components'].toString().split(','),
+      description: map['description'] ?? "",
       restaurent: Restaurent.fromMap(map['restaurent']),
-      available: map['available'],
-      price: map['price'],
+      available: map['available'] == 1 ? true : false,
+      price: map['price'] ?? 0,
     );
   }
 

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, use_key_in_widget_constructors
 
+import 'package:flashorder/BussinessLogic/Controllers/stories_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,6 +8,7 @@ import 'package:story_view/story_view.dart';
 
 class StoryViewScreen extends StatelessWidget {
   final StoryController controller = StoryController();
+  final StoriesController storyController = Get.find();
   StoryViewScreen({Key? key}) : super(key: key);
 
   @override
@@ -32,54 +34,7 @@ class StoryViewScreen extends StatelessWidget {
                     textDirection: TextDirection.ltr,
                     child: StoryView(
                       controller: controller,
-                      storyItems: [
-                        StoryItem.text(
-                          title:
-                              "Hello world!\nHave a look at some great Ghanaian delicacies. I'm sorry if your mouth waters. \n\nTap!",
-                          backgroundColor: Colors.orange,
-                          roundedTop: true,
-                        ),
-                        StoryItem.inlineImage(
-                          controller: controller,
-                          url:
-                              "https://image.ibb.co/gCZFbx/Banku-and-tilapia.jpg",
-                          caption: Text(
-                            "أقوى العروض من مطعم أرارات",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              backgroundColor: Colors.black54,
-                              fontSize: 17,
-                            ),
-                          ),
-                        ),
-                        StoryItem.inlineImage(
-                          url:
-                              "https://image.ibb.co/cU4WGx/Omotuo-Groundnut-Soup-braperucci-com-1.jpg",
-                          controller: controller,
-                          caption: Text(
-                            "Omotuo & Nkatekwan; You will love this meal if taken as supper.",
-                            style: TextStyle(
-                              color: Colors.white,
-                              backgroundColor: Colors.black54,
-                              fontSize: 17,
-                            ),
-                          ),
-                        ),
-                        StoryItem.inlineImage(
-                          url:
-                              "https://media.giphy.com/media/5GoVLqeAOo6PK/giphy.gif",
-                          controller: controller,
-                          caption: Text(
-                            "Hektas, sektas and skatad",
-                            style: TextStyle(
-                              color: Colors.white,
-                              backgroundColor: Colors.black54,
-                              fontSize: 17,
-                            ),
-                          ),
-                        )
-                      ],
+                      storyItems: buildStories(),
                       onStoryShow: (s) {},
                       onComplete: () {
                         Get.back();
@@ -130,6 +85,26 @@ class StoryViewScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<StoryItem?> buildStories() {
+    List<StoryItem?> list = [];
+    for (var story in storyController.stories) {
+      list.add(StoryItem.inlineImage(
+        url: story.image,
+        controller: controller,
+        caption: Text(
+          story.description,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.white,
+            backgroundColor: Colors.black54,
+            fontSize: 17,
+          ),
+        ),
+      ));
+    }
+    return list;
   }
 }
 

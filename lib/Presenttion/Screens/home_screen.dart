@@ -1,24 +1,34 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, avoid_print
 
+import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/stories_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
-import 'package:flashorder/DataAccess/Models/restaurent.dart';
 import 'package:flashorder/Presenttion/Screens/Auth/login.dart';
 import 'package:flashorder/Presenttion/Screens/Auth/otp.dart';
 import 'package:flashorder/Presenttion/Screens/story_view.dart';
 import 'package:flashorder/Presenttion/Widgets/drawer.dart';
 import 'package:flashorder/Presenttion/Widgets/home_meal.dart';
-import 'package:flashorder/Presenttion/Widgets/restaurent_icon.dart';
+//import 'package:flashorder/Presenttion/Widgets/restaurent_icon.dart';
 import 'package:flashorder/Presenttion/Widgets/story_item.dart';
+//import 'package:flutter/foundation.dart';
 /* import 'package:flashorder/DataAccess/Models/restaurent.dart';
 import 'package:flashorder/Presenttion/Widgets/story_item.dart'; */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../Widgets/restaurent_icon.dart';
 //import 'package:get/get.dart';
 
 // ignore_for_file: prefer_const_constructors
+// ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+
+  RestaurentController restaurentController = Get.put(RestaurentController());
+  MealsController mealsController = Get.put(MealsController());
+  StoriesController storyController = Get.put(StoriesController());
 
   @override
   Widget build(BuildContext context) {
@@ -80,30 +90,30 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Container(
-              width: double.infinity,
-              margin: EdgeInsets.all(4),
-              padding: EdgeInsets.symmetric(vertical: 15),
-              height: 200,
-              child: ListView.builder(
-                itemCount: 5,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      Get.to(StoryViewScreen());
+            width: double.infinity,
+            margin: EdgeInsets.all(4),
+            padding: EdgeInsets.symmetric(vertical: 15),
+            height: 200,
+            child: GetBuilder(
+                init: storyController,
+                builder: (_) {
+                  return ListView.builder(
+                    itemCount: storyController.stories.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) {
+                      print(storyController.stories[index].image);
+                      return InkWell(
+                        onTap: () {
+                          Get.to(StoryViewScreen());
+                        },
+                        child: StoryItem(
+                          story: storyController.stories[index],
+                        ),
+                      );
                     },
-                    child: StoryItem(
-                        image: "",
-                        restaurent: Restaurent(
-                            id: 1,
-                            name: "",
-                            imageUrl: "",
-                            lat: 0,
-                            long: 0,
-                            adrees: "")),
                   );
-                },
-              )),
+                }),
+          )
         ],
       ),
     );
@@ -144,17 +154,25 @@ class HomeScreen extends StatelessWidget {
         SizedBox(
           width: double.infinity,
           height: 120,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 10,
-            itemBuilder: (BuildContext context, int index) {
-              return RestaurentIcon(
-                logo: "",
-                name: "",
-                smallicon: true,
-              );
-            },
-          ),
+          child: GetBuilder(
+              init: restaurentController,
+              builder: (_) {
+                return restaurentController.restaurents.isNotEmpty
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: restaurentController.restaurents.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return RestaurentIcon(
+                            logo: restaurentController.restaurents[index].logo,
+                            name: restaurentController.restaurents[index].name,
+                            smallicon: true,
+                          );
+                        },
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(),
+                      );
+              }),
         )
       ],
     );
@@ -181,22 +199,19 @@ class HomeScreen extends StatelessWidget {
         SizedBox(
           height: 300,
           width: double.infinity,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 5,
-            itemBuilder: (BuildContext context, int index) {
-              return HomeMeal(
-                image: "$index.jpg",
-                restaurent: Restaurent(
-                    id: 1,
-                    name: "",
-                    lat: 0,
-                    long: 0,
-                    adrees: "",
-                    imageUrl: "$index.jpg"),
-              );
-            },
-          ),
+          child: GetBuilder(
+              init: mealsController,
+              builder: (_) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: mealsController.meals.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return HomeMeal(
+                      meal: mealsController.meals[index],
+                    );
+                  },
+                );
+              }),
         ),
       ],
     );

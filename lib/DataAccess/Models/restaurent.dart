@@ -32,13 +32,13 @@ class Restaurent {
 
   factory Restaurent.fromMap(Map<String, dynamic> map) {
     return Restaurent(
-      id: map['data']['id']?.toInt() ?? 0,
-      name: map['data']['name'] ?? '',
-      logo: map['data']['logo'] ?? '',
-      cover: map['data']['cover'] ?? '',
-      lat: map['data']['lat'] ?? 0,
-      long: map['data']['long'] ?? 0,
-      adrees: map['data']['adrees'] ?? '',
+      id: map['id']?.toInt() ?? 0,
+      name: map['name'] ?? '',
+      logo: map['logo'] ?? '',
+      cover: map['cover'] ?? '',
+      lat: map['lat'] ?? 0,
+      long: map['long'] ?? 0,
+      adrees: map['adrees'] ?? '',
     );
   }
 
