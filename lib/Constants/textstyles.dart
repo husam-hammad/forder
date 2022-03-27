@@ -36,4 +36,9 @@ class AppTextStyles {
       color: Colors.white,
       fontWeight: FontWeight.bold,
       fontSize: 18.0);
+  static const whiteRegularDetail = TextStyle(
+      fontFamily: "Cairo",
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 15.0);
 }

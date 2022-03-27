@@ -1,5 +1,6 @@
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
+import 'package:flashorder/Presenttion/Screens/Auth/otp.dart';
 import 'package:flashorder/Presenttion/Widgets/bottom_cropper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -100,7 +101,9 @@ class _LoginState extends State<Login> {
                           width: Get.width,
                           height: 50,
                           child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.to(const OtpScreen());
+                              },
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
                                 primary: AppColors.green,

@@ -2,6 +2,7 @@
 
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
+import 'package:flashorder/Presenttion/Screens/home_screen.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -145,7 +146,9 @@ class _OtpScreenState extends State<OtpScreen> {
           blurRadius: 10,
         )
       ],
-      onCompleted: (v) {},
+      onCompleted: (v) {
+        Get.to(HomeScreen());
+      },
     );
   }
 }

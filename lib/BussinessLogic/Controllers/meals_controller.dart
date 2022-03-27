@@ -10,10 +10,16 @@ class MealsController extends GetxController {
   late MealRepo repo;
   List<Meal> meals = [];
 
+  var selectedindex = 0.obs;
   @override
   void onInit() async {
     super.onInit();
     await getMeals();
+  }
+
+  void deleteCompoment(mealindex, comindex) {
+    meals[int.parse(mealindex.toString())].components.removeAt(comindex);
+    update();
   }
 
   Future getMeals() async {

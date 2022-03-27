@@ -1,5 +1,6 @@
 import 'package:flashorder/Constants/colors.dart';
-import 'package:flashorder/Presenttion/Screens/home_screen.dart';
+import 'package:flashorder/Presenttion/Screens/Auth/login.dart';
+/* import 'package:flashorder/Presenttion/Screens/home_screen.dart'; */
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -16,7 +17,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   void _onIntroEnd(context) {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => HomeScreen()),
+      MaterialPageRoute(builder: (_) => const Login()),
     );
   }
 

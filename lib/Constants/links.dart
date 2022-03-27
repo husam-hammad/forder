@@ -1,4 +1,4 @@
-const baseUrl = "http://192.168.1.110:8000/api/";
+const baseUrl = "http://theflashorder.aqsagr.com/api/";
 const allRestaurentsUrl = "restaurents";
 const latestRestaurentsUrl = "restaurents/latest";
 const latestMealsUrl = "meals/latest";

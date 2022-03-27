@@ -19,10 +19,10 @@ class _PublicDrawerState extends State<PublicDrawer> {
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(color: AppColors.pink),
             accountName: Text(
-              "حسام حماد",
+              "مستخدم التطبيق",
               style: AppTextStyles.whiteboldHeading,
             ),
-            accountEmail: Text("0937143734"),
+            accountEmail: Text("0900000000"),
           ),
           ListTile(
             title: Text("تسجيل الدخول"),

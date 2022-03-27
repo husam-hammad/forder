@@ -5,8 +5,6 @@ import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart
 import 'package:flashorder/BussinessLogic/Controllers/stories_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
-import 'package:flashorder/Presenttion/Screens/Auth/login.dart';
-import 'package:flashorder/Presenttion/Screens/Auth/otp.dart';
 import 'package:flashorder/Presenttion/Screens/story_view.dart';
 import 'package:flashorder/Presenttion/Widgets/drawer.dart';
 import 'package:flashorder/Presenttion/Widgets/home_meal.dart';
@@ -18,6 +16,7 @@ import 'package:flashorder/Presenttion/Widgets/story_item.dart'; */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Widgets/appbar.dart';
 import '../Widgets/restaurent_icon.dart';
 //import 'package:get/get.dart';
 
@@ -208,47 +207,12 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return HomeMeal(
                       meal: mealsController.meals[index],
+                      index: index,
                     );
                   },
                 );
               }),
         ),
-      ],
-    );
-  }
-
-  PreferredSizeWidget buildAppBar() {
-    return AppBar(
-      toolbarHeight: 70,
-      shape: ContinuousRectangleBorder(
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(100))),
-      backgroundColor: AppColors.pink,
-      elevation: 0,
-      centerTitle: true,
-      title: Column(
-        children: [
-          Icon(Icons.flash_on),
-          Text(
-            "The Flash Order",
-            style: TextStyle(color: Colors.white),
-          )
-        ],
-      ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            Get.to(Login());
-          },
-          icon: Icon(Icons.shopping_cart),
-          color: Colors.white,
-        ),
-        IconButton(
-          onPressed: () {
-            Get.to(OtpScreen());
-          },
-          icon: Icon(Icons.search),
-          color: Colors.white,
-        )
       ],
     );
   }
