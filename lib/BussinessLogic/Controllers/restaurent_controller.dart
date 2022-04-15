@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class RestaurentController extends GetxController {
   late RestaurentRepo repo;
   List<Restaurent> restaurents = [];
-
+  bool homeRestaurentsLoaded = false;
   @override
   void onInit() async {
     super.onInit();
@@ -17,8 +17,7 @@ class RestaurentController extends GetxController {
     repo = RestaurentRepo(RestaurentClient());
     await repo.getall().then((data) {
       restaurents = data;
-      // ignore: avoid_print
-      print(data);
+      homeRestaurentsLoaded = true;
       update();
     });
   }

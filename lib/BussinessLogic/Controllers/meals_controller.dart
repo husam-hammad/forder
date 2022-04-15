@@ -10,6 +10,7 @@ class MealsController extends GetxController {
   late MealRepo repo;
   List<Meal> meals = [];
 
+  bool homeMealsLoaded = false;
   var selectedindex = 0.obs;
   @override
   void onInit() async {
@@ -26,8 +27,7 @@ class MealsController extends GetxController {
     repo = MealRepo(MealClient());
     await repo.getall().then((data) {
       meals = data;
-      // ignore: avoid_print
-      print(meals);
+      homeMealsLoaded = true;
       update();
     });
   }

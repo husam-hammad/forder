@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, avoid_print
 
+import 'package:flashorder/BussinessLogic/Controllers/favorite_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/stories_controller.dart';
@@ -8,8 +9,11 @@ import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/Presenttion/Screens/story_view.dart';
 import 'package:flashorder/Presenttion/Widgets/drawer.dart';
 import 'package:flashorder/Presenttion/Widgets/home_meal.dart';
+import 'package:flashorder/Presenttion/Widgets/home_widget_shimmer.dart';
+import 'package:flashorder/Presenttion/Widgets/restaurent_shimmer_icon.dart';
 //import 'package:flashorder/Presenttion/Widgets/restaurent_icon.dart';
 import 'package:flashorder/Presenttion/Widgets/story_item.dart';
+import 'package:flashorder/Presenttion/Widgets/story_item_shimmer.dart';
 //import 'package:flutter/foundation.dart';
 /* import 'package:flashorder/DataAccess/Models/restaurent.dart';
 import 'package:flashorder/Presenttion/Widgets/story_item.dart'; */
@@ -28,6 +32,7 @@ class HomeScreen extends StatelessWidget {
   RestaurentController restaurentController = Get.put(RestaurentController());
   MealsController mealsController = Get.put(MealsController());
   StoriesController storyController = Get.put(StoriesController());
+  FavoriteController favoriteController = Get.put(FavoriteController());
 
   @override
   Widget build(BuildContext context) {
@@ -96,21 +101,28 @@ class HomeScreen extends StatelessWidget {
             child: GetBuilder(
                 init: storyController,
                 builder: (_) {
-                  return ListView.builder(
-                    itemCount: storyController.stories.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      print(storyController.stories[index].image);
-                      return InkWell(
-                        onTap: () {
-                          Get.to(StoryViewScreen());
-                        },
-                        child: StoryItem(
-                          story: storyController.stories[index],
-                        ),
-                      );
-                    },
-                  );
+                  return storyController.stories.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: storyController.stories.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              onTap: () {
+                                Get.to(StoryViewScreen());
+                              },
+                              child: StoryItem(
+                                story: storyController.stories[index],
+                              ),
+                            );
+                          },
+                        )
+                      : ListView.builder(
+                          itemCount: 10,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            return StoryItemShimmer();
+                          },
+                        );
                 }),
           )
         ],
@@ -168,8 +180,12 @@ class HomeScreen extends StatelessWidget {
                           );
                         },
                       )
-                    : Center(
-                        child: CircularProgressIndicator(),
+                    : ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 8,
+                        itemBuilder: (BuildContext context, int index) {
+                          return RestaurentShimmerIcon();
+                        },
                       );
               }),
         )
@@ -201,16 +217,24 @@ class HomeScreen extends StatelessWidget {
           child: GetBuilder(
               init: mealsController,
               builder: (_) {
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: mealsController.meals.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return HomeMeal(
-                      meal: mealsController.meals[index],
-                      index: index,
-                    );
-                  },
-                );
+                return mealsController.homeMealsLoaded
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: mealsController.meals.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return HomeMeal(
+                            meal: mealsController.meals[index],
+                            index: index,
+                          );
+                        },
+                      )
+                    : ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (BuildContext context, int index) {
+                          return HomeMealShimmer();
+                        },
+                      );
               }),
         ),
       ],

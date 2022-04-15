@@ -1,7 +1,5 @@
 // ignore_for_file: unused_local_variable
-
-import 'package:flashorder/Constants/db_tables.dart';
-import 'package:flashorder/Constants/fielde_types.dart';
+import 'package:flashorder/helpers/table_creator.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -31,12 +29,7 @@ class Helper {
   Future<void> _upgradeDB(Database db, int version, int newversion) async {}
 
   Future _createDB(Database db, int version) async {
-    await db.execute('''
-     CREATE TABLE ${DBTables.favorites} (
-       ${FavoriteFields.id} ${FieldsTypes.id},
-       ${FavoriteFields.mealId} ${FieldsTypes.int},
-     )
-     ''');
+    await TableCreator.createFavoriteTable(db);
   }
 
   Future close() async {

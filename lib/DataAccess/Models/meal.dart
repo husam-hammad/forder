@@ -11,6 +11,7 @@ class Meal {
   late Restaurent restaurent;
   late bool available;
   late num price;
+
   Meal({
     required this.id,
     required this.name,

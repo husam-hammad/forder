@@ -1,9 +1,12 @@
 // ignore_for_file: avoid_print
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flashorder/BussinessLogic/Controllers/favorite_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/meal_screen_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
 import 'package:flashorder/Constants/custom_styles.dart';
 import 'package:flashorder/Constants/textstyles.dart';
+import 'package:flashorder/DataAccess/Models/favorite.dart';
 
 import 'package:flashorder/Presenttion/Widgets/appbar.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +15,11 @@ import 'package:get/get.dart';
 import '../../Constants/colors.dart';
 import '../Widgets/drawer.dart';
 
+// ignore: must_be_immutable
 class MealScreen extends StatelessWidget {
-  const MealScreen({Key? key}) : super(key: key);
-
+  MealScreen({Key? key}) : super(key: key);
+  FavoriteController favoriteController = Get.find();
+  late MealScreenController mealController;
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -28,17 +33,44 @@ class MealScreen extends StatelessWidget {
             builder: (meal) {
               final mealdata =
                   meal.meals[int.parse(meal.selectedindex.toString())];
+              mealController = Get.put(MealScreenController(mealdata));
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
-                      height: 300,
-                      width: Get.width,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: CachedNetworkImageProvider(mealdata.image),
-                            fit: BoxFit.cover),
-                      ),
+                    Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Container(
+                          height: 300,
+                          width: Get.width,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image:
+                                    CachedNetworkImageProvider(mealdata.image),
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                        GetBuilder(
+                            init: mealController,
+                            builder: (_) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: IconButton(
+                                    onPressed: () {
+                                      print("meal id : ${mealdata.id}");
+                                      mealController.toggle(Favorite(
+                                          id: 0, meal_id: mealdata.id));
+                                    },
+                                    icon: Icon(
+                                      mealController.isfav
+                                          ? Icons.favorite
+                                          : Icons.favorite_border_outlined,
+                                      color: Colors.white,
+                                      size: 30,
+                                    )),
+                              );
+                            })
+                      ],
                     ),
                     Container(
                       decoration: const BoxDecoration(color: AppColors.green),

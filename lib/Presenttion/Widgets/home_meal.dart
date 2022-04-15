@@ -26,7 +26,7 @@ class HomeMeal extends StatelessWidget {
         child: InkWell(
           onTap: () {
             mealindex.selectedindex = index.obs;
-            Get.to(const MealScreen());
+            Get.to(MealScreen());
           },
           child: Stack(
             children: [

@@ -7,7 +7,7 @@ class TableCreator {
     await db.execute('''
      CREATE TABLE ${DBTables.favorites} (
        ${FavoriteFields.id} ${FieldsTypes.id},
-       ${FavoriteFields.mealId} ${FieldsTypes.int},
+       ${FavoriteFields.mealId} ${FieldsTypes.int}
      )
      ''');
   }

@@ -23,7 +23,7 @@ class RestaurentIcon extends StatelessWidget {
         children: <Widget>[
           CircleAvatar(
             backgroundColor: AppColors.grey,
-            radius: smallicon ? 30 : 10,
+            radius: smallicon ? 30 : 15,
             child: ClipOval(
               child: FadeInImage(
                 placeholder: const AssetImage(

@@ -17,8 +17,6 @@ class StoriesController extends GetxController {
     repo = StoryRepo(StoryClient());
     await repo.getall().then((data) {
       stories = data;
-      // ignore: avoid_print
-      print(data);
       update();
     });
   }
