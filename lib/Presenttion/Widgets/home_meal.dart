@@ -28,58 +28,61 @@ class HomeMeal extends StatelessWidget {
             mealindex.selectedindex = index.obs;
             Get.to(MealScreen());
           },
-          child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: CustomStyles.raduis50,
-                    image: DecorationImage(
-                        image: CachedNetworkImageProvider(
-                            ImageHelper.buildImage(meal.image)),
-                        onError: (_, __) {
-                          print('error');
-                        },
-                        fit: BoxFit.cover),
-                    color: AppColors.lightgrey),
-                height: 150,
-                width: 250,
-              ),
-              Positioned(
-                top: 10,
-                right: 0,
-                child: RestaurentIcon(
-                  logo: ImageHelper.buildImage(meal.restaurent.logo),
-                  name: "",
-                  smallicon: false,
+          child: Hero(
+            tag: "meal:${meal.id}",
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      borderRadius: CustomStyles.raduis50,
+                      image: DecorationImage(
+                          image: CachedNetworkImageProvider(
+                              ImageHelper.buildImage(meal.image)),
+                          onError: (_, __) {
+                            print('error');
+                          },
+                          fit: BoxFit.cover),
+                      color: AppColors.lightgrey),
+                  height: 150,
+                  width: 250,
                 ),
-              ),
-              Positioned(
-                  top: 90,
-                  child: Container(
-                    height: 60,
-                    width: 250,
-                    decoration: const BoxDecoration(
-                        borderRadius: CustomStyles.raduis50,
-                        gradient: LinearGradient(
-                            colors: [
-                              Color.fromARGB(0, 0, 0, 0),
-                              Color.fromARGB(118, 0, 0, 0),
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          meal.name,
-                          style: AppTextStyles.whiteboldHeading,
-                        ),
-                        Text(meal.price.toString(),
-                            style: AppTextStyles.whiteboldHeading)
-                      ],
-                    ),
-                  ))
-            ],
+                Positioned(
+                  top: 10,
+                  right: 0,
+                  child: RestaurentIcon(
+                    logo: ImageHelper.buildImage(meal.restaurent.logo),
+                    name: "",
+                    smallicon: false,
+                  ),
+                ),
+                Positioned(
+                    top: 90,
+                    child: Container(
+                      height: 60,
+                      width: 250,
+                      decoration: const BoxDecoration(
+                          borderRadius: CustomStyles.raduis50,
+                          gradient: LinearGradient(
+                              colors: [
+                                Color.fromARGB(0, 0, 0, 0),
+                                Color.fromARGB(118, 0, 0, 0),
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            meal.name,
+                            style: AppTextStyles.whiteboldHeading,
+                          ),
+                          Text(meal.price.toString(),
+                              style: AppTextStyles.whiteboldHeading)
+                        ],
+                      ),
+                    ))
+              ],
+            ),
           ),
         ),
       );

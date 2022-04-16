@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
 import 'package:flashorder/Constants/custom_styles.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/meal.dart';
@@ -10,6 +11,7 @@ import 'package:get/get.dart';
 class MealItem extends StatelessWidget {
   const MealItem({Key? key, required this.meal}) : super(key: key);
   final Meal meal;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,24 +28,27 @@ class MealItem extends StatelessWidget {
           children: [
             Expanded(
                 flex: 2,
-                child: Hero(
-                  tag: "meal:${meal.id}",
-                  child: InkWell(
+                child: GetBuilder<MealsController>(builder: (controller) {
+                  return InkWell(
                     onTap: () {
+                      controller.changeIndexByMeal(meal.id);
                       Get.to(MealScreen());
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: CustomStyles.raduis50,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: CachedNetworkImageProvider(
-                                  ImageHelper.buildImage(meal.image)))),
+                    child: Hero(
+                      tag: "meal:${meal.id}",
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            borderRadius: CustomStyles.raduis50,
+                            image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(
+                                    ImageHelper.buildImage(meal.image)))),
+                      ),
                     ),
-                  ),
-                )),
+                  );
+                })),
             const SizedBox(
               width: 20,
             ),

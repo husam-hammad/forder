@@ -18,6 +18,14 @@ class MealsController extends GetxController {
     await getMeals();
   }
 
+  void changeIndexByMeal(int mealId) {
+    for (var i = 0; i < meals.length; i++) {
+      if (meals[i].id == mealId) {
+        selectedindex = i.obs;
+      }
+    }
+  }
+
   void deleteCompoment(mealindex, comindex) {
     meals[int.parse(mealindex.toString())].components.removeAt(comindex);
     update();
