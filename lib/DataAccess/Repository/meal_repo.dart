@@ -14,7 +14,6 @@ class MealRepo {
   Future<List<Meal>> getall() async {
     var response = await client.allmeals();
     if (response != Responses.empty) {
-      print(response);
       final parsed = json.decode(response).cast<Map<String, dynamic>>();
       return parsed.map<Meal>((json) => Meal.fromMap(json)).toList();
     }

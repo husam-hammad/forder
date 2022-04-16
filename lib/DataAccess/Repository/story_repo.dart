@@ -13,7 +13,6 @@ class StoryRepo {
   Future<List<Story>> getall() async {
     var response = await client.allstories();
     if (response != Responses.empty) {
-      print(response);
       final parsed = json.decode(response).cast<Map<String, dynamic>>();
       return parsed.map<Story>((json) => Story.fromMap(json)).toList();
     }

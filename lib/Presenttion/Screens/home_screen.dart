@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../Widgets/appbar.dart';
+import '../Widgets/custom_bottom.dart';
 import '../Widgets/restaurent_icon.dart';
 //import 'package:get/get.dart';
 
@@ -43,22 +44,7 @@ class HomeScreen extends StatelessWidget {
         drawer: PublicDrawer(),
         appBar: buildAppBar(),
         body: buildBody(),
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 20.0,
-          backgroundColor: Colors.white,
-          selectedIconTheme: IconThemeData(color: AppColors.green),
-          unselectedIconTheme: IconThemeData(color: AppColors.lightgrey),
-          selectedLabelStyle: AppTextStyles.greenRegularTitle,
-          unselectedLabelStyle: AppTextStyles.greenRegularTitle,
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_filled), label: "الرئيسية"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.notifications_active), label: ""),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.notifications_active), label: ""),
-          ],
-        ),
+        bottomNavigationBar: CustomBotttomNav(),
       ),
     );
   }
@@ -73,59 +59,64 @@ class HomeScreen extends StatelessWidget {
 
   Widget buildLatestStories() {
     return Container(
-      padding: EdgeInsets.all(10),
-      height: 280,
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  "أبرز القصص",
-                  style: AppTextStyles.greyboldHeading,
-                ),
-                Text(
-                  "عرض الكل",
-                  style: AppTextStyles.greyregular,
-                ),
-              ],
+      padding: EdgeInsets.symmetric(vertical: 15),
+      height: 300,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 5),
+        color: Colors.white,
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    "أبرز القصص",
+                    style: AppTextStyles.greyboldHeading,
+                  ),
+                  Text(
+                    "عرض الكل",
+                    style: AppTextStyles.greyregular,
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.all(4),
-            padding: EdgeInsets.symmetric(vertical: 15),
-            height: 200,
-            child: GetBuilder(
-                init: storyController,
-                builder: (_) {
-                  return storyController.stories.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: storyController.stories.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              onTap: () {
-                                Get.to(StoryViewScreen());
-                              },
-                              child: StoryItem(
-                                story: storyController.stories[index],
-                              ),
-                            );
-                          },
-                        )
-                      : ListView.builder(
-                          itemCount: 10,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return StoryItemShimmer();
-                          },
-                        );
-                }),
-          )
-        ],
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.all(4),
+              padding: EdgeInsets.symmetric(vertical: 15),
+              height: 200,
+              child: GetBuilder(
+                  init: storyController,
+                  builder: (_) {
+                    return storyController.stories.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: storyController.stories.length,
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return InkWell(
+                                onTap: () {
+                                  Get.to(StoryViewScreen());
+                                },
+                                child: StoryItem(
+                                  story: storyController.stories[index],
+                                ),
+                              );
+                            },
+                          )
+                        : ListView.builder(
+                            itemCount: 10,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (BuildContext context, int index) {
+                              return StoryItemShimmer();
+                            },
+                          );
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }

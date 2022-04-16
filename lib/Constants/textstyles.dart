@@ -21,6 +21,16 @@ class AppTextStyles {
       color: AppColors.green,
       fontWeight: FontWeight.bold,
       fontSize: 18.0);
+  static const pinkboldHeading = TextStyle(
+      fontFamily: "Cairo",
+      color: AppColors.pink,
+      fontWeight: FontWeight.bold,
+      fontSize: 18.0);
+  static const pinkRegularHeading = TextStyle(
+      fontFamily: "Cairo",
+      color: AppColors.pink,
+      fontWeight: FontWeight.bold,
+      fontSize: 18.0);
   static const greenRegularTitle = TextStyle(
       fontFamily: "Cairo",
       color: AppColors.green,

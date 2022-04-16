@@ -23,6 +23,15 @@ class MealsController extends GetxController {
     update();
   }
 
+  Meal? mealFromId(int id) {
+    var result = meals.where((element) => element.id.isEqual(id)).toList();
+    if (result.isNotEmpty) {
+      return result[0];
+    } else {
+      return null;
+    }
+  }
+
   Future getMeals() async {
     repo = MealRepo(MealClient());
     await repo.getall().then((data) {

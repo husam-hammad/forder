@@ -21,4 +21,11 @@ class FavoriteController extends GetxController {
     favorites = await repo.readAll();
     update();
   }
+
+  Future<void> deleteAll() async {
+    repo = FavoriteRepo(FavoriteClient());
+    repo.deleteAll();
+    await getAll();
+    update();
+  }
 }
