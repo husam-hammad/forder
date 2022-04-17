@@ -21,9 +21,6 @@ class MealScreen extends StatelessWidget {
   FavoriteController favoriteController = Get.find();
   late MealScreenController mealController;
 
-  TextEditingController compomentController = TextEditingController();
-  TextEditingController numbercontroller = TextEditingController();
-
   Widget buildBottomButton() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -42,7 +39,7 @@ class MealScreen extends StatelessWidget {
     );
   }
 
-  Widget buildNumbersText() {
+  Widget buildNumbersText(TextEditingController controller) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       width: double.infinity,
@@ -54,16 +51,40 @@ class MealScreen extends StatelessWidget {
             "العدد المطلوب ",
             style: AppTextStyles.greenRegularHeading,
           ),
-          TextField(
-            controller: numbercontroller,
-            keyboardType: TextInputType.number,
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: ElevatedButton(
+                    onPressed: () {
+                      mealController.minusNumber();
+                    },
+                    child: const Text("-")),
+              ),
+              Expanded(
+                flex: 5,
+                child: TextField(
+                  controller: controller,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: ElevatedButton(
+                    onPressed: () {
+                      mealController.addNumber();
+                    },
+                    child: const Text("+")),
+              )
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget buildCompomentText() {
+  Widget buildCompomentText(TextEditingController controller) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(10),
@@ -87,7 +108,7 @@ class MealScreen extends StatelessWidget {
             ],
           ),
           TextField(
-            controller: compomentController,
+            controller: controller,
             keyboardType: TextInputType.multiline,
             minLines: 2,
             maxLines: null,
@@ -230,8 +251,9 @@ class MealScreen extends StatelessWidget {
                                     );
                                   }),
                             ),
-                            buildNumbersText(),
-                            buildCompomentText(),
+                            buildNumbersText(mealController.numbercontroller),
+                            buildCompomentText(
+                                mealController.compomentController),
                           ],
                         ),
                       )

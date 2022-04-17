@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_print
+
 import 'package:flashorder/BussinessLogic/Controllers/favorite_controller.dart';
 import 'package:flashorder/DataAccess/Models/meal.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../DataAccess/Models/favorite.dart';
@@ -7,6 +10,8 @@ import '../../DataAccess/Models/favorite.dart';
 class MealScreenController extends GetxController {
   FavoriteController controller = Get.find();
   final Meal meal;
+  var compomentController = TextEditingController();
+  var numbercontroller = TextEditingController();
   bool isfav = false;
 
   MealScreenController(this.meal);
@@ -14,6 +19,7 @@ class MealScreenController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    numbercontroller.value = TextEditingValue(text: 1.toString());
     await checkFav(meal.id);
   }
 
@@ -38,5 +44,19 @@ class MealScreenController extends GetxController {
     }
 
     update();
+  }
+
+  void addNumber() {
+    int number = int.parse(numbercontroller.value.text);
+    number++;
+    numbercontroller.value = TextEditingValue(text: number.toString());
+  }
+
+  void minusNumber() {
+    int number = int.parse(numbercontroller.value.text);
+    if (number > 1) {
+      number--;
+      numbercontroller.value = TextEditingValue(text: number.toString());
+    }
   }
 }
