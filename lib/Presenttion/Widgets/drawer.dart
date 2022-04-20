@@ -1,9 +1,9 @@
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
-import 'package:flashorder/Presenttion/Screens/map_screen.dart';
+/* import 'package:flashorder/Presenttion/Screens/map_screen.dart'; */
 /* import 'package:flashorder/Presenttion/Screens/map_screen.dart'; */
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+/* import 'package:get/get.dart'; */
 /* import 'package:get/get.dart'; */
 
 class PublicDrawer extends StatefulWidget {
@@ -81,7 +81,7 @@ class _PublicDrawerState extends State<PublicDrawer> {
           ListTile(
             title: const Text("الخريطة"),
             onTap: () {
-              Get.to(MapScreen());
+              //Get.to(MapScreen());
             },
           ), /*
           ListTile(
