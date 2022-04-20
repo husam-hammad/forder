@@ -1,19 +1,19 @@
 import 'package:flashorder/Constants/colors.dart';
+import 'package:flashorder/DataAccess/Models/restaurent.dart';
+import 'package:flashorder/Presenttion/Screens/restaurent_screen.dart';
 import 'package:flashorder/helpers/image_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../Constants/textstyles.dart';
 
 class RestaurentIcon extends StatelessWidget {
   const RestaurentIcon(
-      {Key? key,
-      required this.logo,
-      required this.name,
-      required this.smallicon})
+      {Key? key, required this.restaurent, required this.smallicon})
       : super(key: key);
-  final String logo;
-  final String name;
+  final Restaurent restaurent;
   final bool smallicon;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -23,21 +23,26 @@ class RestaurentIcon extends StatelessWidget {
         children: <Widget>[
           CircleAvatar(
             backgroundColor: AppColors.grey,
-            radius: smallicon ? 30 : 15,
+            radius: smallicon ? 15 : 30,
             child: ClipOval(
-              child: FadeInImage(
-                placeholder: const AssetImage(
-                    "assets/images/placeholders/restaurent.png"),
-                image: NetworkImage(ImageHelper.buildImage(logo)),
+              child: InkWell(
+                onTap: () {
+                  Get.to(RestaurentScreen(restaurent: restaurent));
+                },
+                child: FadeInImage(
+                  placeholder: const AssetImage(
+                      "assets/images/placeholders/restaurent.png"),
+                  image: NetworkImage(ImageHelper.buildImage(restaurent.logo)),
+                ),
               ),
             ),
           ),
           const SizedBox(
             height: 10,
           ),
-          smallicon == true
+          !smallicon
               ? Text(
-                  name,
+                  restaurent.name,
                   style: AppTextStyles.greyregular,
                 )
               : const SizedBox()

@@ -21,7 +21,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
-  Widget _buildImage(String assetName, [double width = 350]) {
+  Widget _buildImage(String assetName, [double width = 200]) {
     return Image.asset('assets/images/intro/$assetName', width: width);
   }
 
@@ -37,9 +37,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           fontFamily: "Cairo",
           color: AppColors.pink),
       bodyTextStyle: bodyStyle,
-      bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      bodyPadding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
       pageColor: Colors.white,
-      imagePadding: EdgeInsets.zero,
+      imagePadding: EdgeInsets.all(20),
     );
 
     return IntroductionScreen(

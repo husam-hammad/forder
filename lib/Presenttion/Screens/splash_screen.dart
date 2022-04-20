@@ -30,7 +30,10 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset("assets/images/logo.png"),
+        child: Image.asset(
+          "assets/images/logo.png",
+          width: Get.width / 2,
+        ),
       ),
       bottomNavigationBar: Container(
         color: AppColors.pink,

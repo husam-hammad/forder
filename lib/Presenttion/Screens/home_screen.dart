@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, avoid_print
 
 import 'package:flashorder/BussinessLogic/Controllers/favorite_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/home_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/stories_controller.dart';
@@ -29,7 +30,7 @@ import '../Widgets/restaurent_icon.dart';
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
-
+  HomeController homeController = Get.put(HomeController());
   RestaurentController restaurentController = Get.put(RestaurentController());
   MealsController mealsController = Get.put(MealsController());
   StoriesController storyController = Get.put(StoriesController());
@@ -51,6 +52,7 @@ class HomeScreen extends StatelessWidget {
 
   Widget buildBody() {
     return SingleChildScrollView(
+      physics: BouncingScrollPhysics(),
       child: Column(
         children: [buildLatestStories(), buildOthers()],
       ),
@@ -125,7 +127,7 @@ class HomeScreen extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20),
       width: double.maxFinite,
-      height: 1000,
+      height: 600,
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -165,9 +167,8 @@ class HomeScreen extends StatelessWidget {
                         itemCount: restaurentController.restaurents.length,
                         itemBuilder: (BuildContext context, int index) {
                           return RestaurentIcon(
-                            logo: restaurentController.restaurents[index].logo,
-                            name: restaurentController.restaurents[index].name,
-                            smallicon: true,
+                            restaurent: restaurentController.restaurents[index],
+                            smallicon: false,
                           );
                         },
                       )

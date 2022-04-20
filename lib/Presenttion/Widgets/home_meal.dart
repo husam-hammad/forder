@@ -23,16 +23,16 @@ class HomeMeal extends StatelessWidget {
     return GetBuilder<MealsController>(builder: (mealindex) {
       return Container(
         padding: const EdgeInsets.all(8.0),
-        child: InkWell(
-          onTap: () {
-            mealindex.selectedindex = index.obs;
-            Get.to(MealScreen());
-          },
-          child: Hero(
-            tag: "meal:${meal.id}",
-            child: Stack(
-              children: [
-                Container(
+        child: Stack(
+          children: [
+            InkWell(
+              onTap: () {
+                mealindex.selectedindex = index.obs;
+                Get.to(MealScreen());
+              },
+              child: Hero(
+                tag: "meal:${meal.id}",
+                child: Container(
                   decoration: BoxDecoration(
                       borderRadius: CustomStyles.raduis50,
                       image: DecorationImage(
@@ -46,44 +46,43 @@ class HomeMeal extends StatelessWidget {
                   height: 150,
                   width: 250,
                 ),
-                Positioned(
-                  top: 10,
-                  right: 0,
-                  child: RestaurentIcon(
-                    logo: ImageHelper.buildImage(meal.restaurent.logo),
-                    name: "",
-                    smallicon: false,
-                  ),
-                ),
-                Positioned(
-                    top: 90,
-                    child: Container(
-                      height: 60,
-                      width: 250,
-                      decoration: const BoxDecoration(
-                          borderRadius: CustomStyles.raduis50,
-                          gradient: LinearGradient(
-                              colors: [
-                                Color.fromARGB(0, 0, 0, 0),
-                                Color.fromARGB(118, 0, 0, 0),
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            meal.name,
-                            style: AppTextStyles.whiteboldHeading,
-                          ),
-                          Text(meal.price.toString(),
-                              style: AppTextStyles.whiteboldHeading)
-                        ],
-                      ),
-                    ))
-              ],
+              ),
             ),
-          ),
+            Positioned(
+              top: 10,
+              right: 0,
+              child: RestaurentIcon(
+                restaurent: meal.restaurent,
+                smallicon: true,
+              ),
+            ),
+            Positioned(
+                top: 90,
+                child: Container(
+                  height: 60,
+                  width: 250,
+                  decoration: const BoxDecoration(
+                      borderRadius: CustomStyles.raduis50,
+                      gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(0, 0, 0, 0),
+                            Color.fromARGB(118, 0, 0, 0),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        meal.name,
+                        style: AppTextStyles.whiteboldHeading,
+                      ),
+                      Text(meal.price.toString(),
+                          style: AppTextStyles.whiteboldHeading)
+                    ],
+                  ),
+                ))
+          ],
         ),
       );
     });
