@@ -15,7 +15,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
+       /*  maven {
               url 'https://api.mapbox.com/downloads/v2/releases/maven'
               authentication {
                   basic(BasicAuthentication)
@@ -27,7 +27,7 @@ allprojects {
                   // Use the secret token you stored in gradle.properties as the password
                   password = project.properties['pk.eyJ1IjoiaHVzYW0xOTkyIiwiYSI6ImNsMjZteGxoYTJsNmMzYmxwcmpzb240aG0ifQ.rgU0ltSn5eOlnTjCDA6n2g'] ?: ""
               }
-          }
+          } */
     }
 }
 

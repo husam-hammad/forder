@@ -40,7 +40,7 @@ dependencies:
   geolocator: ^8.2.0
   get: ^4.6.1
   introduction_screen: ^3.0.0
-  mapbox_gl: ^0.15.0
+  #mapbox_gl: ^0.15.0
   new_gradient_app_bar: ^0.2.0
   pin_code_fields: ^7.3.0
   shimmer: ^2.0.0
