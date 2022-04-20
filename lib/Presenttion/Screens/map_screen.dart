@@ -1,4 +1,4 @@
-/* import 'package:flashorder/BussinessLogic/Controllers/map_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/map_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -21,4 +21,3 @@ class MapScreen extends StatelessWidget {
     ));
   }
 }
- */
