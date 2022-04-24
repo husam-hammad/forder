@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:flashorder/BussinessLogic/Bindings/init_binding.dart';
 import 'package:flashorder/BussinessLogic/router.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 void main() async {
+  await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
 
@@ -25,6 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: InitBinding(),
       debugShowCheckedModeBanner: false,
       title: 'FlashOrder',
       theme: ThemeData(primarySwatch: Colors.blue, fontFamily: "Cairo"),

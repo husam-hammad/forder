@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flashorder/BussinessLogic/Controllers/restaurent_screen_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/restaurent.dart';
@@ -13,6 +14,8 @@ class RestaurentScreen extends StatelessWidget {
   final Restaurent restaurent;
   @override
   Widget build(BuildContext context) {
+    final RestaurentScreenController controller =
+        Get.put(RestaurentScreenController(restaurent));
     return SafeArea(
         child: Directionality(
       textDirection: TextDirection.rtl,
@@ -62,7 +65,26 @@ class RestaurentScreen extends StatelessWidget {
                   restaurent.name,
                   style: AppTextStyles.greyboldHeading,
                 ),
-              )
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 500,
+                child: GetBuilder(
+                    init: controller,
+                    builder: (_) {
+                      return controller.categoriesLoaded
+                          ? ListView.builder(
+                              itemCount: controller.mealscategories.length,
+                              itemBuilder: (_, index) {
+                                return ListTile(
+                                    title: Text(controller
+                                        .mealscategories[index].name));
+                              })
+                          : const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                    }),
+              ),
             ]),
           ),
         ),

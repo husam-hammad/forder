@@ -1,15 +1,21 @@
+// ignore_for_file: avoid_print
+
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HomeController extends GetxController {
   late Position position;
-
+  late GetStorage box;
   @override
   void onInit() async {
     super.onInit();
+    box = GetStorage();
+    print('start detect position');
     position = await determinePosition();
+    await box.write('position', position);
     Get.snackbar(
-        "موقعك الجغرافي", "${position.latitude}   ${position.altitude}");
+        "موقعك الجغرافي", "${position.latitude} العرض ${position.longitude}");
   }
 
   Future<Position> determinePosition() async {
@@ -29,11 +35,6 @@ class HomeController extends GetxController {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
         return Future.error('Location permissions are denied');
       }
     }

@@ -11,7 +11,7 @@ class RestaurentIcon extends StatelessWidget {
   const RestaurentIcon(
       {Key? key, required this.restaurent, required this.smallicon})
       : super(key: key);
-  final Restaurent restaurent;
+  final Restaurent? restaurent;
   final bool smallicon;
 
   @override
@@ -27,12 +27,12 @@ class RestaurentIcon extends StatelessWidget {
             child: ClipOval(
               child: InkWell(
                 onTap: () {
-                  Get.to(RestaurentScreen(restaurent: restaurent));
+                  Get.to(RestaurentScreen(restaurent: restaurent!));
                 },
                 child: FadeInImage(
                   placeholder: const AssetImage(
                       "assets/images/placeholders/restaurent.png"),
-                  image: NetworkImage(ImageHelper.buildImage(restaurent.logo)),
+                  image: NetworkImage(ImageHelper.buildImage(restaurent!.logo)),
                 ),
               ),
             ),
@@ -42,7 +42,7 @@ class RestaurentIcon extends StatelessWidget {
           ),
           !smallicon
               ? Text(
-                  restaurent.name,
+                  restaurent!.name,
                   style: AppTextStyles.greyregular,
                 )
               : const SizedBox()

@@ -1,8 +1,11 @@
+import 'package:flashorder/BussinessLogic/Controllers/auth_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
+import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/Presenttion/Screens/Auth/login.dart';
 /* import 'package:flashorder/Presenttion/Screens/home_screen.dart'; */
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class OnBoardingPage extends StatefulWidget {
@@ -14,11 +17,14 @@ class OnBoardingPage extends StatefulWidget {
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final introKey = GlobalKey<IntroductionScreenState>();
+  final AuthController authController = Get.put(AuthController());
 
-  void _onIntroEnd(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const Login()),
-    );
+  void _onIntroEnd(context) async {
+    if (await authController.checkAuth()) {
+      Get.toNamed(AppRoutes.homepage);
+    } else {
+      Get.to(Login());
+    }
   }
 
   Widget _buildImage(String assetName, [double width = 200]) {
@@ -28,11 +34,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   @override
   Widget build(BuildContext context) {
     const bodyStyle =
-        TextStyle(fontSize: 19.0, fontFamily: "Cairo", color: AppColors.grey);
+        TextStyle(fontSize: 15.0, fontFamily: "Cairo", color: AppColors.grey);
 
     const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(
-          fontSize: 28.0,
+          fontSize: 20.0,
           fontWeight: FontWeight.w700,
           fontFamily: "Cairo",
           color: AppColors.pink),

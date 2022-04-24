@@ -8,7 +8,7 @@ class Meal {
   late String image;
   late List<String> components;
   late String description;
-  late Restaurent restaurent;
+  late Restaurent? restaurent;
   late bool available;
   late num price;
 
@@ -30,7 +30,9 @@ class Meal {
       image: map['image'],
       components: map['components'].toString().split(','),
       description: map['description'] ?? "",
-      restaurent: Restaurent.fromMap(map['restaurent']),
+      restaurent: map['restaurent'] != null
+          ? Restaurent.fromMap(map['restaurent'])
+          : null,
       available: map['available'] == 1 ? true : false,
       price: map['price'] ?? 0,
     );

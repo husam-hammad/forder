@@ -12,8 +12,18 @@ class RestaurentClient {
   RestaurentClient();
 
   Future<dynamic> allrestaurents() async {
-    print('statrt Client');
     var response = await client.get(Uri.parse(baseUrl + allRestaurentsUrl));
+
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return Responses.empty;
+    }
+  }
+
+  Future<dynamic> restaurentMealsCategories(int restaurentId) async {
+    var response = await client.get(
+        Uri.parse(baseUrl + restaurentcategoriesUrl + restaurentId.toString()));
 
     if (response.statusCode == 200) {
       return response.body;

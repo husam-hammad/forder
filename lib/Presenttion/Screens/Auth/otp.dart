@@ -1,9 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 
+import 'package:flashorder/BussinessLogic/Controllers/auth_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
-import 'package:flashorder/Presenttion/Screens/home_screen.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -17,6 +16,7 @@ class OtpScreen extends StatefulWidget {
 
 class _OtpScreenState extends State<OtpScreen> {
   TextEditingController textEditingController = TextEditingController();
+  AuthController authController = Get.find();
   String currentText = "";
   final formKey = GlobalKey<FormState>();
   @override
@@ -70,7 +70,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 20),
                         child: Text(
-                          "قم بإدخال الرمز المكون من 6  أرقام",
+                          "قم بإدخال الرمز المكون من 5  أرقام",
                           style: AppTextStyles.greyregular,
                           textAlign: TextAlign.right,
                         ),
@@ -116,8 +116,9 @@ class _OtpScreenState extends State<OtpScreen> {
 
   Widget buildpincode() {
     return PinCodeTextField(
-      length: 6,
+      length: 5,
       appContext: context,
+      autoFocus: true,
       pastedTextStyle: TextStyle(
         color: Colors.green.shade600,
         fontWeight: FontWeight.bold,
@@ -147,7 +148,7 @@ class _OtpScreenState extends State<OtpScreen> {
         )
       ],
       onCompleted: (v) {
-        Get.to(HomeScreen());
+        authController.checkOTP(v);
       },
     );
   }

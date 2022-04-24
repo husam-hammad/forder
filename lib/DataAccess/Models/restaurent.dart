@@ -5,18 +5,19 @@ class Restaurent {
   late String name;
   late String logo;
   late String cover;
-  late double lat;
-  late double long;
+  late num lat;
+  late num long;
   late String adrees;
-  Restaurent({
-    required this.id,
-    required this.name,
-    required this.logo,
-    required this.cover,
-    required this.lat,
-    required this.long,
-    required this.adrees,
-  });
+  late num deliveryCost;
+  Restaurent(
+      {required this.id,
+      required this.name,
+      required this.logo,
+      required this.cover,
+      required this.lat,
+      required this.long,
+      required this.adrees,
+      required this.deliveryCost});
 
   Map<String, dynamic> toMap() {
     return {
@@ -27,19 +28,20 @@ class Restaurent {
       'lat': lat,
       'long': long,
       'adrees': adrees,
+      'deliveryCost': 0,
     };
   }
 
   factory Restaurent.fromMap(Map<String, dynamic> map) {
     return Restaurent(
-      id: map['id']?.toInt() ?? 0,
-      name: map['name'] ?? '',
-      logo: map['logo'] ?? '',
-      cover: map['cover'] ?? '',
-      lat: map['lat'] ?? 0,
-      long: map['long'] ?? 0,
-      adrees: map['adrees'] ?? '',
-    );
+        id: map['id']?.toInt() ?? 0,
+        name: map['name'] ?? '',
+        logo: map['logo'] ?? '',
+        cover: map['cover'] ?? '',
+        lat: map['lat'] != null ? num.parse(map['lat']) : 33.5138062,
+        long: map['lng'] != null ? num.parse(map['lng']) : 36.2765261,
+        adrees: map['adrees'] ?? '',
+        deliveryCost: 0);
   }
 
   String toJson() => json.encode(toMap());

@@ -6,14 +6,13 @@ import 'package:flashorder/Constants/responses.dart';
 /* import 'package:flutter/foundation.dart'; */
 import 'package:http/http.dart' as http;
 
-class MealClient {
+class SettingClient {
   var client = http.Client();
 
-  MealClient();
+  SettingClient();
 
-  Future<dynamic> allmeals() async {
-    var response = await client.get(Uri.parse(baseUrl + allMealsUrl));
-
+  Future<String> costbyKm() async {
+    var response = await client.get(Uri.parse(baseUrl + "settings/costbykm"));
     if (response.statusCode == 200) {
       return response.body;
     } else {

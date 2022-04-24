@@ -19,8 +19,8 @@ class _PublicDrawerState extends State<PublicDrawer> {
     return Drawer(
       backgroundColor: AppColors.lightwhite,
       child: ListView(
-        children: [
-          const UserAccountsDrawerHeader(
+        children: const [
+          UserAccountsDrawerHeader(
             decoration: BoxDecoration(
                 color: AppColors.pink,
                 gradient:
@@ -31,7 +31,7 @@ class _PublicDrawerState extends State<PublicDrawer> {
             ),
             accountEmail: Text("0900000000"),
           ),
-          const ListTile(
+          ListTile(
             title: Text(
               "تسجيل الدخول",
               style: AppTextStyles.greenRegularHeading,
@@ -41,7 +41,7 @@ class _PublicDrawerState extends State<PublicDrawer> {
               color: AppColors.pink,
             ),
           ),
-          const ListTile(
+          ListTile(
             title: Text(
               "لائحة المطاعم",
               style: AppTextStyles.greenRegularHeading,
@@ -51,7 +51,7 @@ class _PublicDrawerState extends State<PublicDrawer> {
               color: AppColors.pink,
             ),
           ),
-          const ListTile(
+          ListTile(
             title: Text(
               "الوجبات",
               style: AppTextStyles.greenRegularHeading,
@@ -61,7 +61,7 @@ class _PublicDrawerState extends State<PublicDrawer> {
               color: AppColors.pink,
             ),
           ),
-          const ListTile(
+          ListTile(
             title: Text(
               "العروض",
               style: AppTextStyles.greenRegularHeading,
@@ -71,7 +71,7 @@ class _PublicDrawerState extends State<PublicDrawer> {
               color: AppColors.pink,
             ),
           ),
-          const ListTile(
+          ListTile(
             title: Text(
               "قائمة المفضلة",
               style: AppTextStyles.greenRegularHeading,
@@ -79,10 +79,11 @@ class _PublicDrawerState extends State<PublicDrawer> {
             leading: Icon(Icons.favorite, color: AppColors.pink),
           ),
           ListTile(
-            title: const Text("الخريطة"),
-            onTap: () {
-              //Get.to(MapScreen());
-            },
+            title: Text(
+              "سياسة الخصوصية",
+              style: AppTextStyles.greenRegularHeading,
+            ),
+            leading: Icon(Icons.privacy_tip, color: AppColors.pink),
           ), /*
           ListTile(
             title: Text("تسجيل الدخول"),

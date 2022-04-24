@@ -1,18 +1,16 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:flashorder/BussinessLogic/Controllers/auth_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
-import 'package:flashorder/Presenttion/Screens/Auth/otp.dart';
+import 'package:flashorder/Presenttion/Screens/home_screen.dart';
 import 'package:flashorder/Presenttion/Widgets/bottom_cropper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
-
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
+class Login extends StatelessWidget {
+  Login({Key? key}) : super(key: key);
+  AuthController authController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -76,7 +74,9 @@ class _LoginState extends State<Login> {
                         height: 20,
                       ),
                       TextField(
+                        controller: authController.textcontroller,
                         textAlign: TextAlign.center,
+                        autofocus: true,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           hintText: "09XXXXXXXX",
@@ -102,7 +102,7 @@ class _LoginState extends State<Login> {
                           height: 50,
                           child: ElevatedButton(
                               onPressed: () {
-                                Get.to(const OtpScreen());
+                                authController.sendMessage();
                               },
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
@@ -122,7 +122,9 @@ class _LoginState extends State<Login> {
                           width: Get.width,
                           height: 50,
                           child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.to(HomeScreen());
+                              },
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
                                 primary: AppColors.lightgrey,

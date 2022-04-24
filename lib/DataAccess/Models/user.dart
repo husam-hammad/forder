@@ -3,7 +3,6 @@ import 'dart:convert';
 class User {
   late int id;
   late String phone;
-  late String avatar;
   late double points;
   late String token;
   late String birthday;
@@ -11,7 +10,6 @@ class User {
   User({
     required this.id,
     required this.phone,
-    required this.avatar,
     required this.points,
     required this.token,
     required this.birthday,
@@ -22,7 +20,6 @@ class User {
     return {
       'id': id,
       'phone': phone,
-      'avatar': avatar,
       'points': points,
       'token': token,
       'birthday': birthday,
@@ -34,7 +31,6 @@ class User {
     return User(
       id: map['id']?.toInt() ?? 0,
       phone: map['phone'] ?? '',
-      avatar: map['avatar'] ?? '',
       points: map['points']?.toDouble() ?? 0.0,
       token: map['token'] ?? '',
       birthday: map['birthday'] ?? '',

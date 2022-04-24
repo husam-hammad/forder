@@ -12,7 +12,7 @@ class FavoriteClient {
     //print(id);
     print("start copy");
     Favorite copy = item.copyWith(id: id);
-    print(copy);
+    /* print(copy); */
     return copy;
   }
 

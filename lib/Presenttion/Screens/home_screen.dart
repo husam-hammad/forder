@@ -4,6 +4,7 @@ import 'package:flashorder/BussinessLogic/Controllers/favorite_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/home_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/setting_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/stories_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
@@ -30,11 +31,12 @@ import '../Widgets/restaurent_icon.dart';
 // ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key}) : super(key: key);
-  HomeController homeController = Get.put(HomeController());
-  RestaurentController restaurentController = Get.put(RestaurentController());
-  MealsController mealsController = Get.put(MealsController());
-  StoriesController storyController = Get.put(StoriesController());
-  FavoriteController favoriteController = Get.put(FavoriteController());
+  final SettingsController settingsController = Get.find();
+  final HomeController homeController = Get.find();
+  final RestaurentController restaurentController = Get.find();
+  final MealsController mealsController = Get.find();
+  final StoriesController storyController = Get.find();
+  final FavoriteController favoriteController = Get.find();
 
   @override
   Widget build(BuildContext context) {
