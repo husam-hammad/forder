@@ -1,6 +1,11 @@
 // ignore_for_file: avoid_print
 
+import 'package:flashorder/BussinessLogic/Controllers/cart_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/favorite_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
+import 'package:flashorder/Constants/colors.dart';
+import 'package:flashorder/Constants/textstyles.dart';
+import 'package:flashorder/DataAccess/Models/cart_item.dart';
 import 'package:flashorder/DataAccess/Models/meal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +14,9 @@ import '../../DataAccess/Models/favorite.dart';
 
 class MealScreenController extends GetxController {
   FavoriteController controller = Get.find();
+  CartController cartController = Get.find();
+  MealsController mealsController = Get.find();
+  var addbuttonEnabled = RxBool(true);
   final Meal meal;
   var compomentController = TextEditingController();
   var numbercontroller = TextEditingController();
@@ -58,5 +66,29 @@ class MealScreenController extends GetxController {
       number--;
       numbercontroller.value = TextEditingValue(text: number.toString());
     }
+  }
+
+  Future<void> addToCart() async {
+    addbuttonEnabled.value = false;
+    int qty = int.parse(numbercontroller.value.text);
+    CartItem item = CartItem(
+        id: 0,
+        mealId: meal.id,
+        restaurentId: meal.restaurent!.id,
+        qty: qty,
+        specialOrder: compomentController.value.text);
+
+    print(item.restaurentId);
+    await cartController.createItem(item);
+
+    Get.rawSnackbar(
+      messageText: const Text(
+        "تمت الإضافة بنجاح",
+        textAlign: TextAlign.center,
+        style: AppTextStyles.whiteRegularHeading,
+      ),
+      backgroundColor: AppColors.green,
+    );
+    addbuttonEnabled.value = true;
   }
 }

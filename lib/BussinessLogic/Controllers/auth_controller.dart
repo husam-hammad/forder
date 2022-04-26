@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_print
 
+import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/DataAccess/Models/user.dart';
 import 'package:flashorder/Presenttion/Screens/Auth/otp.dart';
-import 'package:flashorder/Presenttion/Screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -47,7 +47,7 @@ class AuthController extends GetxController {
   Future<void> checkOTP(String otp) async {
     if (otp == otpcode) {
       await saveAuth();
-      Get.to(HomeScreen());
+      Get.toNamed(AppRoutes.homepage);
     } else {
       Get.snackbar("", "يرجى التأكد من وصول الرمز",
           backgroundColor: Colors.red,

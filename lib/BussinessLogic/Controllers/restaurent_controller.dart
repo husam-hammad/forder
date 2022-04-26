@@ -20,6 +20,7 @@ class RestaurentController extends GetxController {
   void onInit() async {
     super.onInit();
     await getResturents();
+    /* print(restaurents.map((e) => e.id.toString())); */
   }
 
   Future getResturents() async {
@@ -39,7 +40,19 @@ class RestaurentController extends GetxController {
     double distance = Calc.calculateDistance(
         restaurent.lat, restaurent.long, position.latitude, position.longitude);
     num cost = Calc.deliveryCost(distance, settingsController.perKmCost);
-    print("cost of : " + restaurent.name + cost.toString());
+/*     print("cost of : " + restaurent.name + cost.toString()); */
     restaurent.deliveryCost = cost;
+  }
+
+  Restaurent? restaunretFromId(int id) {
+    var result =
+        restaurents.where((element) => element.id.isEqual(id)).toList();
+    if (result.isNotEmpty) {
+      print("from Id " + result[0].id.toString());
+      return result[0];
+    } else {
+      print("No Resturent result Is Empty");
+      return null;
+    }
   }
 }

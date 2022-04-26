@@ -30,6 +30,7 @@ class Helper {
 
   Future _createDB(Database db, int version) async {
     await TableCreator.createFavoriteTable(db);
+    await TableCreator.createCartItemTable(db);
   }
 
   Future close() async {

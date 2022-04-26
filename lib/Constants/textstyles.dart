@@ -6,7 +6,17 @@ class AppTextStyles {
       fontFamily: "Cairo",
       color: AppColors.grey,
       fontWeight: FontWeight.bold,
-      fontSize: 16.0);
+      fontSize: 15.0);
+  static const greyBoldDetail = TextStyle(
+      fontFamily: "Cairo",
+      color: AppColors.grey,
+      fontWeight: FontWeight.bold,
+      fontSize: 12.0);
+  static const greyRegularDetail = TextStyle(
+      fontFamily: "Cairo",
+      color: AppColors.grey,
+      fontWeight: FontWeight.normal,
+      fontSize: 10.0);
   static const greyregular = TextStyle(
       fontFamily: "Cairo",
       color: AppColors.grey,
@@ -15,22 +25,22 @@ class AppTextStyles {
       fontFamily: "Cairo",
       color: AppColors.green,
       fontWeight: FontWeight.bold,
-      fontSize: 16.0);
+      fontSize: 15.0);
   static const greenRegularHeading = TextStyle(
       fontFamily: "Cairo",
       color: AppColors.green,
       fontWeight: FontWeight.bold,
-      fontSize: 16.0);
+      fontSize: 15.0);
   static const pinkboldHeading = TextStyle(
       fontFamily: "Cairo",
       color: AppColors.pink,
       fontWeight: FontWeight.bold,
-      fontSize: 16.0);
+      fontSize: 15.0);
   static const pinkRegularHeading = TextStyle(
       fontFamily: "Cairo",
       color: AppColors.pink,
       fontWeight: FontWeight.bold,
-      fontSize: 18.0);
+      fontSize: 15.0);
   static const greenRegularTitle = TextStyle(
       fontFamily: "Cairo",
       color: AppColors.green,
@@ -40,12 +50,12 @@ class AppTextStyles {
       fontFamily: "Cairo",
       color: Colors.white,
       fontWeight: FontWeight.bold,
-      fontSize: 16.0);
+      fontSize: 15.0);
   static const whiteRegularHeading = TextStyle(
       fontFamily: "Cairo",
       color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 16.0);
+      fontWeight: FontWeight.normal,
+      fontSize: 15.0);
   static const whiteRegularDetail = TextStyle(
       fontFamily: "Cairo",
       color: Colors.white,

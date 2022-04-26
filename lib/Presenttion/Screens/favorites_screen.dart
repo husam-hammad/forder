@@ -4,6 +4,7 @@ import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/meal.dart';
 import 'package:flashorder/Presenttion/Widgets/appbar.dart';
+import 'package:flashorder/Presenttion/Widgets/custom_bottom.dart';
 import 'package:flashorder/Presenttion/Widgets/meal_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,7 @@ class FavoritesScreen extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: buildAppBar(),
+        bottomNavigationBar: CustomBotttomNav(),
         body: Container(
           width: Get.width,
           color: AppColors.lightwhite,
@@ -47,21 +49,24 @@ class FavoritesScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    GetBuilder(
-                      init: controller,
-                      builder: (_) {
-                        return ListView.builder(
-                            itemCount: controller.favorites.length,
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context, int index) {
-                              Meal? getmeal = mealsController.mealFromId(
-                                  controller.favorites[index].meal_id);
-                              return getmeal != null
-                                  ? MealItem(meal: getmeal)
-                                  : Container();
-                            });
-                      },
+                    SizedBox(
+                      height: Get.height - 200,
+                      child: GetBuilder(
+                        init: controller,
+                        builder: (_) {
+                          return ListView.builder(
+                              itemCount: controller.favorites.length,
+                              scrollDirection: Axis.vertical,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context, int index) {
+                                Meal? getmeal = mealsController.mealFromId(
+                                    controller.favorites[index].meal_id);
+                                return getmeal != null
+                                    ? MealItem(meal: getmeal)
+                                    : Container();
+                              });
+                        },
+                      ),
                     ),
                   ],
                 )

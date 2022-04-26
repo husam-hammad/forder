@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:flashorder/Constants/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 
 import '../../Constants/colors.dart';
@@ -27,7 +29,7 @@ PreferredSizeWidget buildAppBar() {
     actions: [
       IconButton(
         onPressed: () {
-          /* Get.to(Login()); */
+          Get.toNamed(AppRoutes.usercarts);
         },
         icon: Icon(Icons.shopping_cart),
         color: Colors.white,

@@ -11,4 +11,27 @@ class TableCreator {
      )
      ''');
   }
+
+/*   static Future<void> createCartGroupTable(Database db) async {
+    await db.execute('''
+     CREATE TABLE ${DBTables.cartGroup} (
+       ${CartGroupFields.id} ${FieldsTypes.id},
+       ${CartGroupFields.restaurentId} ${FieldsTypes.int},
+     )
+     ''');
+  } */
+
+  static Future<void> createCartItemTable(Database db) async {
+    await db.execute('''
+     CREATE TABLE ${DBTables.cartItem} (
+       ${CartItemFields.id} ${FieldsTypes.id},
+       ${CartItemFields.mealId} ${FieldsTypes.int},
+              ${CartItemFields.restaurentId} ${FieldsTypes.int},
+       ${CartItemFields.qty} ${FieldsTypes.int},
+       ${CartItemFields.price} ${FieldsTypes.num},
+       ${CartItemFields.allPrice} ${FieldsTypes.num},
+       ${CartItemFields.specialOrder} ${FieldsTypes.text}
+     )
+     ''');
+  }
 }

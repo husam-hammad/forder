@@ -25,13 +25,12 @@ class MealScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.all(10),
-            shape: const RoundedRectangleBorder(
-                borderRadius: CustomStyles.raduis100),
-            primary: AppColors.pink,
-          ),
-          onPressed: () {},
+          style: CustomStyles.acceptButtonStyle,
+          onPressed: () {
+            mealController.addbuttonEnabled.value == true
+                ? mealController.addToCart()
+                : null;
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [Icon(Icons.add), Text("إضافة لسلة الشراء")],

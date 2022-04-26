@@ -80,9 +80,6 @@ class MealItem extends StatelessWidget {
                     ]))
                   ],
                 )),
-            Expanded(
-                child: IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.delete)))
           ],
         ),
       ),

@@ -23,7 +23,7 @@ class MyHttpOverrides extends HttpOverrides {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
+  static int currentpage = 0;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

@@ -14,8 +14,8 @@ class HomeController extends GetxController {
     print('start detect position');
     position = await determinePosition();
     await box.write('position', position);
-    Get.snackbar(
-        "موقعك الجغرافي", "${position.latitude} العرض ${position.longitude}");
+    /* Get.snackbar(
+        "موقعك الجغرافي", "${position.latitude} العرض ${position.longitude}"); */
   }
 
   Future<Position> determinePosition() async {
