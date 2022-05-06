@@ -1,10 +1,15 @@
+// ignore_for_file: avoid_print
+
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/Constants/textstyles.dart';
+import 'package:flashorder/DataAccess/Models/user.dart';
+import 'package:flashorder/Presenttion/Screens/Auth/privacy.dart';
 /* import 'package:flashorder/Presenttion/Screens/map_screen.dart'; */
 /* import 'package:flashorder/Presenttion/Screens/map_screen.dart'; */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 /* import 'package:get/get.dart'; */
 /* import 'package:get/get.dart'; */
 
@@ -16,54 +21,71 @@ class PublicDrawer extends StatefulWidget {
 }
 
 class _PublicDrawerState extends State<PublicDrawer> {
+  var box = GetStorage();
   @override
   Widget build(BuildContext context) {
+    User? user;
+    if (box.read('userdata') != null) {
+      user = User.fromMap(box.read('userdata'));
+      print(user.toMap());
+    }
     return Drawer(
       backgroundColor: AppColors.lightwhite,
       child: ListView(
         children: [
-          const UserAccountsDrawerHeader(
-            decoration: BoxDecoration(
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(
                 color: AppColors.pink,
                 gradient:
                     LinearGradient(colors: [AppColors.pink, AppColors.pink2])),
-            accountName: Text(
+            accountName: const Text(
               "مستخدم التطبيق",
               style: AppTextStyles.whiteboldHeading,
             ),
-            accountEmail: Text("0900000000"),
+            accountEmail: Text(user != null ? user.phone : ""),
           ),
-          const ListTile(
+          ListTile(
+            onTap: () {
+              user != null
+                  ? Get.toNamed(AppRoutes.profile)
+                  : Get.toNamed(AppRoutes.compliments);
+            },
             title: Text(
-              "تسجيل الدخول",
+              user != null ? "الملف الشخصي" : "تسجيل الدخول",
               style: AppTextStyles.greenRegularHeading,
             ),
             leading: Icon(
-              Icons.login,
+              user != null ? Icons.person : Icons.login,
               color: AppColors.pink,
             ),
           ),
-          const ListTile(
-            title: Text(
+          ListTile(
+            onTap: (() {
+              Get.toNamed(AppRoutes.restaurents);
+            }),
+            title: const Text(
               "لائحة المطاعم",
               style: AppTextStyles.greenRegularHeading,
             ),
-            leading: Icon(
+            leading: const Icon(
               Icons.restaurant,
               color: AppColors.pink,
             ),
           ),
-          const ListTile(
-            title: Text(
+          ListTile(
+            onTap: (() {
+              Get.toNamed(AppRoutes.meals);
+            }),
+            title: const Text(
               "الوجبات",
               style: AppTextStyles.greenRegularHeading,
             ),
-            leading: Icon(
+            leading: const Icon(
               Icons.fastfood,
               color: AppColors.pink,
             ),
           ),
-          const ListTile(
+          /* const ListTile(
             title: Text(
               "العروض",
               style: AppTextStyles.greenRegularHeading,
@@ -72,13 +94,16 @@ class _PublicDrawerState extends State<PublicDrawer> {
               Icons.star,
               color: AppColors.pink,
             ),
-          ),
-          const ListTile(
-            title: Text(
+          ), */
+          ListTile(
+            onTap: () {
+              Get.toNamed(AppRoutes.favorites);
+            },
+            title: const Text(
               "قائمة المفضلة",
               style: AppTextStyles.greenRegularHeading,
             ),
-            leading: Icon(Icons.favorite, color: AppColors.pink),
+            leading: const Icon(Icons.favorite, color: AppColors.pink),
           ),
           ListTile(
             onTap: () {
@@ -90,26 +115,33 @@ class _PublicDrawerState extends State<PublicDrawer> {
             ),
             leading: const Icon(Icons.shopping_cart, color: AppColors.pink),
           ),
-          const ListTile(
-            title: Text(
+          ListTile(
+            onTap: () {
+              Get.toNamed(AppRoutes.orders);
+            },
+            title: const Text(
               "الطلبات",
               style: AppTextStyles.greenRegularHeading,
             ),
-            leading: Icon(Icons.shopping_bag, color: AppColors.pink),
+            leading: const Icon(Icons.shopping_bag, color: AppColors.pink),
           ),
-          const ListTile(
-            title: Text(
+          ListTile(
+            onTap: () {
+              Get.to(const PrivacyPolicy());
+            },
+            title: const Text(
               "سياسة الخصوصية",
               style: AppTextStyles.greenRegularHeading,
             ),
-            leading: Icon(Icons.privacy_tip, color: AppColors.pink),
+            leading: const Icon(Icons.privacy_tip, color: AppColors.pink),
           ),
-          const ListTile(
-            title: Text(
+          ListTile(
+            onTap: (() => Get.toNamed(AppRoutes.compliments)),
+            title: const Text(
               "الشكاوى والإقتراحات",
               style: AppTextStyles.greenRegularHeading,
             ),
-            leading: Icon(Icons.radar, color: AppColors.pink),
+            leading: const Icon(Icons.radar, color: AppColors.pink),
           ),
           /*
           ListTile(

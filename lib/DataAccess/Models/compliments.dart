@@ -4,10 +4,10 @@ class Compliment {
   late int id;
   late int userId;
   late String description;
-  late String reply;
-  late DateTime createdAt;
-  late DateTime repliedAt;
-  late int restaurentId;
+  late String? reply;
+  late DateTime? createdAt;
+  late DateTime? repliedAt;
+  late int? restaurentId;
   Compliment({
     required this.id,
     required this.userId,
@@ -43,9 +43,6 @@ class Compliment {
       'id': id,
       'userId': userId,
       'description': description,
-      'reply': reply,
-      'createdAt': createdAt.millisecondsSinceEpoch,
-      'repliedAt': repliedAt.millisecondsSinceEpoch,
       'restaurentId': restaurentId,
     };
   }
@@ -56,8 +53,12 @@ class Compliment {
       userId: map['userId']?.toInt() ?? 0,
       description: map['description'] ?? '',
       reply: map['reply'] ?? '',
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
-      repliedAt: DateTime.fromMillisecondsSinceEpoch(map['repliedAt']),
+      createdAt: map['created_at'] != null
+          ? DateTime.parse(map['created_at'].toString())
+          : null,
+      repliedAt: map['replied_at'] != null
+          ? DateTime.parse(map['replied_at'].toString())
+          : null,
       restaurentId: map['restaurentId']?.toInt() ?? 0,
     );
   }

@@ -21,7 +21,7 @@ class FavoritesScreen extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: buildAppBar(),
-        bottomNavigationBar: CustomBotttomNav(),
+        bottomNavigationBar: const CustomBotttomNav(),
         body: Container(
           width: Get.width,
           color: AppColors.lightwhite,

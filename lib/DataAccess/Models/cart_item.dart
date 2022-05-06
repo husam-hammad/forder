@@ -18,6 +18,8 @@ class CartItem {
       required this.mealId,
       required this.restaurentId,
       required this.qty,
+      required this.price,
+      required this.allPrice,
       required this.specialOrder});
 
   CartItem copyWith({
@@ -32,6 +34,8 @@ class CartItem {
       mealId: mealId ?? this.mealId,
       restaurentId: restaurentId,
       qty: qty ?? this.qty,
+      price: price,
+      allPrice: allPrice,
       specialOrder: specialOrder ?? this.specialOrder,
     );
   }
@@ -44,7 +48,7 @@ class CartItem {
       'qty': qty,
       'price': price,
       'allPrice': allPrice,
-      'specialOrder': specialOrder,
+      'specialOrder': specialOrder
     };
   }
 
@@ -64,6 +68,8 @@ class CartItem {
       restaurentId: map['restaurent_id']?.toInt() ?? 0,
       qty: map['qty']?.toInt() ?? 0,
       specialOrder: map['special_order'] ?? '',
+      price: map['price']?.toInt() ?? 0,
+      allPrice: map['allPrice']?.toInt() ?? 0,
     );
   }
 

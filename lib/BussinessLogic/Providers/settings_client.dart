@@ -19,4 +19,13 @@ class SettingClient {
       return Responses.empty;
     }
   }
+
+  Future<String> termsofSse() async {
+    var response = await client.get(Uri.parse(baseUrl + "settings/termofuse"));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return Responses.empty;
+    }
+  }
 }

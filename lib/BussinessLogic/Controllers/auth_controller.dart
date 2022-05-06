@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:flashorder/BussinessLogic/Providers/user_client.dart';
 import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/DataAccess/Models/user.dart';
 import 'package:flashorder/Presenttion/Screens/Auth/otp.dart';
@@ -9,10 +10,10 @@ import 'package:get_storage/get_storage.dart';
 
 class AuthController extends GetxController {
   bool sendbuttonEnable = true;
-  final textcontroller = TextEditingController();
+  final phonecontroller = TextEditingController();
   final box = GetStorage();
   final String otpcode = "55555";
-
+  UserClient userClient = UserClient();
   Future<bool> checkAuth() async {
     bool authed = box.read('authed') ?? false;
     print('authed' + authed.toString());
@@ -24,7 +25,7 @@ class AuthController extends GetxController {
 
   Future<void> sendMessage() async {
     sendbuttonEnable = false;
-    if (textcontroller.value.text.length != 10) {
+    if (phonecontroller.value.text.length != 10) {
       Get.snackbar("", "يرجى إدخال رقم من 10 مراتب",
           backgroundColor: Colors.red,
           colorText: Colors.white,
@@ -36,8 +37,14 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<User?> registerUser() async {
-    return null;
+  Future<void> registerUser(phone) async {
+    User? user = await userClient.register(phone, phone);
+
+    if (user != null) {
+      box.write('userdata', user.toMap());
+    } else {
+      print("there is no user ");
+    }
   }
 
   Future<void> saveAuth() async {
@@ -47,6 +54,7 @@ class AuthController extends GetxController {
   Future<void> checkOTP(String otp) async {
     if (otp == otpcode) {
       await saveAuth();
+      await registerUser(phonecontroller.value.text);
       Get.toNamed(AppRoutes.homepage);
     } else {
       Get.snackbar("", "يرجى التأكد من وصول الرمز",

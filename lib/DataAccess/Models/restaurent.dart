@@ -1,4 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
+
+import 'package:flashorder/helpers/calc.dart';
+import 'package:flashorder/main.dart';
 
 class Restaurent {
   late int id;
@@ -42,6 +47,20 @@ class Restaurent {
         long: map['lng'] != null ? num.parse(map['lng']) : 36.2765261,
         adrees: map['adrees'] ?? '',
         deliveryCost: 0);
+  }
+  num getDeliveryCost() {
+    if (MyApp.userPosition != null) {
+      double distance = Calc.calculateDistance(lat, long,
+          MyApp.userPosition!.latitude, MyApp.userPosition!.longitude);
+      /* print("distance : " + distance.toString());
+      print("perKmCost : " + MyApp.perKmCost.toString()); */
+      num cost = Calc.deliveryCost(distance, MyApp.perKmCost);
+      deliveryCost = cost;
+/*     print("cost of : " + restaurent.name + cost.toString()); */
+      return cost;
+    } else {
+      return 0;
+    }
   }
 
   String toJson() => json.encode(toMap());

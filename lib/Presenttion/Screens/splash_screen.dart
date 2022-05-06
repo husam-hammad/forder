@@ -1,30 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, avoid_print
 
+import 'package:flashorder/BussinessLogic/Controllers/splash_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
-import 'package:flashorder/Presenttion/Screens/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   SplashScreen({Key? key}) : super(key: key);
-
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen> {
-  double rwidth = 0;
-  void navigatetohome() async {
-    return Future.delayed(Duration(seconds: 3))
-        .then((value) => Get.to(() => OnBoardingPage()));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    navigatetohome();
-  }
-
+  final SplashController splashController = Get.put(SplashController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(

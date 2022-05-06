@@ -9,4 +9,14 @@ class CustomStyles {
     shape: const RoundedRectangleBorder(borderRadius: CustomStyles.raduis100),
     primary: AppColors.green,
   );
+
+  static InputBorder greenBorder = OutlineInputBorder(
+    borderSide: const BorderSide(width: 2, color: AppColors.green),
+    borderRadius: BorderRadius.circular(15),
+  );
+
+  static InputBorder pinkBorder = OutlineInputBorder(
+    borderSide: const BorderSide(width: 2, color: AppColors.pink2),
+    borderRadius: BorderRadius.circular(15),
+  );
 }

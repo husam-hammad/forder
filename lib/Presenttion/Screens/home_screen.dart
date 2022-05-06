@@ -214,10 +214,10 @@ class HomeScreen extends StatelessWidget {
                 return mealsController.homeMealsLoaded
                     ? ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: mealsController.meals.length,
+                        itemCount: mealsController.featuredmeals.length,
                         itemBuilder: (BuildContext context, int index) {
                           return HomeMeal(
-                            meal: mealsController.meals[index],
+                            meal: mealsController.featuredmeals[index],
                             index: index,
                           );
                         },

@@ -75,6 +75,8 @@ class MealScreenController extends GetxController {
         id: 0,
         mealId: meal.id,
         restaurentId: meal.restaurent!.id,
+        price: 0,
+        allPrice: 0,
         qty: qty,
         specialOrder: compomentController.value.text);
 
@@ -82,6 +84,7 @@ class MealScreenController extends GetxController {
     await cartController.createItem(item);
 
     Get.rawSnackbar(
+      duration: const Duration(seconds: 1),
       messageText: const Text(
         "تمت الإضافة بنجاح",
         textAlign: TextAlign.center,

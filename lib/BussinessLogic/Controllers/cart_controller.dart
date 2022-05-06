@@ -1,25 +1,37 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
+import 'package:flashorder/BussinessLogic/Providers/order_client.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/custom_styles.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/cart_group.dart';
 import 'package:flashorder/DataAccess/Models/cart_item.dart';
+import 'package:flashorder/DataAccess/Models/order_info.dart';
 import 'package:flashorder/DataAccess/Models/restaurent.dart';
+import 'package:flashorder/DataAccess/Models/user.dart';
 import 'package:flashorder/DataAccess/Repository/cart_item_repo.dart';
+import 'package:flashorder/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class CartController extends GetxController {
   late List<CartItem> allcarts;
   RestaurentController restaurentController = Get.find();
+
   CartItemRepo cartItemRepo = CartItemRepo();
   TextEditingController editQtyController = TextEditingController();
   late Map<Restaurent?, List<CartItem>> groupedList;
   late Map<int, List<CartItem>> groupedListMap;
+  late User? user;
   late List<CartGroup> cartgroup = [];
+  var box = GetStorage();
+
+  var isSending = false.obs;
 
   @override
   onInit() async {
@@ -28,6 +40,10 @@ class CartController extends GetxController {
   }
 
   Future<void> readAll() async {
+    if (box.read('userdata') != null) {
+      user = User.fromMap(box.read('userdata'));
+    }
+
     allcarts = await cartItemRepo.readAll();
     print(allcarts.map((e) => e.restaurentId));
     groupedListMap = groupBy(allcarts, (cart) => cart.restaurentId);
@@ -35,8 +51,11 @@ class CartController extends GetxController {
 /*     print(allcarts); */
     cartgroup.clear();
     groupedListMap.forEach((key, value) {
-      cartgroup.add(CartGroup(restaurentId: key, cartItems: value));
+      cartgroup
+          .add(CartGroup(restaurentId: key, cartItems: value, orderInfo: null));
     });
+    //print(jsonEncode(cartgroup));
+
     update();
   }
 
@@ -100,7 +119,63 @@ class CartController extends GetxController {
   }
 
   Future<void> deleteAll() async {
-    /* await cartItemRepo.deleteAll();*/
+    await cartItemRepo.deleteAll();
     await readAll();
+  }
+
+  void sendorder() async {
+    isSending.value = true;
+    for (var item in cartgroup) {
+      num singleOrdeValue = 0;
+
+      for (var cart in item.cartItems) {
+        cart.price = cart.meal!.price;
+        cart.allPrice = cart.price * cart.qty;
+        singleOrdeValue += cart.allPrice;
+      }
+      Restaurent? temprest =
+          restaurentController.restaunretFromId(item.restaurentId!);
+      print("user id is >>>>> " + user!.id.toString());
+      item.orderInfo = OrderInfo(
+          userId: user!.id,
+          restaurentId: item.restaurentId!,
+          pLat: MyApp.userPosition!.latitude,
+          pLong: MyApp.userPosition!.latitude,
+          orderValue: singleOrdeValue,
+          deliveryCost: temprest!.getDeliveryCost());
+    }
+
+    OrderClient client = OrderClient();
+    bool isSent = await client.sendOrder(jsonEncode(cartgroup));
+    if (isSent) {
+      await deleteAll();
+
+      Get.rawSnackbar(
+        duration: const Duration(seconds: 1),
+        messageText: const Text(
+          "تم إرسال الطلب بنجاح",
+          textAlign: TextAlign.center,
+          style: AppTextStyles.whiteRegularHeading,
+        ),
+        backgroundColor: AppColors.green,
+      );
+    } else {
+      Get.rawSnackbar(
+        duration: const Duration(seconds: 1),
+        messageText: const Text(
+          "خطأ أثناء الإرسال",
+          textAlign: TextAlign.center,
+          style: AppTextStyles.whiteRegularHeading,
+        ),
+        backgroundColor: Colors.redAccent,
+      );
+    }
+    isSending.value = false;
+    /* for (var item in allcarts) {
+      item.price = item.meal!.price;
+      item.allPrice = item.price * item.qty;
+    }
+    //update();
+    print(jsonEncode(allcarts)); */
   }
 }

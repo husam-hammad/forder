@@ -18,6 +18,8 @@ class MealCategory {
   factory MealCategory.fromMap(Map<String, dynamic> map) {
     List<Meal> mealsfromJson(String json) {
       final parsed = jsonDecode(json).cast<Map<String, dynamic>>();
+      // ignore: avoid_print
+      print(parsed);
       return parsed.map<Meal>((json) => Meal.fromMap(json)).toList();
     }
 

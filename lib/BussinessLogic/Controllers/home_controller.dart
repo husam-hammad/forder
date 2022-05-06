@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:flashorder/main.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -13,6 +14,9 @@ class HomeController extends GetxController {
     box = GetStorage();
     print('start detect position');
     position = await determinePosition();
+    MyApp.userPosition = position;
+    print("user postion set done");
+    print(MyApp.userPosition);
     await box.write('position', position);
     /* Get.snackbar(
         "موقعك الجغرافي", "${position.latitude} العرض ${position.longitude}"); */

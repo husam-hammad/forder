@@ -75,8 +75,10 @@ class MealItem extends StatelessWidget {
                           text: "كلفة التوصيل : ",
                           style: AppTextStyles.greyregular),
                       TextSpan(
-                          text: meal.price.toString(),
-                          style: AppTextStyles.greyregular),
+                          text: meal.restaurent?.getDeliveryCost() != 0
+                              ? meal.restaurent?.getDeliveryCost().toString()
+                              : "",
+                          style: AppTextStyles.greyregular)
                     ]))
                   ],
                 )),

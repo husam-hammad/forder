@@ -30,6 +30,9 @@ class _CustomBotttomNavState extends State<CustomBotttomNav> {
             Get.toNamed(AppRoutes.usercarts);
             break;
           case 3:
+            Get.toNamed(AppRoutes.orders);
+            break;
+          case 4:
             Get.toNamed(AppRoutes.favorites);
             break;
         }
@@ -61,6 +64,11 @@ class _CustomBotttomNavState extends State<CustomBotttomNav> {
         BottomNavigationBarItem(
           icon: Icon(Icons.shopping_cart),
           label: "سلة الشراء",
+        ),
+        BottomNavigationBarItem(
+          activeIcon: Icon(Icons.delivery_dining),
+          icon: Icon(Icons.delivery_dining_rounded),
+          label: "الطلبات",
         ),
         BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "المفضلة"),
       ],

@@ -1,9 +1,12 @@
 import 'dart:convert';
 
+import 'package:flashorder/DataAccess/Models/restaurent.dart';
+
 class Order {
   late int id;
   late int userId;
   late int restaurentId;
+  late Restaurent restaurent;
   late num allValue;
   late num discount;
   late num netValue;

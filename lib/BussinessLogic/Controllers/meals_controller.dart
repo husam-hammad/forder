@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 class MealsController extends GetxController {
   late MealRepo repo;
+  List<Meal> featuredmeals = [];
   List<Meal> meals = [];
 
   bool homeMealsLoaded = false;
@@ -44,6 +45,9 @@ class MealsController extends GetxController {
     repo = MealRepo(MealClient());
     await repo.getall().then((data) {
       meals = data;
+      featuredmeals =
+          meals.where((element) => element.featured.isEqual(1)).toList();
+      //meals.map((Meal e) => e.featured.isEqual(1));
       homeMealsLoaded = true;
       update();
     });

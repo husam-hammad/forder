@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flashorder/DataAccess/Repository/setting_repo.dart';
+import 'package:flashorder/main.dart';
 import 'package:get/get.dart';
 
 class SettingsController extends GetxController {
@@ -10,6 +11,6 @@ class SettingsController extends GetxController {
   void onInit() async {
     super.onInit();
     perKmCost = await settignRepo.costbyKm();
-    print("Cost Per KM" + perKmCost.toString());
+    MyApp.perKmCost = perKmCost;
   }
 }

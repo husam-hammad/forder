@@ -71,7 +71,7 @@ class StoryViewScreen extends StatelessWidget {
                             width: 16,
                           ),
                           Text(
-                            "المزيد من العروضس",
+                            "المزيد من العروض",
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ],

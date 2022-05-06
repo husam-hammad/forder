@@ -7,6 +7,8 @@ import 'package:flashorder/BussinessLogic/Controllers/setting_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/stories_controller.dart';
 import 'package:get/get.dart';
 
+import '../Controllers/fcm_controller.dart';
+
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
@@ -17,5 +19,6 @@ class HomeBinding extends Bindings {
     Get.lazyPut<StoriesController>(() => StoriesController());
     Get.lazyPut<FavoriteController>(() => FavoriteController());
     Get.put<CartController>(CartController());
+    Get.put<FCMController>(FCMController());
   }
 }

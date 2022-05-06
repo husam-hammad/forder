@@ -16,6 +16,8 @@ class RestaurentController extends GetxController {
   List<Restaurent> restaurents = [];
   bool homeRestaurentsLoaded = false;
   var selectedindex = 0.obs;
+  late Position position;
+
   @override
   void onInit() async {
     super.onInit();
@@ -27,16 +29,16 @@ class RestaurentController extends GetxController {
     repo = RestaurentRepo(RestaurentClient());
     await repo.getall().then((data) {
       restaurents = data;
-      homeRestaurentsLoaded = true;
     });
+    position = await homeController.determinePosition();
     for (var restaurent in restaurents) {
-      await setDeliveryCost(restaurent);
+      restaurent.getDeliveryCost();
     }
+    homeRestaurentsLoaded = true;
     update();
   }
 
   Future<void> setDeliveryCost(Restaurent restaurent) async {
-    Position position = await homeController.determinePosition();
     double distance = Calc.calculateDistance(
         restaurent.lat, restaurent.long, position.latitude, position.longitude);
     num cost = Calc.deliveryCost(distance, settingsController.perKmCost);

@@ -1,7 +1,13 @@
+// ignore_for_file: avoid_print
+
+/* import 'dart:convert';
+ */
+
 import 'package:flashorder/BussinessLogic/Controllers/cart_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
+import 'package:flashorder/Constants/custom_styles.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/cart_item.dart';
 import 'package:flashorder/DataAccess/Models/meal.dart';
@@ -11,7 +17,6 @@ import 'package:flashorder/DataAccess/Models/meal.dart';
 import 'package:flashorder/Presenttion/Widgets/cart_item.dart'; */
 import 'package:flashorder/Presenttion/Widgets/appbar.dart';
 import 'package:flashorder/Presenttion/Widgets/cart_item.dart';
-import 'package:flashorder/Presenttion/Widgets/custom_bottom.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +26,7 @@ class UserCart extends StatelessWidget {
   final MealsController mealsController = Get.find();
   final RestaurentController restaurentController = Get.find();
   final CartController cartController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,7 +34,7 @@ class UserCart extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: buildAppBar(),
-        bottomNavigationBar: CustomBotttomNav(),
+        bottomNavigationBar: buildCartNav(),
         body: Column(
           children: [
             Padding(
@@ -139,5 +145,46 @@ class UserCart extends StatelessWidget {
         ),
       ),
     ));
+  }
+
+  Widget buildCartNav() {
+    return GetBuilder(
+        init: cartController,
+        builder: (_) {
+          if (cartController.allcarts.isNotEmpty) {
+            return Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(7),
+              child: ElevatedButton(
+                  style: CustomStyles.acceptButtonStyle,
+                  onPressed: () {
+                    cartController.sendorder();
+
+                    /* var parsedd = jsonEncode(cartController.allcarts /* .toList() */);
+
+            print(jsonDecode(parsedd)); */
+                  },
+                  child: Obx(() {
+                    if (!cartController.isSending.value) {
+                      return const Text("إرسال الطلب");
+                    } else {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          CircularProgressIndicator(strokeWidth: 1),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text("جاري الإرسال")
+                        ],
+                      );
+                    }
+                  })),
+            );
+          } else {
+            return Row();
+          }
+        });
   }
 }

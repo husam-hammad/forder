@@ -9,7 +9,7 @@ class RestaurentScreenController extends GetxController {
   final Restaurent restaurent;
   late RestaurentRepo repo;
   RestaurentScreenController(this.restaurent);
-  late List<MealCategory> mealscategories;
+  late List<MealCategory> mealscategories = [];
   bool categoriesLoaded = false;
 
   @override

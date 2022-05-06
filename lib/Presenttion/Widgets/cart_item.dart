@@ -46,9 +46,7 @@ class CartItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      cartItem.meal!.name +
-                          "   " +
-                          cartItem.restaurentId.toString(),
+                      cartItem.meal!.name,
                       style: AppTextStyles.greenRegularHeading,
                     ),
                     Row(

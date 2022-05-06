@@ -36,7 +36,7 @@ PreferredSizeWidget buildAppBar() {
       ),
       IconButton(
         onPressed: () {
-          /* Get.to(OtpScreen()); */
+          Get.toNamed(AppRoutes.search);
         },
         icon: Icon(Icons.search),
         color: Colors.white,

@@ -74,7 +74,7 @@ class Login extends StatelessWidget {
                         height: 20,
                       ),
                       TextField(
-                        controller: authController.textcontroller,
+                        controller: authController.phonecontroller,
                         textAlign: TextAlign.center,
                         autofocus: true,
                         keyboardType: TextInputType.phone,

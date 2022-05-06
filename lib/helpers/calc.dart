@@ -17,10 +17,10 @@ class Calc {
   }
 
   static num nearestThousand(num number) {
-    num a = number % 1000;
+    num a = number % 100;
 
     if (a > 0) {
-      return (number ~/ 1000) * 1000 + 1000;
+      return (number ~/ 100) * 100 + 100;
     }
     return number;
   }
