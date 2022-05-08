@@ -1,5 +1,8 @@
 // ignore_for_file: avoid_print
 
+import 'package:flashorder/BussinessLogic/Controllers/fcm_controller.dart';
+import 'package:flashorder/BussinessLogic/Providers/user_client.dart';
+import 'package:flashorder/DataAccess/Models/user.dart';
 import 'package:flashorder/main.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -8,18 +11,27 @@ import 'package:get_storage/get_storage.dart';
 class HomeController extends GetxController {
   late Position position;
   late GetStorage box;
+  final FCMController fcmController = Get.find();
+  late User user;
+  final userClient = UserClient();
   @override
   void onInit() async {
     super.onInit();
     box = GetStorage();
-    print('start detect position');
+
     position = await determinePosition();
     MyApp.userPosition = position;
-    print("user postion set done");
-    print(MyApp.userPosition);
+
     await box.write('position', position);
-    /* Get.snackbar(
-        "موقعك الجغرافي", "${position.latitude} العرض ${position.longitude}"); */
+    await updateFCM();
+  }
+
+  Future<void> updateFCM() async {
+    if (box.read('userdata') != null) {
+      user = User.fromMap(box.read('userdata'));
+      var userfcm = fcmController.fcmtoken;
+      await userClient.updateFCM(user.token, userfcm, user.id);
+    }
   }
 
   Future<Position> determinePosition() async {
@@ -34,10 +46,15 @@ class HomeController extends GetxController {
       // App to enable the location services.
       return Future.error('Location services are disabled.');
     }
-
-    permission = await Geolocator.checkPermission();
+    permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
+      while (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+      }
+    }
+
+    /* if (permission == LocationPermission.denied) {
+      
       if (permission == LocationPermission.denied) {
         return Future.error('Location permissions are denied');
       }
@@ -47,7 +64,7 @@ class HomeController extends GetxController {
       // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
-    }
+    } */
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.

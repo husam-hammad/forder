@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flashorder/BussinessLogic/Controllers/orderscreen_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/custom_styles.dart';
 import 'package:flashorder/Constants/textstyles.dart';
-import 'package:flashorder/DataAccess/Models/user_order.dart';
 import 'package:flashorder/Presenttion/Widgets/appbar.dart';
 import 'package:flashorder/Presenttion/Widgets/custom_bottom.dart';
 import 'package:flashorder/helpers/color_helper.dart';
@@ -14,10 +14,11 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart' as ints;
 
 class OrderScreen extends StatelessWidget {
-  OrderScreen({Key? key, required this.order}) : super(key: key);
-  final UserOrder order;
+  OrderScreen({Key? key}) : super(key: key);
   final ints.DateFormat formatter = ints.DateFormat('yyyy-MM-dd hh:mm');
-  final OrderScreenController controller = Get.put(OrderScreenController());
+  final OrderScreenController controller =
+      Get.put(OrderScreenController(Get.parameters["order"]));
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,7 +36,7 @@ class OrderScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "الطلب رقم :  ${order.id} ",
+                  "الطلب رقم :  ${controller.order.id} ",
                   style: AppTextStyles.pinkboldHeading,
                 ),
               ],
@@ -55,25 +56,28 @@ class OrderScreen extends StatelessWidget {
                   child: Center(
                     child: Column(
                       children: [
-                        CachedNetworkImage(
-                          imageUrl: ImageHelper.buildImage(order.state.image),
-                          width: 150,
-                          fit: BoxFit.contain,
-                        ),
+                        controller.order.state.image != ""
+                            ? CachedNetworkImage(
+                                imageUrl: ImageHelper.buildImage(
+                                    controller.order.state.image),
+                                width: 100,
+                                fit: BoxFit.contain,
+                              )
+                            : Row(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             CircleAvatar(
                               radius: 10,
-                              backgroundColor:
-                                  ColorHelper.fromHex(order.state.color),
+                              backgroundColor: ColorHelper.fromHex(
+                                  controller.order.state.color),
                             ),
                             const SizedBox(
                               width: 30,
                             ),
                             Text(
-                              order.state.name,
+                              controller.order.state.name,
                               style: AppTextStyles.greyboldHeading,
                             )
                           ],
@@ -97,27 +101,28 @@ class OrderScreen extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          order.captin != null
+                          controller.order.captin != null
                               ? Expanded(
                                   child: ListTile(
                                     title: Text(
-                                      order.captin!.name,
+                                      controller.order.captin!.name,
                                       style: AppTextStyles.greyBoldDetail,
                                     ),
                                     subtitle: Text(
-                                      order.captin!.phone,
+                                      controller.order.captin!.phone,
                                       style: AppTextStyles.greyregular,
                                     ),
                                     leading: InkWell(
                                       onTap: () {
                                         controller.showCaptinImage(
-                                            order.captin!.avatar);
+                                            controller.order.captin!.avatar);
                                       },
                                       child: CircleAvatar(
                                           backgroundImage:
                                               CachedNetworkImageProvider(
                                                   ImageHelper.buildImage(
-                                                      order.captin!.avatar))),
+                                                      controller.order.captin!
+                                                          .avatar))),
                                     ),
                                   ),
                                 )
@@ -142,13 +147,13 @@ class OrderScreen extends StatelessWidget {
                         style: AppTextStyles.greenboldHeading,
                       ),
                       SizedBox(
-                        height: order.details.length * 50,
+                        height: controller.order.details.length * 50,
                         child: ListView.builder(
-                          itemCount: order.details.length,
+                          itemCount: controller.order.details.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               title: Text(
-                                "• ${order.details[index].allInOne}",
+                                "• ${controller.order.details[index].allInOne}",
                                 style: AppTextStyles.greyRegularDetail,
                                 textAlign: TextAlign.right,
                               ),
@@ -172,7 +177,7 @@ class OrderScreen extends StatelessWidget {
                         style: AppTextStyles.greenboldHeading,
                       ),
                       Text(
-                        order.value.toString() + " ليرة سورية",
+                        controller.order.value.toString() + " ليرة سورية",
                         style: AppTextStyles.greyregular,
                       )
                     ],
@@ -191,7 +196,8 @@ class OrderScreen extends StatelessWidget {
                         style: AppTextStyles.greenboldHeading,
                       ),
                       Text(
-                        order.deliverycost.toString() + " ليرة سورية",
+                        controller.order.deliverycost.toString() +
+                            " ليرة سورية",
                         style: AppTextStyles.greyregular,
                       )
                     ],
@@ -210,7 +216,7 @@ class OrderScreen extends StatelessWidget {
                         style: AppTextStyles.greenboldHeading,
                       ),
                       Text(
-                        formatter.format(order.createdAt!),
+                        formatter.format(controller.order.createdAt!),
                         style: AppTextStyles.greyregular,
                       )
                     ],

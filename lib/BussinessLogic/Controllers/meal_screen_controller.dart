@@ -80,7 +80,6 @@ class MealScreenController extends GetxController {
         qty: qty,
         specialOrder: compomentController.value.text);
 
-    print(item.restaurentId);
     await cartController.createItem(item);
 
     Get.rawSnackbar(

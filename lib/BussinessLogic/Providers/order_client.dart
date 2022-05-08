@@ -50,7 +50,6 @@ class OrderClient {
           baseUrl + ordersUrl,
         ),
         headers: {HttpHeaders.authorizationHeader: headers});
-    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {

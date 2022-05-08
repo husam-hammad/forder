@@ -1,6 +1,5 @@
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/meal_category.dart';
-import 'package:flashorder/Presenttion/Widgets/appbar.dart';
 import 'package:flashorder/Presenttion/Widgets/custom_bottom.dart';
 import 'package:flashorder/Presenttion/Widgets/meal_item.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +9,13 @@ class MealCategoryScreen extends StatelessWidget {
   const MealCategoryScreen({Key? key, required this.mealCategory})
       : super(key: key);
   final MealCategory mealCategory;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Directionality(
             textDirection: TextDirection.rtl,
             child: Scaffold(
-                appBar: buildAppBar(),
                 bottomNavigationBar: const CustomBotttomNav(),
                 body: Column(
                   children: [

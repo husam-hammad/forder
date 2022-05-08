@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:flashorder/BussinessLogic/Controllers/home_controller.dart';
 import 'package:flashorder/BussinessLogic/Providers/user_client.dart';
 import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/DataAccess/Models/user.dart';
@@ -11,6 +12,7 @@ import 'package:get_storage/get_storage.dart';
 class AuthController extends GetxController {
   bool sendbuttonEnable = true;
   final phonecontroller = TextEditingController();
+  final HomeController homeController = Get.find();
   final box = GetStorage();
   final String otpcode = "55555";
   UserClient userClient = UserClient();
@@ -45,6 +47,7 @@ class AuthController extends GetxController {
     } else {
       print("there is no user ");
     }
+    homeController.updateFCM();
   }
 
   Future<void> saveAuth() async {

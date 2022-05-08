@@ -9,10 +9,7 @@ class FavoriteClient {
     final db = await Helper.instance.database;
 
     final id = await db?.insert(DBTables.favorites, item.toMap());
-    //print(id);
-    print("start copy");
     Favorite copy = item.copyWith(id: id);
-    /* print(copy); */
     return copy;
   }
 

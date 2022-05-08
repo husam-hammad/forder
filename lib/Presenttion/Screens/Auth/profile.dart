@@ -77,6 +77,9 @@ class ProfileScreen extends StatelessWidget {
                     height: 20,
                   ),
                   TextField(
+                    onTap: () {
+                      userController.selectDate(context);
+                    },
                     controller: userController.birthdaycontroller,
                     keyboardType: TextInputType.datetime,
                     decoration: InputDecoration(
@@ -103,10 +106,17 @@ class ProfileScreen extends StatelessWidget {
             userController.saveData();
           },
           style: CustomStyles.acceptButtonStyle,
-          child: const Text(
-            "حفظ",
-            style: AppTextStyles.whiteRegularDetail,
-          )),
+          child: Obx(() {
+            return userController.saving.value == true
+                ? const Text(
+                    "جاري الحفظ ..",
+                    style: AppTextStyles.whiteRegularDetail,
+                  )
+                : const Text(
+                    " حفظ",
+                    style: AppTextStyles.whiteRegularDetail,
+                  );
+          })),
     );
   }
 }

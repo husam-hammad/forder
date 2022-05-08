@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_print
 
 import 'package:flashorder/BussinessLogic/Providers/order_client.dart';
+import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/DataAccess/Models/user_order.dart';
 import 'package:flashorder/DataAccess/Repository/orders_repo.dart';
-import 'package:flashorder/Presenttion/Screens/order_screen.dart';
 import 'package:get/get.dart';
 
 class OrderController extends GetxController {
@@ -21,14 +21,17 @@ class OrderController extends GetxController {
     orders = await orderRepo.getall();
     ordersLoaded = true;
     update();
-    print(orders);
   }
 
   void gotoOrder(orderId) {
-    UserOrder order =
-        orders.where((element) => element.id == orderId).toList()[0];
-    Get.to(OrderScreen(
-      order: order,
-    ));
+    try {
+      Get.toNamed(AppRoutes.order, parameters: {'order': orderId});
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  UserOrder userOrderFormID(id) {
+    return orders.where((element) => element.id == id).first;
   }
 }

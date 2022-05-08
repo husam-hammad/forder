@@ -1,42 +1,30 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flashorder/BussinessLogic/Bindings/init_binding.dart';
+import 'package:flashorder/BussinessLogic/Providers/local_notification_service.dart';
 import 'package:flashorder/BussinessLogic/router.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:rxdart/subjects.dart';
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-
-final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
-    BehaviorSubject<ReceivedNotification>();
-
-class ReceivedNotification {
-  ReceivedNotification({
-    required this.id,
-    required this.title,
-    required this.body,
-    required this.payload,
-  });
-
-  final int id;
-  final String? title;
-  final String? body;
-  final String? payload;
-}
-
-final BehaviorSubject<String?> selectNotificationSubject =
-    BehaviorSubject<String?>();
 void main() async {
   await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
-
+  await NotificationService().init();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
+}
+
+Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  var notificationService = NotificationService();
+  await notificationService.showNotifications(message.data['title'],
+      message.data['body'], message.data['click_action']);
 }
 
 class MyHttpOverrides extends HttpOverrides {

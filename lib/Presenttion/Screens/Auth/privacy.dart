@@ -52,7 +52,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
             Container(
               height: Get.height - 200,
               width: double.infinity,
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(10),
               child: SingleChildScrollView(
                   scrollDirection: Axis.vertical, child: Text(content)),
             )

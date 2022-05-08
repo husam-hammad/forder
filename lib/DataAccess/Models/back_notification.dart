@@ -37,7 +37,7 @@ class BackNotification {
       title: map['title'] ?? '',
       description: map['description'] ?? '',
       from: NotificationUser.fromMap(map['from']),
-      modelName: map['modelName'] ?? '',
+      modelName: map['modelname'] ?? '',
       modelId: map['modelId'] ?? '',
       createdAt: DateTime.parse(map['created_at']),
     );

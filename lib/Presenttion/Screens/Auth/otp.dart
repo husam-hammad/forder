@@ -29,26 +29,6 @@ class _OtpScreenState extends State<OtpScreen> {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          bottomNavigationBar: Container(
-            width: double.infinity,
-            height: 80,
-            color: AppColors.pink,
-            child: Column(
-              children: const [
-                SizedBox(
-                  height: 20,
-                ),
-                Icon(
-                  Icons.flash_on,
-                  color: Colors.white,
-                ),
-                Text(
-                  "The Flash Order",
-                  style: TextStyle(color: Colors.white),
-                )
-              ],
-            ),
-          ),
           body: SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.all(20),

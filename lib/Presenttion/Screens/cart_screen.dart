@@ -26,7 +26,6 @@ class UserCart extends StatelessWidget {
   final MealsController mealsController = Get.find();
   final RestaurentController restaurentController = Get.find();
   final CartController cartController = Get.find();
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(

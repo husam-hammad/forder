@@ -14,10 +14,15 @@ class NotificationContoller extends GetxController {
     getAll();
   }
 
+  void gotopage(name) {
+    if (name != "") {
+      Get.toNamed(name);
+    }
+  }
+
   Future<void> getAll() async {
     notificationRepo = NotificationRepo(NotificationClient());
     notifications = await notificationRepo.getall();
     update();
-    print(notifications);
   }
 }

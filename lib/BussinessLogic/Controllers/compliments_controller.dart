@@ -1,4 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
+import 'package:flashorder/BussinessLogic/Providers/box_provider.dart';
 import 'package:flashorder/BussinessLogic/Providers/complimnet_client.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/custom_styles.dart';
@@ -16,8 +19,17 @@ class ComplimentController extends GetxController {
   TextEditingController description = TextEditingController();
   late ComplimentRepo complimentRepo;
   int? restaurentId;
-  late User? user;
+  List<Compliment> compliments = [];
   var box = GetStorage();
+  bool loaded = false;
+  User? user;
+  @override
+  void onInit() async {
+    super.onInit();
+    user = await BoxProvider.getuser();
+    await getAll();
+  }
+
   void showAdd() {
     Get.bottomSheet(
       Padding(
@@ -72,6 +84,7 @@ class ComplimentController extends GetxController {
                             ),
                             backgroundColor: AppColors.green,
                           );
+                          await getAll();
                         }
                       }
                     },
@@ -90,5 +103,32 @@ class ComplimentController extends GetxController {
       shape: const RoundedRectangleBorder(borderRadius: CustomStyles.raduis100),
       isScrollControlled: true,
     );
+  }
+
+  Future<void> getAll() async {
+    loaded = false;
+    complimentRepo = ComplimentRepo(ComplimentClient());
+    if (user != null) {
+      compliments = await complimentRepo.getAll(user!.token, user!.id);
+      loaded = true;
+      update();
+    }
+  }
+
+  Future<void> delete(id) async {
+    complimentRepo = ComplimentRepo(ComplimentClient());
+    if (user != null) {
+      await complimentRepo.deleteCompliment(id, user!.token);
+      await getAll();
+      Get.rawSnackbar(
+        duration: const Duration(seconds: 1),
+        messageText: const Text(
+          "تم الحذف  بنجاح",
+          textAlign: TextAlign.center,
+          style: AppTextStyles.whiteRegularHeading,
+        ),
+        backgroundColor: AppColors.green,
+      );
+    }
   }
 }

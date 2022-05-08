@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'package:connectivity/connectivity.dart';
 import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/Presenttion/Screens/onboarding.dart';
 import 'package:get/get.dart';
@@ -15,11 +14,11 @@ class SplashController extends GetxController {
     checkAuth();
   }
 
-  Future<bool> checkconnect() async {
+  /* Future<bool> checkconnect() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     print(connectivityResult);
     return true;
-  }
+  } */
 
   void checkAuth() {
     bool authed = box.read('authed') ?? false;

@@ -30,11 +30,25 @@ class ComplimentClient {
     return response.statusCode;
   }
 
-  Future<dynamic> getCompliments(String userToken) async {
+  Future<int> deleteCompliment(id, String userToken) async {
+    String headers = "Bearer " + userToken;
+    var url = Uri.parse(baseUrl + deleteComplimentUrl);
+    var response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: headers
+      },
+      body: jsonEncode(<String, dynamic>{"id": id}),
+    );
+    return response.statusCode;
+  }
+
+  Future<dynamic> getCompliments(String userToken, userID) async {
     String headers = "Bearer " + userToken;
     var response = await client.get(
         Uri.parse(
-          baseUrl + complimentUrl,
+          baseUrl + complimentUrl + "/$userID",
         ),
         headers: {HttpHeaders.authorizationHeader: headers});
     if (response.statusCode == 200) {

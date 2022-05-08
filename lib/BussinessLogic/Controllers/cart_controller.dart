@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:flashorder/BussinessLogic/Controllers/appbar_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
 import 'package:flashorder/BussinessLogic/Providers/order_client.dart';
 import 'package:flashorder/Constants/colors.dart';
@@ -22,9 +23,10 @@ import 'package:get_storage/get_storage.dart';
 class CartController extends GetxController {
   late List<CartItem> allcarts;
   RestaurentController restaurentController = Get.find();
-
+  AppBarController appBarController = Get.find();
   CartItemRepo cartItemRepo = CartItemRepo();
   TextEditingController editQtyController = TextEditingController();
+
   late Map<Restaurent?, List<CartItem>> groupedList;
   late Map<int, List<CartItem>> groupedListMap;
   late User? user;
@@ -45,7 +47,6 @@ class CartController extends GetxController {
     }
 
     allcarts = await cartItemRepo.readAll();
-    print(allcarts.map((e) => e.restaurentId));
     groupedListMap = groupBy(allcarts, (cart) => cart.restaurentId);
 
 /*     print(allcarts); */
@@ -57,6 +58,8 @@ class CartController extends GetxController {
     //print(jsonEncode(cartgroup));
 
     update();
+    appBarController.cartempty = allcarts.isEmpty;
+    appBarController.update();
   }
 
   Future<void> createItem(CartItem cartItem) async {

@@ -18,3 +18,6 @@ const complimentUrl = "compliments";
 
 const newComplimentUrl = "compliments/create";
 const deleteComplimentUrl = "compliments/delete";
+
+const updateFCMUrl = "user/updateFCM";
+const updateUserInfoUrl = "user/updateInfo";

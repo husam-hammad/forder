@@ -25,9 +25,10 @@ class _PublicDrawerState extends State<PublicDrawer> {
   @override
   Widget build(BuildContext context) {
     User? user;
+
     if (box.read('userdata') != null) {
       user = User.fromMap(box.read('userdata'));
-      print(user.toMap());
+      print(box.read('userdata'));
     }
     return Drawer(
       backgroundColor: AppColors.lightwhite,
@@ -38,8 +39,8 @@ class _PublicDrawerState extends State<PublicDrawer> {
                 color: AppColors.pink,
                 gradient:
                     LinearGradient(colors: [AppColors.pink, AppColors.pink2])),
-            accountName: const Text(
-              "مستخدم التطبيق",
+            accountName: Text(
+              user != null ? user.name : "مستخدم التطبيق",
               style: AppTextStyles.whiteboldHeading,
             ),
             accountEmail: Text(user != null ? user.phone : ""),
@@ -48,7 +49,7 @@ class _PublicDrawerState extends State<PublicDrawer> {
             onTap: () {
               user != null
                   ? Get.toNamed(AppRoutes.profile)
-                  : Get.toNamed(AppRoutes.compliments);
+                  : Get.toNamed(AppRoutes.login);
             },
             title: Text(
               user != null ? "الملف الشخصي" : "تسجيل الدخول",

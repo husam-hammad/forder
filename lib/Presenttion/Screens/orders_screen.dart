@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 class OrdersScreen extends StatelessWidget {
   OrdersScreen({Key? key}) : super(key: key);
-  final OrderController orderController = Get.put(OrderController());
+  final OrderController orderController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -49,35 +49,40 @@ class OrdersScreen extends StatelessWidget {
                         init: orderController,
                         builder: (_) {
                           if (orderController.ordersLoaded) {
-                            return ListView.builder(
-                              itemCount: orderController.orders.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return InkWell(
-                                  onTap: (() {
-                                    orderController.gotoOrder(
-                                        orderController.orders[index].id);
-                                  }),
-                                  child: ListTile(
-                                    isThreeLine: true,
-                                    style: ListTileStyle.list,
-                                    leading: CircleAvatar(
-                                      radius: 40,
-                                      backgroundColor: ColorHelper.fromHex(
-                                          orderController
-                                              .orders[index].state.color),
-                                      child: Text(
-                                        orderController.orders[index].id
-                                            .toString(),
-                                        style: const TextStyle(fontSize: 20),
-                                      ),
-                                    ),
-                                    title: Text(
-                                        "طلب رقم :  ${orderController.orders[index].id}"),
-                                    subtitle: Text(
-                                        "الحالة :  ${orderController.orders[index].state.name}"),
-                                  ),
-                                );
+                            return RefreshIndicator(
+                              onRefresh: () async {
+                                orderController.getAll();
                               },
+                              child: ListView.builder(
+                                itemCount: orderController.orders.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return InkWell(
+                                    onTap: (() {
+                                      orderController.gotoOrder(
+                                          orderController.orders[index].id);
+                                    }),
+                                    child: ListTile(
+                                      isThreeLine: true,
+                                      style: ListTileStyle.list,
+                                      leading: CircleAvatar(
+                                        radius: 40,
+                                        backgroundColor: ColorHelper.fromHex(
+                                            orderController
+                                                .orders[index].state.color),
+                                        child: Text(
+                                          orderController.orders[index].id
+                                              .toString(),
+                                          style: const TextStyle(fontSize: 20),
+                                        ),
+                                      ),
+                                      title: Text(
+                                          "طلب رقم :  ${orderController.orders[index].id}"),
+                                      subtitle: Text(
+                                          "الحالة :  ${orderController.orders[index].state.name}"),
+                                    ),
+                                  );
+                                },
+                              ),
                             );
                           } else {
                             return const Center(

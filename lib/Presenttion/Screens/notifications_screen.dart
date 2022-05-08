@@ -10,6 +10,7 @@ class NotificationScreen extends StatelessWidget {
   NotificationScreen({Key? key}) : super(key: key);
   final NotificationContoller notificationContoller =
       Get.put(NotificationContoller());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,12 +26,12 @@ class NotificationScreen extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
+                children: const [
+                  Text(
                     "الإشعارات ",
                     style: AppTextStyles.pinkboldHeading,
                   ),
-                  InkWell(
+                  /* InkWell(
                     onTap: () async {
                       /* await cartController.deleteAll(); */
                     },
@@ -38,7 +39,7 @@ class NotificationScreen extends StatelessWidget {
                       "عرض الكل",
                       style: AppTextStyles.greyregular,
                     ),
-                  )
+                  ) */
                 ],
               ),
             ),
@@ -57,9 +58,17 @@ class NotificationScreen extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: notificationContoller.notifications.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return NotificationItem(
-                              notification:
-                                  notificationContoller.notifications[index]);
+                          // ignore: avoid_print
+                          return InkWell(
+                            onTap: () {
+                              notificationContoller.gotopage(
+                                  notificationContoller
+                                      .notifications[index].modelName);
+                            },
+                            child: NotificationItem(
+                                notification:
+                                    notificationContoller.notifications[index]),
+                          );
                         },
                       ),
                     );

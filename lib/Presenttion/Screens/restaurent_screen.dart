@@ -14,6 +14,7 @@ class RestaurentScreen extends StatelessWidget {
   const RestaurentScreen({Key? key, required this.restaurent})
       : super(key: key);
   final Restaurent restaurent;
+
   @override
   Widget build(BuildContext context) {
     final RestaurentScreenController controller =

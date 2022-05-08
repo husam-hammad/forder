@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 class Login extends StatelessWidget {
   Login({Key? key}) : super(key: key);
-  AuthController authController = Get.find();
+  AuthController authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     return Directionality(
