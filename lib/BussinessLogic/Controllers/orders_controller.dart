@@ -24,9 +24,8 @@ class OrderController extends GetxController {
   }
 
   void gotoOrder(orderId) {
-    try {
-      Get.toNamed(AppRoutes.order, parameters: {'order': orderId});
-    } catch (e) {
+    Get.toNamed(AppRoutes.order, parameters: {'order': orderId.toString()});
+    try {} catch (e) {
       print(e);
     }
   }

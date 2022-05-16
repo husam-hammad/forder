@@ -25,13 +25,13 @@ class MealsScreen extends StatelessWidget {
                 children: const [
                   Text(
                     "الوجبات ",
-                    style: AppTextStyles.pinkboldHeading,
+                    style: AppTextStyles.pinkboldTopPage,
                   ),
                 ],
               ),
             ),
             Container(
-              height: Get.height - 200,
+              height: Get.height - 210,
               padding: const EdgeInsets.all(10),
               child: GetBuilder(
                   init: mealsController,

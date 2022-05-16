@@ -1,7 +1,8 @@
 // ignore_for_file: avoid_print
 
 import 'package:flashorder/Constants/routes.dart';
-import 'package:flashorder/Presenttion/Screens/onboarding.dart';
+import 'package:flashorder/Presenttion/Screens/Auth/privacy.dart';
+
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -28,7 +29,9 @@ class SplashController extends GetxController {
           .then((value) => Get.offAndToNamed(AppRoutes.homepage));
     } else {
       Future.delayed(const Duration(seconds: 3))
-          .then((value) => Get.to(() => const OnBoardingPage()));
+          .then((value) => Get.to(() => const PrivacyPolicy(
+                forAccept: true,
+              )));
     }
   }
 }

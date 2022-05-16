@@ -11,4 +11,5 @@ class AppRoutes {
   static const search = "/homepage/search";
   static const orders = "/homepage/orders";
   static const order = "/homepage/order";
+  static const contactus = "/homepage/contactus";
 }

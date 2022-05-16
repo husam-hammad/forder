@@ -6,6 +6,7 @@ import 'package:flashorder/BussinessLogic/Controllers/orders_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/setting_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/stories_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/user_contoller.dart';
 import 'package:get/get.dart';
 
 class HomeBinding extends Bindings {
@@ -20,5 +21,6 @@ class HomeBinding extends Bindings {
     Get.lazyPut<FavoriteController>(() => FavoriteController());
     Get.put<OrderController>(OrderController());
     Get.put<CartController>(CartController());
+    Get.put<UserController>(UserController());
   }
 }

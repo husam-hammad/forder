@@ -44,7 +44,7 @@ class UserCart extends StatelessWidget {
                 children: [
                   const Text(
                     "سلة الشراء",
-                    style: AppTextStyles.pinkboldHeading,
+                    style: AppTextStyles.pinkboldTopPage,
                   ),
                   InkWell(
                     onTap: () async {

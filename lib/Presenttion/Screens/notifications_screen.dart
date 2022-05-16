@@ -8,8 +8,7 @@ import 'package:get/get.dart';
 
 class NotificationScreen extends StatelessWidget {
   NotificationScreen({Key? key}) : super(key: key);
-  final NotificationContoller notificationContoller =
-      Get.put(NotificationContoller());
+  final notificationContoller = Get.put(NotificationContoller());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,7 @@ class NotificationScreen extends StatelessWidget {
                 children: const [
                   Text(
                     "الإشعارات ",
-                    style: AppTextStyles.pinkboldHeading,
+                    style: AppTextStyles.pinkboldTopPage,
                   ),
                   /* InkWell(
                     onTap: () async {
@@ -46,11 +45,12 @@ class NotificationScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(5),
               width: double.infinity,
-              height: Get.height - 200,
+              height: Get.height - 210,
               child: GetBuilder(
                 init: notificationContoller,
                 builder: (_) {
-                  if (notificationContoller.notifications.isNotEmpty) {
+                  if (notificationContoller.notifications.isNotEmpty &&
+                      notificationContoller.endloading) {
                     return RefreshIndicator(
                       onRefresh: () async {
                         await notificationContoller.getAll();
@@ -71,6 +71,11 @@ class NotificationScreen extends StatelessWidget {
                           );
                         },
                       ),
+                    );
+                  } else if (notificationContoller.notifications.isEmpty &&
+                      notificationContoller.endloading) {
+                    return const Center(
+                      child: Text("لا توجد إشعارات"),
                     );
                   } else {
                     return const Center(

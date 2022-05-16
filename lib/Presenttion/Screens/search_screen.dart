@@ -50,7 +50,7 @@ class SearchScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    height: Get.height - 200,
+                    height: Get.height - 210,
                     child: DefaultTabController(
                         length: 2,
                         child: Column(

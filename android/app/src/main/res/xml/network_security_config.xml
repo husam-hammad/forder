@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">theflashorder.sy</domain>
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+        <pin-set expiration="2024-01-01">
+            <pin digest="SHA-256">qCJz3lRgSLoO3a1CvbomnmtVM114W57lqLbrdZL1qQ4</pin>
+            <!-- backup pin -->
+            <pin digest="SHA-256">qCJz3lRgSLoO3a1CvbomnmtVM114W57lqLbrdZL1qQ4</pin>
+        </pin-set>
+    </domain-config>
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="system"/>
+        </trust-anchors>
+    </debug-overrides>
+</network-security-config>

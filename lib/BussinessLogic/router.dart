@@ -4,6 +4,7 @@ import 'package:flashorder/Presenttion/Screens/Auth/login.dart';
 import 'package:flashorder/Presenttion/Screens/Auth/profile.dart';
 import 'package:flashorder/Presenttion/Screens/cart_screen.dart';
 import 'package:flashorder/Presenttion/Screens/compliments_screen.dart';
+import 'package:flashorder/Presenttion/Screens/contactus.dart';
 import 'package:flashorder/Presenttion/Screens/favorites_screen.dart';
 import 'package:flashorder/Presenttion/Screens/home_screen.dart';
 import 'package:flashorder/Presenttion/Screens/meals_screen.dart';
@@ -34,4 +35,5 @@ List<GetPage<dynamic>> routes = [
   GetPage(name: AppRoutes.orders, page: () => OrdersScreen()),
   GetPage(name: AppRoutes.login, page: () => Login()),
   GetPage(name: AppRoutes.order, page: () => OrderScreen()),
+  GetPage(name: AppRoutes.contactus, page: () => const ContactUs()),
 ];

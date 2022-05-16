@@ -25,6 +25,7 @@ class UserClient {
         'password_confirmation': password,
       }),
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return User.fromApiMap(jsonDecode(response.body));
     } else {
@@ -32,8 +33,49 @@ class UserClient {
     }
   }
 
+  Future<User?> updateUserImage(String userToken, userId, image) async {
+    print('start post users');
+    String headers = "Bearer " + userToken;
+    /* headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      }, */
+    var url = Uri.parse(baseUrl + updateUserImageUrl);
+    /* var response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: headers
+      },
+      body: jsonEncode(<String, dynamic>{
+        "userId": userId,
+        "name": name,
+        "phone": phone,
+        "birthday": birthday,
+        "adress": adress,
+      }),
+    ); */
+
+    var request = http.MultipartRequest("POST", url)
+      ..fields.addAll(<String, String>{
+        "userId": userId.toString(),
+        "avatar": image,
+      })
+      ..headers.addAll(<String, String>{
+        'Content-Type': 'multipart/form-data',
+        HttpHeaders.authorizationHeader: headers
+      })
+      ..files.add(await http.MultipartFile.fromPath('avatar', image));
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      print('200');
+      return User.fromApiMap(jsonDecode(await response.stream.bytesToString()));
+    }
+    return null;
+  }
+
   Future<User?> updateUserInfo(
-      String userToken, userId, name, phone, birthday) async {
+      String userToken, userId, name, phone, birthday, adress) async {
     String headers = "Bearer " + userToken;
     var url = Uri.parse(baseUrl + updateUserInfoUrl);
     var response = await http.post(
@@ -46,9 +88,11 @@ class UserClient {
         "userId": userId,
         "name": name,
         "phone": phone,
-        "birthday": birthday
+        "birthday": birthday,
+        "adress": adress,
       }),
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return User.fromApiMap(jsonDecode(response.body));
     }
@@ -56,6 +100,8 @@ class UserClient {
   }
 
   Future<int> updateFCM(String userToken, userfcm, userId) async {
+    print("user Id Is : " + userId.toString());
+    print("user FCM Is : " + userfcm.toString());
     String headers = "Bearer " + userToken;
     var url = Uri.parse(baseUrl + updateFCMUrl);
     var response = await http.post(
@@ -64,10 +110,29 @@ class UserClient {
         'Content-Type': 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: headers
       },
-      body:
-          jsonEncode(<String, dynamic>{"userId": userId, "fcmtoken": userfcm}),
+      body: jsonEncode(<String, dynamic>{
+        "userId": userId,
+        "fcmtoken": userfcm,
+      }),
     );
+
     print(response.statusCode);
     return response.statusCode;
+  }
+
+  Future<String> getUserPoint(String userToken, userId) async {
+    print("start get user points 0");
+    String headers = "Bearer " + userToken;
+    var url = Uri.parse(baseUrl + getUserPoints);
+    var response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: headers
+      },
+      body: jsonEncode(<String, dynamic>{"userId": userId}),
+    );
+    print(response.body);
+    return response.body.toString();
   }
 }

@@ -38,7 +38,7 @@ class ComplimentScreen extends StatelessWidget {
                 children: const [
                   Text(
                     "الشكاوى والاٌقتراحات ",
-                    style: AppTextStyles.pinkboldHeading,
+                    style: AppTextStyles.pinkboldTopPage,
                   ),
                 ],
               ),
@@ -46,7 +46,7 @@ class ComplimentScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: SizedBox(
-                height: Get.height - 200,
+                height: Get.height - 210,
                 width: double.infinity,
                 child: GetBuilder(
                     init: complimentController,

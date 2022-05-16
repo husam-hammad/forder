@@ -1,4 +1,4 @@
-const baseUrl = "http://5.134.255.131/api/";
+const baseUrl = "http://theflashorder.sy/api/";
 const registerUrl = "register";
 
 const allRestaurentsUrl = "restaurents";
@@ -21,3 +21,5 @@ const deleteComplimentUrl = "compliments/delete";
 
 const updateFCMUrl = "user/updateFCM";
 const updateUserInfoUrl = "user/updateInfo";
+const updateUserImageUrl = "user/updateAvatar";
+const getUserPoints = "user/getUserPoints";

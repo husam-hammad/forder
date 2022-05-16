@@ -32,7 +32,7 @@ class MealCategoryScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: Get.height - 200,
+                      height: Get.height - 210,
                       child: ListView.builder(
                         itemCount: mealCategory.meals!.length,
                         itemBuilder: (BuildContext context, int index) {

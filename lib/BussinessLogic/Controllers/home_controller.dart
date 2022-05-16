@@ -30,6 +30,7 @@ class HomeController extends GetxController {
     if (box.read('userdata') != null) {
       user = User.fromMap(box.read('userdata'));
       var userfcm = fcmController.fcmtoken;
+      print("userfcm " + userfcm!);
       await userClient.updateFCM(user.token, userfcm, user.id);
     }
   }

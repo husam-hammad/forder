@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flashorder/BussinessLogic/Controllers/orders_controller.dart';
 
 import 'package:flashorder/BussinessLogic/Controllers/orderscreen_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
@@ -16,11 +17,17 @@ import 'package:intl/intl.dart' as ints;
 class OrderScreen extends StatelessWidget {
   OrderScreen({Key? key}) : super(key: key);
   final ints.DateFormat formatter = ints.DateFormat('yyyy-MM-dd hh:mm');
+
   final OrderScreenController controller =
       Get.put(OrderScreenController(Get.parameters["order"]));
 
   @override
   Widget build(BuildContext context) {
+    final checkordercontrollerexist = Get.isRegistered<OrderController>();
+    if (!checkordercontrollerexist) {
+      Get.put(OrderController());
+    }
+
     return SafeArea(
         child: Directionality(
       textDirection: TextDirection.rtl,
@@ -37,14 +44,14 @@ class OrderScreen extends StatelessWidget {
               children: [
                 Text(
                   "الطلب رقم :  ${controller.order.id} ",
-                  style: AppTextStyles.pinkboldHeading,
+                  style: AppTextStyles.pinkboldTopPage,
                 ),
               ],
             ),
           ),
           SizedBox(
             width: double.infinity,
-            height: Get.height - 200,
+            height: Get.height - 210,
             child: ListView(
               children: [
                 Container(

@@ -10,8 +10,10 @@ import 'package:get/get.dart';
 class OrdersScreen extends StatelessWidget {
   OrdersScreen({Key? key}) : super(key: key);
   final OrderController orderController = Get.find();
+
   @override
   Widget build(BuildContext context) {
+    orderController.getAll();
     return SafeArea(
         child: Directionality(
             textDirection: TextDirection.rtl,
@@ -24,12 +26,12 @@ class OrdersScreen extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
+                      children: const [
+                        Text(
                           "الطلبات ",
-                          style: AppTextStyles.pinkboldHeading,
+                          style: AppTextStyles.pinkboldTopPage,
                         ),
-                        InkWell(
+                        /* InkWell(
                           onTap: () async {
                             /* await cartController.deleteAll(); */
                           },
@@ -37,13 +39,13 @@ class OrdersScreen extends StatelessWidget {
                             "عرض الكل",
                             style: AppTextStyles.greyregular,
                           ),
-                        )
+                        ) */
                       ],
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.all(5),
-                    height: Get.height - 200,
+                    height: Get.height - 210,
                     width: double.infinity,
                     child: GetBuilder(
                         init: orderController,

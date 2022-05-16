@@ -27,13 +27,13 @@ class RestaurentsScreen extends StatelessWidget {
                 children: const [
                   Text(
                     "المطاعم ",
-                    style: AppTextStyles.pinkboldHeading,
+                    style: AppTextStyles.pinkboldTopPage,
                   ),
                 ],
               ),
             ),
             Container(
-              height: Get.height - 200,
+              height: Get.height - 210,
               width: double.infinity,
               padding: const EdgeInsets.all(20),
               child: GetBuilder(

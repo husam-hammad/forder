@@ -9,18 +9,19 @@ class User {
   late num points;
   late String token;
   late DateTime? birthday;
+  late String? adress;
   late bool statue;
   late String avatar;
-  User({
-    required this.id,
-    required this.name,
-    required this.phone,
-    required this.points,
-    required this.token,
-    required this.birthday,
-    required this.statue,
-    required this.avatar,
-  });
+  User(
+      {required this.id,
+      required this.name,
+      required this.phone,
+      required this.points,
+      required this.token,
+      required this.birthday,
+      required this.statue,
+      required this.avatar,
+      required this.adress});
 
   Map<String, dynamic> toMap() {
     return {
@@ -32,6 +33,7 @@ class User {
       'birthday': birthday,
       'statue': statue,
       'avatar': avatar,
+      'adress': adress,
     };
   }
 
@@ -45,22 +47,32 @@ class User {
       'birthday': birthday.toString(),
       'statue': statue,
       'avatar': avatar,
+      'adress': adress,
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
-    print("start map" + map.toString());
+    /*  print("start map" + map.toString()); */
+    DateTime? testbirth() {
+      try {
+        return DateTime.parse(map['birthday'].toString());
+      } catch (e) {
+        return null;
+      }
+    }
 
-    print(map['birthday']);
+    //print(map['birthday']);
     return User(
         id: map['id']?.toInt() ?? 0,
         name: map['name'] ?? '',
         phone: map['phone'] ?? '',
-        points: map['points']?.toDouble() ?? 0.0,
+        points: map['points']?.toDouble() ?? 0,
         token: map['token'] ?? '',
         birthday: (map['birthday'] != null && map['birthday'] != "")
-            ? DateTime.parse(map['birthday'].toString())
+            ? testbirth()
             : null,
+        // birthday: null,
+        adress: map['adress'] ?? '',
         statue: map['statue'] ?? false,
         avatar: map['avatar'] ?? '');
   }
@@ -76,20 +88,20 @@ user": {
     "token": "3|Vv71ARapNKeLO9HKtUCgx72HJkXuwUgXXrsuP0e3"
   */
   factory User.fromApiMap(Map<String, dynamic> map) {
-    print(map['user']['birthday']);
+    //print(map['user']['birthday']);
     return User(
       id: map['user']['id']?.toInt() ?? 0,
       phone: map['user']['email'] ?? '',
       name: map['user']['name'] ?? '',
-      points:
-          map['user']['points'] != null ? num.parse(map['user']['points']) : 0,
+      points: map['user']['points'] ?? 0,
       token: map['token'] ?? '',
+      adress: map['user']['adress'] ?? '',
       birthday:
           (map['user']['birthday'] != "" && map['user']['birthday'] != null)
               ? DateTime.parse(map['user']['birthday'])
               : null,
       statue: map['statue'] ?? false,
-      avatar: map['avatar'] ?? '',
+      avatar: map['user']['avatar'] ?? '',
     );
   }
   String toJson() => json.encode(toMap());

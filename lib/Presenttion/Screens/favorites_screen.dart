@@ -36,7 +36,7 @@ class FavoritesScreen extends StatelessWidget {
                         children: <Widget>[
                           const Text(
                             "الوجبات المفضلة",
-                            style: AppTextStyles.pinkboldHeading,
+                            style: AppTextStyles.pinkboldTopPage,
                           ),
                           InkWell(
                             onTap: () {
@@ -51,7 +51,7 @@ class FavoritesScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: Get.height - 200,
+                      height: Get.height - 210,
                       child: GetBuilder(
                         init: controller,
                         builder: (_) {

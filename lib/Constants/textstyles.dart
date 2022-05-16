@@ -31,6 +31,11 @@ class AppTextStyles {
       color: AppColors.green,
       fontWeight: FontWeight.bold,
       fontSize: 15.0);
+  static const pinkboldTopPage = TextStyle(
+      fontFamily: "Cairo",
+      color: AppColors.pink,
+      fontWeight: FontWeight.bold,
+      fontSize: 19.0);
   static const pinkboldHeading = TextStyle(
       fontFamily: "Cairo",
       color: AppColors.pink,

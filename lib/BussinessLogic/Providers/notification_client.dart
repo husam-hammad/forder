@@ -20,7 +20,7 @@ class NotificationClient {
     String headers = "Bearer " + token;
     var response = await client.get(Uri.parse(baseUrl + notificationsUrl),
         headers: {HttpHeaders.authorizationHeader: headers});
-
+    /* print(response.body); */
     if (response.statusCode == 200) {
       return response.body;
     } else {

@@ -126,7 +126,7 @@ class MealScreen extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: AppColors.lightwhite,
-        drawer: const PublicDrawer(),
+        drawer: PublicDrawer(),
         appBar: buildAppBar(),
         bottomNavigationBar: buildBottomButton(),
         body: SingleChildScrollView(

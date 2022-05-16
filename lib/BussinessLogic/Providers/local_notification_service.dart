@@ -1,3 +1,4 @@
+import 'package:flashorder/BussinessLogic/Controllers/orders_controller.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
@@ -30,6 +31,11 @@ class NotificationService {
   }
 
   Future selectNotification(String? payload) async {
+    bool checkOrderController = Get.isRegistered<OrderController>();
+    if (!checkOrderController) {
+      Get.put(OrderController());
+    }
+
     Get.toNamed(payload!);
   }
 
