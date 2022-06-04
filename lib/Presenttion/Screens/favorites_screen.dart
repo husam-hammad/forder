@@ -22,7 +22,7 @@ class FavoritesScreen extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: buildAppBar(),
-        bottomNavigationBar: const CustomBotttomNav(),
+        bottomNavigationBar: CustomBotttomNav(),
         body: Container(
           width: Get.width,
           color: AppColors.lightwhite,

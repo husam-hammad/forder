@@ -23,14 +23,17 @@ class Helper {
     final path = join(dbpath, filepath);
 
     return await openDatabase(path,
-        version: 1, onCreate: _createDB, onUpgrade: _upgradeDB);
+        version: 2, onCreate: _createDB, onUpgrade: _upgradeDB);
   }
 
-  Future<void> _upgradeDB(Database db, int version, int newversion) async {}
+  Future<void> _upgradeDB(Database db, int version, int newversion) async {
+    await TableCreator.updatePlacesTable(db);
+  }
 
   Future _createDB(Database db, int version) async {
     await TableCreator.createFavoriteTable(db);
     await TableCreator.createCartItemTable(db);
+    await TableCreator.createPlacesTable(db);
   }
 
   Future close() async {

@@ -11,15 +11,19 @@ class OrdersScreen extends StatelessWidget {
   OrdersScreen({Key? key}) : super(key: key);
   final OrderController orderController = Get.find();
 
+  void getOrders() async {
+    await orderController.getAll();
+  }
+
   @override
   Widget build(BuildContext context) {
-    orderController.getAll();
+    getOrders();
     return SafeArea(
         child: Directionality(
             textDirection: TextDirection.rtl,
             child: Scaffold(
                 appBar: buildAppBar(),
-                bottomNavigationBar: const CustomBotttomNav(),
+                bottomNavigationBar: CustomBotttomNav(),
                 body: Column(children: [
                   Padding(
                     padding: const EdgeInsets.all(15.0),
@@ -45,7 +49,7 @@ class OrdersScreen extends StatelessWidget {
                   ),
                   Container(
                     padding: const EdgeInsets.all(5),
-                    height: Get.height - 210,
+                    height: Get.height - 215,
                     width: double.infinity,
                     child: GetBuilder(
                         init: orderController,

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flashorder/BussinessLogic/Controllers/fcm_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/places_contoller.dart';
 import 'package:flashorder/BussinessLogic/Providers/user_client.dart';
 import 'package:flashorder/DataAccess/Models/user.dart';
 import 'package:flashorder/main.dart';
@@ -12,6 +13,7 @@ class HomeController extends GetxController {
   late Position position;
   late GetStorage box;
   final FCMController fcmController = Get.find();
+  final PlacesController placesController = Get.find();
   late User user;
   final userClient = UserClient();
   @override
@@ -21,9 +23,10 @@ class HomeController extends GetxController {
 
     position = await determinePosition();
     MyApp.userPosition = position;
-
+    await placesController.showNewPlaceDialog(position);
     await box.write('position', position);
     await updateFCM();
+    await updatePosition();
   }
 
   Future<void> updateFCM() async {
@@ -32,6 +35,16 @@ class HomeController extends GetxController {
       var userfcm = fcmController.fcmtoken;
       print("userfcm " + userfcm!);
       await userClient.updateFCM(user.token, userfcm, user.id);
+    }
+  }
+
+  Future<void> updatePosition() async {
+    if (box.read('userdata') != null) {
+      user = User.fromMap(box.read('userdata'));
+      print(position.latitude);
+      print(position.longitude);
+      await userClient.updatePosition(
+          user.token, user.id, position.latitude, position.longitude);
     }
   }
 

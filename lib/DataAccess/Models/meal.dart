@@ -34,7 +34,7 @@ class Meal {
       categoryId: map['categoryId'] ?? 0,
       components: map['components'].toString().split(','),
       description: map['description'] ?? "",
-      restaurent: map['restaurent'] != null
+      restaurent: (map['restaurent'] != null && map['restaurent'] is! int)
           ? Restaurent.fromMap(map['restaurent'])
           : null,
       available: map['available'] == 1 ? true : false,

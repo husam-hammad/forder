@@ -10,9 +10,9 @@ class SplashController extends GetxController {
   var authed = false;
   final box = GetStorage();
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    checkAuth();
+    await checkAuth();
   }
 
   /* Future<bool> checkconnect() async {
@@ -21,14 +21,14 @@ class SplashController extends GetxController {
     return true;
   } */
 
-  void checkAuth() {
+  Future<void> checkAuth() async {
     bool authed = box.read('authed') ?? false;
 
     if (authed == true) {
-      Future.delayed(const Duration(seconds: 3))
+      Future.delayed(const Duration(seconds: 5))
           .then((value) => Get.offAndToNamed(AppRoutes.homepage));
     } else {
-      Future.delayed(const Duration(seconds: 3))
+      Future.delayed(const Duration(seconds: 5))
           .then((value) => Get.to(() => const PrivacyPolicy(
                 forAccept: true,
               )));

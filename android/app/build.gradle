@@ -45,7 +45,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.flashorder"
+        applicationId "com.flashorder.customer"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
@@ -71,5 +71,4 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.android.support:multidex:1.0.3'
     implementation platform('com.google.firebase:firebase-bom:29.3.1')
-     //implementation 'com.mapbox.maps:android:10.4.0' 
 }

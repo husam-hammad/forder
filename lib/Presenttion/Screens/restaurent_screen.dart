@@ -24,7 +24,7 @@ class RestaurentScreen extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: buildAppBar(),
-        bottomNavigationBar: const CustomBotttomNav(),
+        bottomNavigationBar: CustomBotttomNav(),
         body: Container(
           padding: const EdgeInsets.all(0),
           color: AppColors.lightwhite,

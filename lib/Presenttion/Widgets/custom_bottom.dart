@@ -1,20 +1,17 @@
 // ignore_for_file: avoid_print, must_be_immutable
 
+import 'package:flashorder/BussinessLogic/Controllers/bottomnav_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
-class CustomBotttomNav extends StatefulWidget {
-  const CustomBotttomNav({Key? key}) : super(key: key);
-  static int selectedindex = 0;
-  @override
-  State<CustomBotttomNav> createState() => _CustomBotttomNavState();
-}
-
-class _CustomBotttomNavState extends State<CustomBotttomNav> {
+class CustomBotttomNav extends StatelessWidget {
+  CustomBotttomNav({Key? key}) : super(key: key);
+  final NavController navController = Get.find();
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -50,27 +47,43 @@ class _CustomBotttomNavState extends State<CustomBotttomNav> {
       unselectedIconTheme: const IconThemeData(color: Colors.white60),
       selectedLabelStyle: AppTextStyles.whiteRegularDetail,
       unselectedLabelStyle: AppTextStyles.whiteRegularDetail,
-      items: const [
-        BottomNavigationBarItem(
+      items: [
+        const BottomNavigationBarItem(
             activeIcon: Icon(Icons.home_filled),
             icon: Icon(Icons.home),
             label: "الرئيسية"),
         BottomNavigationBarItem(
-            activeIcon: Icon(Icons.notifications),
-            icon: Icon(Icons.notifications_active_outlined),
+            icon: GetBuilder(
+                init: navController,
+                builder: (_) {
+                  return Lottie.asset('assets/images/noti.json',
+                      width: 30,
+                      height: 30,
+                      controller: navController.animationController,
+                      onLoaded: (composition) {
+                    // Configure the AnimationController with the duration of the
+                    // Lottie file and start the animation.
+                    navController.animationController
+                      ..duration = composition.duration
+                      //;const Duration(microseconds: 200)
+                      ..forward();
+                  });
+                }),
+            /*          icon: const Icon(Icons.notifications_outlined), */
             label: "الإشعارات"),
         /* BottomNavigationBarItem(
                 icon: Icon(Icons.notifications_active), label: ""), */
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           icon: Icon(Icons.shopping_cart),
           label: "سلة الشراء",
         ),
-        BottomNavigationBarItem(
+        const BottomNavigationBarItem(
           activeIcon: Icon(Icons.delivery_dining),
           icon: Icon(Icons.delivery_dining_rounded),
           label: "الطلبات",
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "المفضلة"),
+        const BottomNavigationBarItem(
+            icon: Icon(Icons.favorite), label: "المفضلة"),
       ],
     );
   }

@@ -1,4 +1,4 @@
-package com.example.flashorder
+package com.flashorder.customer
 
 import io.flutter.embedding.android.FlutterActivity
 

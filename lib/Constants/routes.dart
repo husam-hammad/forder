@@ -12,4 +12,5 @@ class AppRoutes {
   static const orders = "/homepage/orders";
   static const order = "/homepage/order";
   static const contactus = "/homepage/contactus";
+  static const places = "/homepage/places";
 }

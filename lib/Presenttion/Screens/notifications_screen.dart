@@ -17,7 +17,7 @@ class NotificationScreen extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: buildAppBar(),
-        bottomNavigationBar: const CustomBotttomNav(),
+        bottomNavigationBar: CustomBotttomNav(),
         body: Column(
           children: [
             Padding(
@@ -45,7 +45,7 @@ class NotificationScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(5),
               width: double.infinity,
-              height: Get.height - 210,
+              height: Get.height - 220,
               child: GetBuilder(
                 init: notificationContoller,
                 builder: (_) {

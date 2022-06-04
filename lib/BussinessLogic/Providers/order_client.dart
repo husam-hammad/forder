@@ -7,9 +7,7 @@ import 'package:flashorder/Constants/links.dart';
 import 'package:flashorder/Constants/responses.dart';
 import 'package:flashorder/DataAccess/Models/user.dart';
 import 'package:get_storage/get_storage.dart';
-/* import 'package:flashorder/Constants/responses.dart'; */
 
-/* import 'package:flutter/foundation.dart'; */
 import 'package:http/http.dart' as http;
 
 class OrderClient {

@@ -61,7 +61,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const <Widget>[
                   Text(
-                    "الأحكام والشروط",
+                    "سياسة الاستخدام",
                     style: AppTextStyles.pinkboldTopPage,
                   ),
                 ],

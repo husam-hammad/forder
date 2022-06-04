@@ -34,4 +34,21 @@ class TableCreator {
      )
      ''');
   }
+
+  static Future<void> createPlacesTable(Database db) async {
+    await db.execute('''
+     CREATE TABLE ${DBTables.places} (
+       ${PlacesFields.id} ${FieldsTypes.id},
+       ${PlacesFields.name} ${FieldsTypes.text},
+       ${PlacesFields.lat} ${FieldsTypes.num},
+       ${PlacesFields.long} ${FieldsTypes.num}
+
+     )
+     ''');
+  }
+
+  static Future<void> updatePlacesTable(Database db) async {
+    await db.execute(
+        "ALTER TABLE ${DBTables.places} ADD ${PlacesFields.adress}  ${FieldsTypes.text};");
+  }
 }

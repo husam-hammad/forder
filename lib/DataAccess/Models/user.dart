@@ -30,7 +30,7 @@ class User {
       'phone': phone,
       'points': points,
       'token': token,
-      'birthday': birthday,
+      'birthday': birthday.toString(),
       'statue': statue,
       'avatar': avatar,
       'adress': adress,

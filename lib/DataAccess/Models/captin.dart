@@ -51,8 +51,8 @@ class Captin {
       name: map['name'] ?? '',
       phone: map['phone'] ?? '',
       avatar: map['avatar'] ?? '',
-      lat: map['lat']?.toDouble() ?? 0.0,
-      lng: map['lng']?.toDouble() ?? 0.0,
+      lat: map['lat'] != null ? double.parse(map['lat']) : 0,
+      lng: map['long'] != null ? double.parse(map['long']) : 0,
     );
   }
 

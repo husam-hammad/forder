@@ -2,6 +2,8 @@
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flashorder/BussinessLogic/Controllers/bottomnav_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/notification_controller.dart';
 import 'package:flashorder/BussinessLogic/Providers/local_notification_service.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/textstyles.dart';
@@ -11,6 +13,9 @@ import 'package:get/get.dart';
 class FCMController extends GetxController {
   late final FirebaseMessaging messaging;
   late NotificationService notificationService;
+  late NotificationContoller notificationContoller =
+      Get.put(NotificationContoller());
+  NavController navController = Get.find();
   late String? fcmtoken;
   @override
   void onInit() async {
@@ -40,7 +45,8 @@ class FCMController extends GetxController {
     }
     fcmtoken = await FirebaseMessaging.instance.getToken();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      print(message.toMap());
+      await navController.animateNotification();
+      //await notificationContoller.getAll();
       await notificationService.showNotifications(message.data['title'],
           message.data['body'], message.data['click_action']);
     });

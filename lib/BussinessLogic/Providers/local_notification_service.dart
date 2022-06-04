@@ -11,7 +11,8 @@ class NotificationService {
           playSound: true,
           priority: Priority.high,
           importance: Importance.high,
-          enableLights: true);
+          enableLights: true,
+          enableVibration: true);
 
   NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: _androidNotificationDetails);
@@ -31,11 +32,11 @@ class NotificationService {
   }
 
   Future selectNotification(String? payload) async {
-    bool checkOrderController = Get.isRegistered<OrderController>();
+    /* bool checkOrderController = Get.isRegistered<OrderController>();
     if (!checkOrderController) {
       Get.put(OrderController());
-    }
-
+    } */
+    Get.put(OrderController());
     Get.toNamed(payload!);
   }
 

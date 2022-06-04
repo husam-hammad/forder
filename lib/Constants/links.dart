@@ -23,3 +23,4 @@ const updateFCMUrl = "user/updateFCM";
 const updateUserInfoUrl = "user/updateInfo";
 const updateUserImageUrl = "user/updateAvatar";
 const getUserPoints = "user/getUserPoints";
+const updateUserPositionUrl = "user/updatePosition";

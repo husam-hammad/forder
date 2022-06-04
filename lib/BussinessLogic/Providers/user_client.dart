@@ -120,6 +120,26 @@ class UserClient {
     return response.statusCode;
   }
 
+  Future<int> updatePosition(String userToken, userId, lat, lng) async {
+    String headers = "Bearer " + userToken;
+    var url = Uri.parse(baseUrl + updateUserPositionUrl);
+    var response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: headers
+      },
+      body: jsonEncode(<String, dynamic>{
+        "userId": userId,
+        "lat": lat,
+        "lng": lng,
+      }),
+    );
+
+    print(response.statusCode);
+    return response.statusCode;
+  }
+
   Future<String> getUserPoint(String userToken, userId) async {
     print("start get user points 0");
     String headers = "Bearer " + userToken;

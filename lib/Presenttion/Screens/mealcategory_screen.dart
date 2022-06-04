@@ -16,7 +16,7 @@ class MealCategoryScreen extends StatelessWidget {
         child: Directionality(
             textDirection: TextDirection.rtl,
             child: Scaffold(
-                bottomNavigationBar: const CustomBotttomNav(),
+                bottomNavigationBar: CustomBotttomNav(),
                 body: Column(
                   children: [
                     Container(

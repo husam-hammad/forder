@@ -14,7 +14,7 @@ class ContactUs extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
           appBar: buildAppBar(),
-          bottomNavigationBar: const CustomBotttomNav(),
+          bottomNavigationBar: CustomBotttomNav(),
           body: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(

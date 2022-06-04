@@ -66,6 +66,19 @@ class _PublicDrawerState extends State<PublicDrawer> {
                   ),
                   ListTile(
                     onTap: (() {
+                      Get.toNamed(AppRoutes.places);
+                    }),
+                    title: const Text(
+                      "الأماكن المثبتة",
+                      style: AppTextStyles.greenRegularHeading,
+                    ),
+                    leading: const Icon(
+                      Icons.room,
+                      color: AppColors.pink,
+                    ),
+                  ),
+                  ListTile(
+                    onTap: (() {
                       Get.toNamed(AppRoutes.restaurents);
                     }),
                     title: const Text(
@@ -139,7 +152,7 @@ class _PublicDrawerState extends State<PublicDrawer> {
                       ));
                     },
                     title: const Text(
-                      "سياسة الخصوصية",
+                      "سياسة الاستخدام",
                       style: AppTextStyles.greenRegularHeading,
                     ),
                     leading:
@@ -164,7 +177,7 @@ class _PublicDrawerState extends State<PublicDrawer> {
                   widget.userController.user != null
                       ? ListTile(
                           onTap: () async {
-                            widget.userController.logout();
+                            await widget.userController.logout();
                           },
                           title: const Text(
                             "تسجيل الخروج",

@@ -13,6 +13,7 @@ class MealsController extends GetxController {
 
   bool homeMealsLoaded = false;
   var selectedindex = 0.obs;
+
   @override
   void onInit() async {
     super.onInit();

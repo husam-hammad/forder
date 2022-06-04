@@ -27,6 +27,7 @@ class FavoriteRepo {
 
         return true;
       } catch (e) {
+        print(e);
         return false;
       }
     } else {

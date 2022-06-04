@@ -2,6 +2,8 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flashorder/BussinessLogic/Controllers/orders_controller.dart';
+import 'package:flashorder/Constants/colors.dart';
+import 'package:flashorder/Constants/custom_styles.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/captin.dart';
 import 'package:flashorder/DataAccess/Models/user_order.dart';
@@ -12,6 +14,7 @@ import 'package:get/get.dart';
 
 class OrderScreenController extends GetxController {
   final OrderController orderController = Get.find();
+
   final String? orderid;
   late UserOrder order;
 
@@ -40,21 +43,58 @@ class OrderScreenController extends GetxController {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    const Text(
-                      "كابتن التوصيل",
-                      style: AppTextStyles.pinkboldHeading,
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.all(15),
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                          color: AppColors.pink2,
+                          borderRadius: CustomStyles.raduis50),
+                      child: const Text(
+                        "كابتن التوصيل",
+                        style: AppTextStyles.whiteboldHeading,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    CachedNetworkImage(
-                      imageUrl: ImageHelper.buildImage(captin.avatar),
-                      fit: BoxFit.contain,
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      height: 200,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppColors.lightwhite,
+                        borderRadius: CustomStyles.raduis50,
+                        image: DecorationImage(
+                            image: CachedNetworkImageProvider(
+                              ImageHelper.buildImage(captin.avatar),
+                            ),
+                            fit: BoxFit.cover),
+                      ),
                     ),
-                    Text(
-                      captin.name,
-                      style: AppTextStyles.pinkboldHeading,
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.all(10),
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                          color: AppColors.lightwhite,
+                          borderRadius: CustomStyles.raduis50),
+                      child: Text(
+                        captin.name,
+                        style: AppTextStyles.pinkboldHeading,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    Text(
-                      captin.phone,
-                      style: AppTextStyles.greenRegularHeading,
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                          color: AppColors.lightwhite,
+                          borderRadius: CustomStyles.raduis50),
+                      child: Text(
+                        captin.phone,
+                        style: AppTextStyles.greenRegularHeading,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ],
                 ),

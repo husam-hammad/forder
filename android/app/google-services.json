@@ -8,17 +8,46 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:965950971496:android:7a3b7a7a07ea49884a65dd",
+        "mobilesdk_app_id": "1:965950971496:android:8449d2f4e62187374a65dd",
         "android_client_info": {
-          "package_name": "com.example.flashorder"
+          "package_name": "com.flashorder.customer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "965950971496-h90t3enoscqaj7ql37mc343ss4p45u75.apps.googleusercontent.com",
+          "client_id": "965950971496-pcngje0sa8n70g31jjj5tsl9g8ij8vim.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP4_-GPhOFwHQ23z22gT66pK6KQFBFI4o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965950971496-pcngje0sa8n70g31jjj5tsl9g8ij8vim.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965950971496:android:65b13a872624fd334a65dd",
+        "android_client_info": {
+          "package_name": "com.flashorder.customer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965950971496-1kf9nekbqm5i9b082coubc73u8fo9phe.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.flashorder",
+            "package_name": "com.flashorder.customer",
             "certificate_hash": "d6c98864806e2588ea6233052d386f87e910de68"
           }
         },

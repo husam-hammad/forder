@@ -12,7 +12,8 @@ import 'package:get/get.dart';
 
 import '../../DataAccess/Models/favorite.dart';
 
-class MealScreenController extends GetxController {
+class MealScreenController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   FavoriteController controller = Get.find();
   CartController cartController = Get.find();
   MealsController mealsController = Get.find();
@@ -21,13 +22,15 @@ class MealScreenController extends GetxController {
   var compomentController = TextEditingController();
   var numbercontroller = TextEditingController();
   bool isfav = false;
-
+  late AnimationController animationController;
   MealScreenController(this.meal);
 
   @override
   void onInit() async {
     super.onInit();
     numbercontroller.value = TextEditingValue(text: 1.toString());
+    animationController = AnimationController(vsync: this);
+    animationController.stop();
     await checkFav(meal.id);
   }
 
@@ -45,12 +48,14 @@ class MealScreenController extends GetxController {
     if (await controller.repo.create(favorite)) {
       await controller.getAll();
       isfav = true;
+      update();
     } else {
       await controller.repo.deleteByMeal(favorite.meal_id);
       await controller.getAll();
       isfav = false;
+      update();
     }
-
+    print(isfav);
     update();
   }
 
@@ -81,6 +86,8 @@ class MealScreenController extends GetxController {
         specialOrder: compomentController.value.text);
 
     await cartController.createItem(item);
+    await animationController.forward();
+    animationController.reset();
 
     Get.rawSnackbar(
       duration: const Duration(seconds: 1),

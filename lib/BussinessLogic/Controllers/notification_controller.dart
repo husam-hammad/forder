@@ -16,9 +16,8 @@ class NotificationContoller extends GetxController {
     super.onInit();
     print("start init notificaipn");
     getAll();
-    orderController = Get.put(OrderController());
+    orderController = await Get.put(OrderController());
     await orderController.getAll();
-    print("orders update");
   }
 
   void gotopage(name) {

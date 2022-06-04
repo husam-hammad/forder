@@ -4,6 +4,8 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:flashorder/BussinessLogic/Controllers/appbar_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/orders_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/places_contoller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
 import 'package:flashorder/BussinessLogic/Providers/order_client.dart';
 import 'package:flashorder/Constants/colors.dart';
@@ -26,7 +28,8 @@ class CartController extends GetxController {
   AppBarController appBarController = Get.find();
   CartItemRepo cartItemRepo = CartItemRepo();
   TextEditingController editQtyController = TextEditingController();
-
+  PlacesController placesController = Get.find();
+  OrderController orderController = Get.find();
   late Map<Restaurent?, List<CartItem>> groupedList;
   late Map<int, List<CartItem>> groupedListMap;
   late User? user;
@@ -35,6 +38,8 @@ class CartController extends GetxController {
 
   var isSending = false.obs;
 
+  late double orderlat = MyApp.userPosition!.latitude;
+  late double orderlong = MyApp.userPosition!.longitude;
   @override
   onInit() async {
     super.onInit();
@@ -126,8 +131,62 @@ class CartController extends GetxController {
     await readAll();
   }
 
+  Future<void> setPosition() async {
+    await Get.bottomSheet(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 350,
+            width: double.infinity,
+            padding: const EdgeInsets.all(25),
+            child: Column(children: [
+              ListTile(
+                title: const Text(
+                  "ارسال للموقع الحالي",
+                  textAlign: TextAlign.right,
+                ),
+                onTap: () {
+                  orderlat = MyApp.userPosition!.latitude;
+                  orderlong = MyApp.userPosition!.longitude;
+                  Get.back();
+                  update();
+                },
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 200,
+                child: ListView.builder(
+                  itemCount: placesController.places.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      title: Text(
+                        placesController.places[index].name,
+                        textAlign: TextAlign.right,
+                      ),
+                      onTap: () {
+                        orderlat = placesController.places[index].lat;
+                        orderlong = placesController.places[index].long;
+                        Get.back();
+                        update();
+                      },
+                    );
+                  },
+                ),
+              ),
+            ]),
+          ),
+        ),
+        shape:
+            const RoundedRectangleBorder(borderRadius: CustomStyles.raduis100),
+        elevation: 2.5,
+        backgroundColor: Colors.white,
+        isDismissible: true,
+        isScrollControlled: true);
+  }
+
   void sendorder() async {
     isSending.value = true;
+    await setPosition();
     for (var item in cartgroup) {
       num singleOrdeValue = 0;
 
@@ -142,8 +201,8 @@ class CartController extends GetxController {
       item.orderInfo = OrderInfo(
           userId: user!.id,
           restaurentId: item.restaurentId!,
-          pLat: MyApp.userPosition!.latitude,
-          pLong: MyApp.userPosition!.latitude,
+          pLat: orderlat,
+          pLong: orderlong,
           orderValue: singleOrdeValue,
           deliveryCost: temprest!.getDeliveryCost());
     }
@@ -152,7 +211,7 @@ class CartController extends GetxController {
     bool isSent = await client.sendOrder(jsonEncode(cartgroup));
     if (isSent) {
       await deleteAll();
-
+      await orderController.getAll();
       Get.rawSnackbar(
         duration: const Duration(seconds: 1),
         messageText: const Text(

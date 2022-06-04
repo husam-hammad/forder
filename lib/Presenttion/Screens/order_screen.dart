@@ -5,6 +5,7 @@ import 'package:flashorder/BussinessLogic/Controllers/orderscreen_controller.dar
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/custom_styles.dart';
 import 'package:flashorder/Constants/textstyles.dart';
+import 'package:flashorder/Presenttion/Screens/map_screen.dart';
 import 'package:flashorder/Presenttion/Widgets/appbar.dart';
 import 'package:flashorder/Presenttion/Widgets/custom_bottom.dart';
 import 'package:flashorder/helpers/color_helper.dart';
@@ -34,205 +35,228 @@ class OrderScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.lightwhite,
         appBar: buildAppBar(),
-        bottomNavigationBar: const CustomBotttomNav(),
-        body: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "الطلب رقم :  ${controller.order.id} ",
-                  style: AppTextStyles.pinkboldTopPage,
-                ),
-              ],
+        bottomNavigationBar: CustomBotttomNav(),
+        body: SingleChildScrollView(
+          child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "الطلب رقم :  ${controller.order.id} ",
+                    style: AppTextStyles.pinkboldTopPage,
+                  ),
+                  InkWell(
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.edit,
+                          size: 30,
+                          color: AppColors.green,
+                        )),
+                  )
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            width: double.infinity,
-            height: Get.height - 210,
-            child: ListView(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: CustomStyles.raduis100),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        controller.order.state.image != ""
-                            ? CachedNetworkImage(
-                                imageUrl: ImageHelper.buildImage(
-                                    controller.order.state.image),
-                                width: 100,
-                                fit: BoxFit.contain,
+            SizedBox(
+              width: double.infinity,
+              height: Get.height - 215,
+              child: ListView(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: CustomStyles.raduis100),
+                    child: Center(
+                      child: Column(
+                        children: [
+                          controller.order.state.image != ""
+                              ? CachedNetworkImage(
+                                  imageUrl: ImageHelper.buildImage(
+                                      controller.order.state.image),
+                                  width: 100,
+                                  fit: BoxFit.contain,
+                                )
+                              : Row(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircleAvatar(
+                                radius: 10,
+                                backgroundColor: ColorHelper.fromHex(
+                                    controller.order.state.color),
+                              ),
+                              const SizedBox(
+                                width: 30,
+                              ),
+                              Text(
+                                controller.order.state.name,
+                                style: AppTextStyles.greyboldHeading,
                               )
-                            : Row(),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: CustomStyles.raduis100),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "الكابتن : ",
+                          style: AppTextStyles.greenboldHeading,
+                        ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            CircleAvatar(
-                              radius: 10,
-                              backgroundColor: ColorHelper.fromHex(
-                                  controller.order.state.color),
-                            ),
-                            const SizedBox(
-                              width: 30,
-                            ),
-                            Text(
-                              controller.order.state.name,
-                              style: AppTextStyles.greyboldHeading,
-                            )
+                            controller.order.captin != null
+                                ? Expanded(
+                                    child: ListTile(
+                                      title: Text(
+                                        controller.order.captin!.name,
+                                        style: AppTextStyles.greyBoldDetail,
+                                      ),
+                                      subtitle: Text(
+                                        controller.order.captin!.phone,
+                                        style: AppTextStyles.greyregular,
+                                      ),
+                                      trailing: IconButton(
+                                        icon: const Icon(
+                                          Icons.room,
+                                          color: AppColors.pink,
+                                          size: 35,
+                                        ),
+                                        onPressed: () {
+                                          Get.to(MapScreen(
+                                              captin:
+                                                  controller.order.captin!));
+                                        },
+                                      ),
+                                      leading: InkWell(
+                                        onTap: () {
+                                          controller.showCaptinImage(
+                                              controller.order.captin!.avatar);
+                                        },
+                                        child: CircleAvatar(
+                                            backgroundImage:
+                                                CachedNetworkImageProvider(
+                                                    ImageHelper.buildImage(
+                                                        controller.order.captin!
+                                                            .avatar))),
+                                      ),
+                                    ),
+                                  )
+                                : const Text("لم يتم التعيين")
                           ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: CustomStyles.raduis100),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "تفاصيل الطلب",
+                          style: AppTextStyles.greenboldHeading,
+                        ),
+                        SizedBox(
+                          height: controller.order.details.length * 50,
+                          child: ListView.builder(
+                            itemCount: controller.order.details.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ListTile(
+                                title: Text(
+                                  "• ${controller.order.details[index].allInOne}",
+                                  style: AppTextStyles.greyRegularDetail,
+                                  textAlign: TextAlign.right,
+                                ),
+                              );
+                            },
+                          ),
                         )
                       ],
                     ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: CustomStyles.raduis100),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "الكابتن : ",
-                        style: AppTextStyles.greenboldHeading,
-                      ),
-                      Row(
-                        children: [
-                          controller.order.captin != null
-                              ? Expanded(
-                                  child: ListTile(
-                                    title: Text(
-                                      controller.order.captin!.name,
-                                      style: AppTextStyles.greyBoldDetail,
-                                    ),
-                                    subtitle: Text(
-                                      controller.order.captin!.phone,
-                                      style: AppTextStyles.greyregular,
-                                    ),
-                                    leading: InkWell(
-                                      onTap: () {
-                                        controller.showCaptinImage(
-                                            controller.order.captin!.avatar);
-                                      },
-                                      child: CircleAvatar(
-                                          backgroundImage:
-                                              CachedNetworkImageProvider(
-                                                  ImageHelper.buildImage(
-                                                      controller.order.captin!
-                                                          .avatar))),
-                                    ),
-                                  ),
-                                )
-                              : const Text("لم يتم التعيين")
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: CustomStyles.raduis100),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "تفاصيل الطلب",
-                        style: AppTextStyles.greenboldHeading,
-                      ),
-                      SizedBox(
-                        height: controller.order.details.length * 50,
-                        child: ListView.builder(
-                          itemCount: controller.order.details.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ListTile(
-                              title: Text(
-                                "• ${controller.order.details[index].allInOne}",
-                                style: AppTextStyles.greyRegularDetail,
-                                textAlign: TextAlign.right,
-                              ),
-                            );
-                          },
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: CustomStyles.raduis100),
+                    child: Row(
+                      children: [
+                        const Text(
+                          "تكلفةالطلب : ",
+                          style: AppTextStyles.greenboldHeading,
                         ),
-                      )
-                    ],
+                        Text(
+                          controller.order.value.toString() + " ليرة سورية",
+                          style: AppTextStyles.greyregular,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: CustomStyles.raduis100),
-                  child: Row(
-                    children: [
-                      const Text(
-                        "تكلفةالطلب : ",
-                        style: AppTextStyles.greenboldHeading,
-                      ),
-                      Text(
-                        controller.order.value.toString() + " ليرة سورية",
-                        style: AppTextStyles.greyregular,
-                      )
-                    ],
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: CustomStyles.raduis100),
+                    child: Row(
+                      children: [
+                        const Text(
+                          "تكلفة التوصيل : ",
+                          style: AppTextStyles.greenboldHeading,
+                        ),
+                        Text(
+                          controller.order.deliverycost.toString() +
+                              " ليرة سورية",
+                          style: AppTextStyles.greyregular,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: CustomStyles.raduis100),
-                  child: Row(
-                    children: [
-                      const Text(
-                        "تكلفة التوصيل : ",
-                        style: AppTextStyles.greenboldHeading,
-                      ),
-                      Text(
-                        controller.order.deliverycost.toString() +
-                            " ليرة سورية",
-                        style: AppTextStyles.greyregular,
-                      )
-                    ],
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: CustomStyles.raduis100),
+                    child: Row(
+                      children: [
+                        const Text(
+                          "تاريخ الإنشاء : ",
+                          style: AppTextStyles.greenboldHeading,
+                        ),
+                        Text(
+                          formatter.format(controller.order.createdAt!),
+                          style: AppTextStyles.greyregular,
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: CustomStyles.raduis100),
-                  child: Row(
-                    children: [
-                      const Text(
-                        "تاريخ الإنشاء : ",
-                        style: AppTextStyles.greenboldHeading,
-                      ),
-                      Text(
-                        formatter.format(controller.order.createdAt!),
-                        style: AppTextStyles.greyregular,
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )
-        ]),
+                ],
+              ),
+            )
+          ]),
+        ),
       ),
     ));
   }

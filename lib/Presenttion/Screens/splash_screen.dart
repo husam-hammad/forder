@@ -14,7 +14,7 @@ class SplashScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Center(
         child: Image.asset(
-          "assets/images/logo.png",
+          "assets/images/logo-animation.gif",
           width: Get.width / 2,
         ),
       ),

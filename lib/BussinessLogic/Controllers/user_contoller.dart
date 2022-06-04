@@ -110,7 +110,7 @@ class UserController extends GetxController {
           ? getpoints.toString()
           : _user.points.toString();
       if (_user.birthday != null) {
-        birthdaycontroller.text = formatter.format(user!.birthday!);
+        birthdaycontroller.text = formatter.format(_user.birthday!);
       }
     } else {
       print("no data set");
@@ -222,7 +222,8 @@ class UserController extends GetxController {
   Future<void> logout() async {
     await box.remove('userdata');
     await box.remove('authed');
-
+    user = null;
+    update();
     Get.toNamed(AppRoutes.login);
   }
 

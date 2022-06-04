@@ -15,7 +15,6 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-  TextEditingController textEditingController = TextEditingController();
   AuthController authController = Get.find();
   String currentText = "";
   final formKey = GlobalKey<FormState>();
@@ -75,7 +74,9 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                   ),
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        authController.checkOTP();
+                      },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius:
@@ -86,7 +87,29 @@ class _OtpScreenState extends State<OtpScreen> {
                       child: Text(
                         "تأكيد الرمز",
                         style: AppTextStyles.whiteboldHeading,
-                      ))
+                      )),
+                  Obx(() {
+                    if (authController.loadingregister.value == true) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: const [
+                          CircularProgressIndicator(
+                            color: AppColors.pink,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "جاري تسجيل الدخول ....",
+                            style: AppTextStyles.greenRegularTitle,
+                          )
+                        ],
+                      );
+                    } else {
+                      return Row();
+                    }
+                  }),
                 ],
               ),
             ),
@@ -118,7 +141,7 @@ class _OtpScreenState extends State<OtpScreen> {
       textStyle: TextStyle(color: AppColors.pink),
       animationDuration: Duration(milliseconds: 300),
       enableActiveFill: true,
-      controller: textEditingController,
+      controller: authController.optcontroller,
       keyboardType: TextInputType.number,
       boxShadows: const [
         BoxShadow(
@@ -128,7 +151,7 @@ class _OtpScreenState extends State<OtpScreen> {
         )
       ],
       onCompleted: (v) {
-        authController.checkOTP(v);
+        authController.checkOTP();
       },
     );
   }

@@ -39,11 +39,6 @@ class Login extends StatelessWidget {
                       SizedBox(
                         height: 30,
                       ),
-                      Icon(
-                        Icons.flash_on,
-                        color: Colors.white,
-                        size: 50,
-                      ),
                       Text(
                         "The Flash Order",
                         style: AppTextStyles.whiteboldHeading,

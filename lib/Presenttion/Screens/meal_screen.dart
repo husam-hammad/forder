@@ -5,12 +5,14 @@ import 'package:flashorder/BussinessLogic/Controllers/favorite_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/meal_screen_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
 import 'package:flashorder/Constants/custom_styles.dart';
+import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/favorite.dart';
 
-import 'package:flashorder/Presenttion/Widgets/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 
 import '../../Constants/colors.dart';
 import '../Widgets/drawer.dart';
@@ -123,145 +125,191 @@ class MealScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightwhite,
-        drawer: PublicDrawer(),
-        appBar: buildAppBar(),
-        bottomNavigationBar: buildBottomButton(),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: GetBuilder<MealsController>(
-              init: MealsController(),
-              builder: (meal) {
-                final mealdata =
-                    meal.meals[int.parse(meal.selectedindex.toString())];
-                mealController = Get.put(MealScreenController(mealdata));
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Stack(
-                        alignment: Alignment.bottomRight,
-                        children: [
-                          Hero(
-                            tag: "meal:${mealdata.id}",
-                            child: Container(
-                              height: 300,
-                              width: Get.width,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
-                                        mealdata.image),
-                                    fit: BoxFit.cover),
+        textDirection: TextDirection.rtl,
+        child: GetBuilder<MealsController>(
+            init: MealsController(),
+            builder: (meal) {
+              final mealdata =
+                  meal.meals[int.parse(meal.selectedindex.toString())];
+              mealController = Get.put(MealScreenController(mealdata));
+              return Scaffold(
+                backgroundColor: AppColors.lightwhite,
+                drawer: PublicDrawer(),
+                appBar: NewGradientAppBar(
+                  gradient: const LinearGradient(
+                      colors: [AppColors.pink, AppColors.pink2]),
+                  shape: const ContinuousRectangleBorder(
+                      borderRadius:
+                          BorderRadius.only(bottomRight: Radius.circular(100))),
+                  elevation: 0,
+                  centerTitle: true,
+                  title: Column(
+                    children: const [
+                      //Icon(Icons.flash_on),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "The Flash Order",
+                        style: TextStyle(color: Colors.white),
+                      )
+                    ],
+                  ),
+                  actions: [
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.usercarts);
+                      },
+                      child: Lottie.asset('assets/images/cart.json',
+                          controller: mealController.animationController,
+                          onLoaded: (composition) {
+                        // Configure the AnimationController with the duration of the
+                        // Lottie file and start the animation.
+                        mealController.animationController
+                          ..duration = composition.duration
+                          //;const Duration(microseconds: 200)
+                          ..stop();
+                      }),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.search);
+                      },
+                      icon: const Icon(Icons.search),
+                      color: Colors.white,
+                    )
+                  ],
+                ),
+                bottomNavigationBar: buildBottomButton(),
+                body: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.bottomRight,
+                          children: [
+                            Hero(
+                              tag: "meal:${mealdata.id}",
+                              child: Container(
+                                height: 300,
+                                width: Get.width,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: CachedNetworkImageProvider(
+                                          mealdata.image),
+                                      fit: BoxFit.cover),
+                                ),
                               ),
                             ),
-                          ),
-                          GetBuilder(
-                              init: mealController,
-                              builder: (_) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: IconButton(
-                                      onPressed: () {
-                                        print("meal id : ${mealdata.id}");
-                                        mealController.toggle(Favorite(
-                                            id: 0, meal_id: mealdata.id));
-                                      },
-                                      icon: Icon(
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: IconButton(
+                                  onPressed: () {
+                                    print("meal id : ${mealdata.id}");
+                                    mealController.toggle(
+                                        Favorite(id: 0, meal_id: mealdata.id));
+                                  },
+                                  icon: GetBuilder(
+                                    init: mealController,
+                                    builder: (_) {
+                                      return Icon(
                                         mealController.isfav
                                             ? Icons.favorite
                                             : Icons.favorite_border_outlined,
                                         color: Colors.white,
                                         size: 30,
-                                      )),
-                                );
-                              })
-                        ],
-                      ),
-                      Container(
-                        decoration: const BoxDecoration(color: AppColors.green),
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              mealdata.name,
-                              style: AppTextStyles.whiteboldHeading,
-                            ),
-                            Text(
-                              mealdata.price.toString() + " ل.س",
-                              style: AppTextStyles.whiteboldHeading,
+                                      );
+                                    },
+                                  )),
                             )
                           ],
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                IconButton(
-                                    onPressed: () {
-                                      meal.onInit();
-                                    },
-                                    icon: const Icon(Icons.refresh)),
-                                const Text(
-                                  "المكونات",
-                                  style: AppTextStyles.greyboldHeading,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            SizedBox(
-                              height: 50,
-                              width: double.infinity,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: mealdata.components.length,
-                                  itemBuilder: (_, index) {
-                                    return Container(
-                                      padding: const EdgeInsets.all(5),
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      decoration: const BoxDecoration(
-                                        borderRadius: CustomStyles.raduis50,
-                                        color: AppColors.grey,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            mealdata.components[index],
-                                            style: AppTextStyles
-                                                .whiteRegularDetail,
-                                          ),
-                                          IconButton(
-                                              onPressed: () {
-                                                meal.deleteCompoment(
-                                                    meal.selectedindex, index);
-                                              },
-                                              icon: const Icon(Icons.remove))
-                                        ],
-                                      ),
-                                    );
-                                  }),
-                            ),
-                            buildNumbersText(mealController.numbercontroller),
-                            buildCompomentText(
-                                mealController.compomentController),
-                          ],
+                        Container(
+                          decoration:
+                              const BoxDecoration(color: AppColors.green),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                mealdata.name,
+                                style: AppTextStyles.whiteboldHeading,
+                              ),
+                              Text(
+                                mealdata.price.toString() + " ل.س",
+                                style: AppTextStyles.whiteboldHeading,
+                              )
+                            ],
+                          ),
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  IconButton(
+                                      onPressed: () {
+                                        meal.onInit();
+                                      },
+                                      icon: const Icon(Icons.refresh)),
+                                  const Text(
+                                    "المكونات",
+                                    style: AppTextStyles.greyboldHeading,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              SizedBox(
+                                height: 50,
+                                width: double.infinity,
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: mealdata.components.length,
+                                    itemBuilder: (_, index) {
+                                      return Container(
+                                        padding: const EdgeInsets.all(5),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 5),
+                                        decoration: const BoxDecoration(
+                                          borderRadius: CustomStyles.raduis50,
+                                          color: AppColors.grey,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              mealdata.components[index],
+                                              style: AppTextStyles
+                                                  .whiteRegularDetail,
+                                            ),
+                                            IconButton(
+                                                onPressed: () {
+                                                  meal.deleteCompoment(
+                                                      meal.selectedindex,
+                                                      index);
+                                                },
+                                                icon: const Icon(Icons.remove))
+                                          ],
+                                        ),
+                                      );
+                                    }),
+                              ),
+                              buildNumbersText(mealController.numbercontroller),
+                              buildCompomentText(
+                                  mealController.compomentController),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                );
-              }),
-        ),
-      ),
-    );
+                ),
+              );
+            }));
   }
 }
