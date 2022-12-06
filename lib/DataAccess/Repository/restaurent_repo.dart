@@ -23,6 +23,35 @@ class RestaurentRepo {
     return [];
   }
 
+  Future<Restaurent?> resturentById(id) async {
+    var response = await client.restaurentById(id);
+    if (response != Responses.empty) {
+      return Restaurent.fromMap(json.decode(response));
+    }
+    return null;
+  }
+
+  Future<List<Restaurent>> getNearest($lat, $long) async {
+    var response = await client.nearestrestaurents($lat, $long);
+
+    if (response != Responses.empty) {
+      final parsed = json.decode(response).cast<Map<String, dynamic>>();
+      return parsed
+          .map<Restaurent>((json) => Restaurent.fromMap(json))
+          .toList();
+    }
+    return [];
+  }
+
+  Future<int> getRating($id) async {
+    var response = await client.getRating($id);
+    print(response);
+    if (response != Responses.empty) {
+      return int.parse(response);
+    }
+    return 1;
+  }
+
   Future<List<MealCategory>> restaurentMealsCategories(int restaurentId) async {
     var response = await client.restaurentMealsCategories(restaurentId);
     if (response != Responses.empty) {

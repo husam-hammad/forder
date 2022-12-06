@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:965950971496:android:8449d2f4e62187374a65dd",
         "android_client_info": {
-          "package_name": "com.flashorder.customer"
+          "package_name": "com.flashorder.captin"
         }
       },
       "oauth_client": [
@@ -43,14 +43,6 @@
         }
       },
       "oauth_client": [
-        {
-          "client_id": "965950971496-1kf9nekbqm5i9b082coubc73u8fo9phe.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.flashorder.customer",
-            "certificate_hash": "d6c98864806e2588ea6233052d386f87e910de68"
-          }
-        },
         {
           "client_id": "965950971496-pcngje0sa8n70g31jjj5tsl9g8ij8vim.apps.googleusercontent.com",
           "client_type": 3

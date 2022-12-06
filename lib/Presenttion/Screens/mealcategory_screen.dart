@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_print
+
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/meal_category.dart';
+import 'package:flashorder/Presenttion/Widgets/appbar.dart';
 import 'package:flashorder/Presenttion/Widgets/custom_bottom.dart';
 import 'package:flashorder/Presenttion/Widgets/meal_item.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +17,12 @@ class MealCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Directionality(
-            textDirection: TextDirection.rtl,
+            textDirection: Get.locale!.languageCode == 'en'
+                ? TextDirection.ltr
+                : TextDirection.rtl,
             child: Scaffold(
-                bottomNavigationBar: CustomBotttomNav(),
+                appBar: buildAppBar(),
+                bottomNavigationBar: const CustomBotttomNav(),
                 body: Column(
                   children: [
                     Container(
@@ -36,7 +42,9 @@ class MealCategoryScreen extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: mealCategory.meals!.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return MealItem(meal: mealCategory.meals![index]);
+                          return mealCategory.meals![index].available
+                              ? MealItem(meal: mealCategory.meals![index])
+                              : Row();
                         },
                       ),
                     )

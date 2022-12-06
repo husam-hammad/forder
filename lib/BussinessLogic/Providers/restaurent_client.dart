@@ -2,7 +2,6 @@
 
 import 'package:flashorder/Constants/links.dart';
 import 'package:flashorder/Constants/responses.dart';
-
 /* import 'package:flutter/foundation.dart'; */
 import 'package:http/http.dart' as http;
 
@@ -13,6 +12,43 @@ class RestaurentClient {
 
   Future<dynamic> allrestaurents() async {
     var response = await client.get(Uri.parse(baseUrl + allRestaurentsUrl));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return Responses.empty;
+    }
+  }
+
+  Future<dynamic> restaurentById(id) async {
+    var response =
+        await client.get(Uri.parse(baseUrl + allRestaurentsUrl + "/$id"));
+    print(response.body);
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return Responses.empty;
+    }
+  }
+
+  Future<dynamic> nearestrestaurents($lat, $long) async {
+    var response = await client
+        .get(Uri.parse(baseUrl +
+            nearestRestaurentsUrl +
+            "/" +
+            $lat.toString() +
+            "/" +
+            $long.toString()))
+        .timeout(const Duration(minutes: 1));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return Responses.empty;
+    }
+  }
+
+  Future<dynamic> getRating($id) async {
+    var response = await client.get(Uri.parse(
+        baseUrl + "restaurent/" + $id.toString() + "/" + "get-rating"));
 
     if (response.statusCode == 200) {
       return response.body;

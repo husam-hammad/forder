@@ -10,6 +10,7 @@ import 'package:flashorder/Constants/custom_styles.dart';
 import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/user.dart';
+import 'package:flashorder/Presenttion/Themes/themes.dart';
 import 'package:flashorder/helpers/image_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +25,7 @@ class UserController extends GetxController {
   TextEditingController phonecontroller = TextEditingController();
   TextEditingController birthdaycontroller = TextEditingController();
   TextEditingController adresscontroller = TextEditingController();
-  var points = "".obs;
+  var points = "0".obs;
   DateTime? selected;
   UserClient userClient = UserClient();
   var saving = false.obs;
@@ -36,6 +37,43 @@ class UserController extends GetxController {
     super.onInit();
 
     await getUser();
+    await getPoints();
+  }
+
+  Future<void> changetheme() async {
+    Get.defaultDialog(
+        title: "",
+        contentPadding: const EdgeInsets.all(10),
+        content: Column(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.wb_sunny),
+              title: Text("lightmode".tr),
+              onTap: () async {
+                await box.write('theme', "light");
+                Get.changeTheme(Themes.lightTheme);
+                Get.back();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.cloud),
+              title: Text("darkmode".tr),
+              onTap: () async {
+                await box.write('theme', "dark");
+                Get.changeTheme(Themes.darkTheme);
+                Get.back();
+              },
+            )
+          ],
+        ));
+  }
+
+  Future<void> changeLang(Locale local) async {
+    await Get.updateLocale(local);
+    await box.write("lang", local.languageCode);
+    AppTextStyles.family =
+        Get.locale?.languageCode == "en" ? "Montserrat" : "Cairo";
+    Get.toNamed(AppRoutes.homepage);
   }
 
   void showImage(image) {
@@ -88,7 +126,6 @@ class UserController extends GetxController {
     if (pickedFile != null) {
       image = File(pickedFile.path);
       /* user!.avatar = image!.path; */
-      print(image!.path);
       await uploadImage(image!.path);
       update();
     } else {
@@ -97,20 +134,18 @@ class UserController extends GetxController {
   }
 
   Future<void> getUser() async {
-    print('start get user');
     User? _user = await BoxProvider.getuser();
     user = _user;
     if (user != null) {
-      print(user!.toMap());
-      namecontroller.text = _user!.name.toString();
-      phonecontroller.text = _user.phone.toString();
-      adresscontroller.text = _user.adress.toString();
+      namecontroller.text = user!.name.toString();
+      phonecontroller.text = user!.phone.toString();
+      adresscontroller.text = user!.adress.toString();
       var getpoints = await userClient.getUserPoint(user!.token, user!.id);
       points.value = (getpoints.toString() != "" && getpoints != "0")
           ? getpoints.toString()
-          : _user.points.toString();
-      if (_user.birthday != null) {
-        birthdaycontroller.text = formatter.format(_user.birthday!);
+          : user!.points.toString();
+      if (user!.birthday != null) {
+        birthdaycontroller.text = formatter.format(user!.birthday!);
       }
     } else {
       print("no data set");
@@ -121,8 +156,14 @@ class UserController extends GetxController {
 
   Future<void> getPoints() async {
     User? user = await BoxProvider.getuser();
-    print("gitting user points");
-    if (user != null) {}
+
+    if (user != null) {
+      var getpoints = await userClient.getUserPoint(user.token, user.id);
+
+      points.value = (getpoints.toString() != "" && getpoints != "0")
+          ? getpoints.toString()
+          : user.points.toString();
+    }
   }
 
   String buildUserAvatar(image) {
@@ -154,8 +195,8 @@ class UserController extends GetxController {
         saving.value = false;
         Get.rawSnackbar(
           duration: const Duration(seconds: 1),
-          messageText: const Text(
-            "خطأ أثناء الحفظ",
+          messageText: Text(
+            "errorinsend".tr,
             textAlign: TextAlign.center,
             style: AppTextStyles.whiteRegularHeading,
           ),
@@ -165,6 +206,19 @@ class UserController extends GetxController {
       saving.value = false;
     }
   }
+
+  /* Future<bool> sendOrderRating(
+      orderid, restauretId, captinId, restaurentRating, captinRating) async {
+    User? user = await BoxProvider.getuser();
+    if (user != null) {
+      if (await userClient.sendOrderRating(user.token, orderid, user.id,
+              restauretId, restaurentRating, captinId, captinRating) ==
+          200) {
+        return true;
+      }
+    }
+    return false;
+  } */
 
   void saveData() async {
     saving.value = true;

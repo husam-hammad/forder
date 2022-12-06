@@ -21,15 +21,13 @@ class CartClient {
     final id = await db?.insert(DBTables.cartItem, item.toDbMap());
     //print(id);
     CartItem copy = item.copyWith(id: id);
-    /* print(copy); */
+    print(copy);
     return copy;
   }
 
   Future<int?> editCartItem(int oldId, int qty) async {
     final db = await Helper.instance.database;
-    Map<String, dynamic> row = {
-      'qty': qty,
-    };
+    Map<String, dynamic> row = {'qty': qty};
     final id = await db
         ?.update(DBTables.cartItem, row, where: 'id=?', whereArgs: [oldId]);
     //print(id);

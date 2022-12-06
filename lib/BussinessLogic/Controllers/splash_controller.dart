@@ -2,16 +2,15 @@
 
 import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/Presenttion/Screens/Auth/privacy.dart';
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 class SplashController extends GetxController {
   var authed = false;
   final box = GetStorage();
+
   @override
-  void onInit() async {
-    super.onInit();
+  void onReady() async {
     await checkAuth();
   }
 
@@ -25,10 +24,10 @@ class SplashController extends GetxController {
     bool authed = box.read('authed') ?? false;
 
     if (authed == true) {
-      Future.delayed(const Duration(seconds: 5))
+      Future.delayed(const Duration(seconds: 6))
           .then((value) => Get.offAndToNamed(AppRoutes.homepage));
     } else {
-      Future.delayed(const Duration(seconds: 5))
+      Future.delayed(const Duration(seconds: 6))
           .then((value) => Get.to(() => const PrivacyPolicy(
                 forAccept: true,
               )));

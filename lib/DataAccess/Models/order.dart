@@ -11,6 +11,8 @@ class Order {
   late num discount;
   late num netValue;
   late num deliveryCost;
+  late String taxs;
+  late num taxsValue;
   Order({
     required this.id,
     required this.userId,
@@ -21,26 +23,6 @@ class Order {
     required this.deliveryCost,
   });
 
-  Order copyWith({
-    int? id,
-    int? userId,
-    int? restaurentId,
-    num? allValue,
-    num? discount,
-    num? netValue,
-    num? deliveryCost,
-  }) {
-    return Order(
-      id: id ?? this.id,
-      userId: userId ?? this.userId,
-      restaurentId: restaurentId ?? this.restaurentId,
-      allValue: allValue ?? this.allValue,
-      discount: discount ?? this.discount,
-      netValue: netValue ?? this.netValue,
-      deliveryCost: deliveryCost ?? this.deliveryCost,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -50,6 +32,8 @@ class Order {
       'discount': discount,
       'netValue': netValue,
       'deliveryCost': deliveryCost,
+      'taxs': taxs,
+      'taxs_value': taxsValue
     };
   }
 

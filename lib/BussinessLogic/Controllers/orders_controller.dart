@@ -10,15 +10,28 @@ class OrderController extends GetxController {
   late List<UserOrder> orders = [];
   late OrderRepo orderRepo;
   bool ordersLoaded = false;
+
   @override
+  void onReady() async {
+    super.onReady();
+    await getAll();
+  }
+
+/*   @override
   void onInit() async {
     super.onInit();
-    await getAll();
+
+  } */
+  void rebluid() {
+    try {} catch (e) {
+      print(e);
+    }
   }
 
   Future<void> getAll() async {
     orderRepo = OrderRepo(OrderClient());
     orders = await orderRepo.getall();
+
     ordersLoaded = true;
     update();
   }

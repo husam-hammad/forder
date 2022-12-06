@@ -11,11 +11,13 @@ class NotificationContoller extends GetxController {
   late NotificationRepo notificationRepo;
   bool endloading = false;
   late OrderController orderController;
+  var showgetmore = false.obs;
+
+  int page = 1;
   @override
   void onInit() async {
     super.onInit();
-    print("start init notificaipn");
-    getAll();
+    getAll(true);
     orderController = await Get.put(OrderController());
     await orderController.getAll();
   }
@@ -26,10 +28,23 @@ class NotificationContoller extends GetxController {
     }
   }
 
-  Future<void> getAll() async {
+  Future<void> getAll(bool refresh) async {
+    print('start get new');
+    if (page > 1) {
+      showgetmore = true.obs;
+    }
     notificationRepo = NotificationRepo(NotificationClient());
-    notifications = await notificationRepo.getall();
+    if (refresh) {
+      var newNoties = await notificationRepo.getall(1);
+      notifications = newNoties;
+    } else {
+      var newNoties = await notificationRepo.getall(page);
+      notifications.addAll(newNoties);
+    }
+
     endloading = true;
+    page++;
+    showgetmore = false.obs;
     update();
   }
 }

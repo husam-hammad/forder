@@ -23,7 +23,7 @@ class Helper {
     final path = join(dbpath, filepath);
 
     return await openDatabase(path,
-        version: 2, onCreate: _createDB, onUpgrade: _upgradeDB);
+        version: 1, onCreate: _createDB, onUpgrade: _upgradeDB);
   }
 
   Future<void> _upgradeDB(Database db, int version, int newversion) async {

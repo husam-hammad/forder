@@ -7,15 +7,17 @@ import 'package:get/get.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({Key? key}) : super(key: key);
-  final SplashController splashController = Get.put(SplashController());
+  final SplashController splashController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xfffcfcff),
       body: Center(
         child: Image.asset(
-          "assets/images/logo-animation.gif",
-          width: Get.width / 2,
+          //"assets/images/logo-animation.gif",
+          "assets/images/worldcupanimatio.gif",
+
+          width: Get.width * .6,
         ),
       ),
       bottomNavigationBar: Container(

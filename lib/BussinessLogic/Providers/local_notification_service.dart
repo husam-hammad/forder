@@ -1,4 +1,5 @@
-import 'package:flashorder/BussinessLogic/Controllers/orders_controller.dart';
+//import 'package:flashorder/BussinessLogic/Controllers/orders_controller.dart';
+//import 'package:flashorder/BussinessLogic/Controllers/orders_controller.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
@@ -7,12 +8,16 @@ class NotificationService {
       NotificationService._internal();
 // ignore: prefer_final_fields
   static AndroidNotificationDetails _androidNotificationDetails =
-      const AndroidNotificationDetails("0", "main Channel",
-          playSound: true,
-          priority: Priority.high,
-          importance: Importance.high,
-          enableLights: true,
-          enableVibration: true);
+      const AndroidNotificationDetails(
+    "2",
+    "main Channel2",
+    playSound: true,
+    priority: Priority.high,
+    importance: Importance.high,
+    channelShowBadge: true,
+    enableLights: true,
+    enableVibration: true,
+  );
 
   NotificationDetails platformChannelSpecifics =
       NotificationDetails(android: _androidNotificationDetails);
@@ -32,11 +37,13 @@ class NotificationService {
   }
 
   Future selectNotification(String? payload) async {
-    /* bool checkOrderController = Get.isRegistered<OrderController>();
+    /*  bool checkOrderController = Get.isRegistered<OrderController>();
     if (!checkOrderController) {
       Get.put(OrderController());
     } */
-    Get.put(OrderController());
+/*     Get.put(OrderController()); */
+    // ignore: avoid_print
+
     Get.toNamed(payload!);
   }
 

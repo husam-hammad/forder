@@ -1,17 +1,25 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, avoid_print
 
+import 'dart:ui';
+
+import 'package:flashorder/BussinessLogic/Controllers/connectivity_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/favorite_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/home_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/restaurent_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/setting_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/stories_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/user_contoller.dart';
 import 'package:flashorder/Constants/colors.dart';
+/* import 'package:flashorder/Constants/routes.dart'; */
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/Presenttion/Screens/story_view.dart';
 import 'package:flashorder/Presenttion/Widgets/drawer.dart';
 import 'package:flashorder/Presenttion/Widgets/home_meal.dart';
 import 'package:flashorder/Presenttion/Widgets/home_widget_shimmer.dart';
+import 'package:flashorder/Presenttion/Widgets/noconnection.dart';
+import 'package:flashorder/Presenttion/Widgets/offer_meal.dart';
+import 'package:flashorder/Presenttion/Widgets/offer_meal_shimmer.dart';
 import 'package:flashorder/Presenttion/Widgets/restaurent_shimmer_icon.dart';
 //import 'package:flashorder/Presenttion/Widgets/restaurent_icon.dart';
 import 'package:flashorder/Presenttion/Widgets/story_item.dart';
@@ -37,37 +45,72 @@ class HomeScreen extends StatelessWidget {
   final MealsController mealsController = Get.find();
   final StoriesController storyController = Get.find();
   final FavoriteController favoriteController = Get.find();
+  final UserController userController = Get.find();
+  final ConnectivityController connectivityController = Get.find();
+
+  void rebuild(Element el) {
+    el.markNeedsBuild();
+    el.visitChildren(rebuild);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: AppColors.lightwhite,
-        drawer: PublicDrawer(),
-        appBar: buildAppBar(),
-        body: buildBody(),
-        bottomNavigationBar: CustomBotttomNav(),
+    PlatformDispatcher.instance.onLocaleChanged = () {
+      print("start rebuid");
+      (context as Element).visitChildren(rebuild);
+    };
+    return GetBuilder(
+        init: connectivityController,
+        builder: (_) {
+          return Directionality(
+            textDirection: Get.locale!.languageCode == 'en'
+                ? TextDirection.ltr
+                : TextDirection.rtl,
+            child: connectivityController.connected == false
+                ? NoConnection()
+                : Scaffold(
+                    backgroundColor: /* AppColors.lightwhite */ Theme
+                            .of(context)
+                        .backgroundColor,
+                    drawer: PublicDrawer(
+                      userController: userController,
+                    ),
+                    appBar: buildAppBar(),
+                    body: buildBody(context),
+                    bottomNavigationBar: CustomBotttomNav(),
+                  ),
+          );
+        });
+  }
+
+  Widget buildBody(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        await homeController.rebuild();
+      },
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            /* homeController.buildHello(), */
+            /* ElevatedButton(
+                onPressed: () => {Get.toNamed(AppRoutes.ratingscreen)},
+                child: Text("test")), */
+            buildLatestStories(context),
+            buildOthers(context)
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildBody() {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Column(
-        children: [buildLatestStories(), buildOthers()],
-      ),
-    );
-  }
-
-  Widget buildLatestStories() {
+  Widget buildLatestStories(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15),
       height: 300,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 5),
-        color: Colors.white,
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: Column(
           children: <Widget>[
             Padding(
@@ -76,12 +119,8 @@ class HomeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "أبرز القصص",
-                    style: AppTextStyles.greyboldHeading,
-                  ),
-                  Text(
-                    "عرض الكل",
-                    style: AppTextStyles.greyregular,
+                    "lateststories".tr,
+                    style: AppTextStyles.greenboldHeading,
                   ),
                 ],
               ),
@@ -102,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                             itemBuilder: (BuildContext context, int index) {
                               return InkWell(
                                 onTap: () {
-                                  Get.to(StoryViewScreen());
+                                  Get.to(StoryViewScreen(goto: index));
                                 },
                                 child: StoryItem(
                                   story: storyController.stories[index],
@@ -125,20 +164,30 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget buildOthers() {
+  Widget buildOthers(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(20),
       width: double.maxFinite,
-      height: 600,
+      height: 700,
       decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
                 color: Colors.grey, blurRadius: 2, offset: Offset.infinite)
           ],
           borderRadius: BorderRadius.only(topLeft: Radius.circular(50)),
-          color: Colors.white),
+          color: Theme.of(context).scaffoldBackgroundColor),
       child: Column(
-        children: <Widget>[buildRestaurents(), buildHomeMeals()],
+        children: <Widget>[
+          buildRestaurents(),
+          SizedBox(
+            height: 20,
+          ),
+          buildOfferMeals(),
+          SizedBox(
+            height: 20,
+          ),
+          buildHomeMeals(),
+        ],
       ),
     );
   }
@@ -148,8 +197,13 @@ class HomeScreen extends StatelessWidget {
       children: [
         Row(
           children: [
+            Icon(
+              Icons.restaurant,
+              size: 20,
+              color: AppColors.green2,
+            ),
             Text(
-              "المطاعم السورية",
+              "restaurentsnearby".tr,
               style: AppTextStyles.greenboldHeading,
             )
           ],
@@ -163,13 +217,15 @@ class HomeScreen extends StatelessWidget {
           child: GetBuilder(
               init: restaurentController,
               builder: (_) {
-                return restaurentController.restaurents.isNotEmpty
+                return restaurentController.nearestrestaurents.isNotEmpty
                     ? ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: restaurentController.restaurents.length,
+                        itemCount:
+                            restaurentController.nearestrestaurents.length,
                         itemBuilder: (BuildContext context, int index) {
                           return RestaurentIcon(
-                            restaurent: restaurentController.restaurents[index],
+                            restaurent:
+                                restaurentController.nearestrestaurents[index],
                             smallicon: false,
                           );
                         },
@@ -197,16 +253,16 @@ class HomeScreen extends StatelessWidget {
               color: AppColors.green,
             ),
             Text(
-              "أبرز الوجبات",
+              "featuredmeals".tr,
               style: AppTextStyles.greenboldHeading,
             )
           ],
         ),
         SizedBox(
-          height: 20,
+          height: 10,
         ),
         SizedBox(
-          height: 300,
+          height: 180,
           width: double.infinity,
           child: GetBuilder(
               init: mealsController,
@@ -227,6 +283,53 @@ class HomeScreen extends StatelessWidget {
                         itemCount: 5,
                         itemBuilder: (BuildContext context, int index) {
                           return HomeMealShimmer();
+                        },
+                      );
+              }),
+        ),
+      ],
+    );
+  }
+
+  Widget buildOfferMeals() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Icon(
+              Icons.local_fire_department,
+              color: Colors.orangeAccent,
+            ),
+            Text(
+              "offersmeals".tr,
+              style: AppTextStyles.greenboldHeading,
+            )
+          ],
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+          height: 160,
+          width: double.infinity,
+          child: GetBuilder(
+              init: mealsController,
+              builder: (_) {
+                return mealsController.offersMealsLoaded
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: mealsController.offersmeals.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return OfferMeal(
+                            meal: mealsController.offersmeals[index],
+                          );
+                        },
+                      )
+                    : ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: 5,
+                        itemBuilder: (BuildContext context, int index) {
+                          return OfferMealShimmer();
                         },
                       );
               }),

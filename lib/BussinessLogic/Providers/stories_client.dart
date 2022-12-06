@@ -13,7 +13,7 @@ class StoryClient {
 
   Future<dynamic> allstories() async {
     var response = await client.get(Uri.parse(baseUrl + allStoriesUrl));
-
+    print(response.body);
     if (response.statusCode == 200) {
       return response.body;
     } else {

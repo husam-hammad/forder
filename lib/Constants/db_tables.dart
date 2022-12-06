@@ -42,7 +42,9 @@ class CartItemFields {
     price,
     allPrice,
     specialOrder,
-    createdAt
+    compoments,
+    createdAt,
+    replacedPoints
   ];
   static const String id = "id";
   static const String mealId = "meal_id";
@@ -51,5 +53,7 @@ class CartItemFields {
   static const String price = "price";
   static const String allPrice = "all_price";
   static const String specialOrder = "special_order";
+  static const String compoments = "compoments";
   static const String createdAt = "created_at";
+  static const String replacedPoints = "replaced_points";
 }

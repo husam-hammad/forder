@@ -5,11 +5,13 @@ import 'dart:io';
 
 import 'package:flashorder/Constants/links.dart';
 import 'package:flashorder/DataAccess/Models/user.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 class UserClient {
   var client = http.Client();
-
+  var box = GetStorage();
+  User? user;
   Future<User?> register(username, password) async {
     var url = Uri.parse(baseUrl + registerUrl);
 
@@ -25,7 +27,7 @@ class UserClient {
         'password_confirmation': password,
       }),
     );
-    print(response.body);
+
     if (response.statusCode == 200) {
       return User.fromApiMap(jsonDecode(response.body));
     } else {
@@ -34,7 +36,6 @@ class UserClient {
   }
 
   Future<User?> updateUserImage(String userToken, userId, image) async {
-    print('start post users');
     String headers = "Bearer " + userToken;
     /* headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -68,7 +69,6 @@ class UserClient {
     var response = await request.send();
 
     if (response.statusCode == 200) {
-      print('200');
       return User.fromApiMap(jsonDecode(await response.stream.bytesToString()));
     }
     return null;
@@ -92,7 +92,7 @@ class UserClient {
         "adress": adress,
       }),
     );
-    print(response.body);
+
     if (response.statusCode == 200) {
       return User.fromApiMap(jsonDecode(response.body));
     }
@@ -100,8 +100,6 @@ class UserClient {
   }
 
   Future<int> updateFCM(String userToken, userfcm, userId) async {
-    print("user Id Is : " + userId.toString());
-    print("user FCM Is : " + userfcm.toString());
     String headers = "Bearer " + userToken;
     var url = Uri.parse(baseUrl + updateFCMUrl);
     var response = await http.post(
@@ -116,7 +114,6 @@ class UserClient {
       }),
     );
 
-    print(response.statusCode);
     return response.statusCode;
   }
 
@@ -136,12 +133,10 @@ class UserClient {
       }),
     );
 
-    print(response.statusCode);
     return response.statusCode;
   }
 
   Future<String> getUserPoint(String userToken, userId) async {
-    print("start get user points 0");
     String headers = "Bearer " + userToken;
     var url = Uri.parse(baseUrl + getUserPoints);
     var response = await http.post(
@@ -152,7 +147,90 @@ class UserClient {
       },
       body: jsonEncode(<String, dynamic>{"userId": userId}),
     );
-    print(response.body);
     return response.body.toString();
+  }
+
+  Future<String> getStatus(String userToken, userId) async {
+    String headers = "Bearer " + userToken;
+    var url = Uri.parse(baseUrl + getUserStatus);
+    var response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: headers
+      },
+      body: jsonEncode(<String, dynamic>{"id": userId}),
+    );
+
+    return response.body.toString();
+  }
+
+  Future<int> requireLocation(String userToken, captinId, userId) async {
+    String headers = "Bearer " + userToken;
+    var url = Uri.parse(baseUrl + requireLocationUrl);
+    var response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: headers
+      },
+      body: jsonEncode(<String, dynamic>{
+        "captin_id": captinId,
+        "user_id": userId,
+      }),
+    );
+
+    return response.statusCode;
+  }
+
+  Future<int> stopSendLocation(String userToken, captinId, userId) async {
+    String headers = "Bearer " + userToken;
+    var url = Uri.parse(baseUrl + stopSendLocationUrl);
+    var response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: headers
+      },
+      body: jsonEncode(<String, dynamic>{
+        "captin_id": captinId,
+        "user_id": userId,
+      }),
+    );
+
+    return response.statusCode;
+  }
+
+  Future<int> sendOrderRating(orderid, restauretId, restaurentRating, captinId,
+      captinRating, money) async {
+    if (box.read('userdata') != null) {
+      user = User.fromMap(box.read('userdata'));
+
+      if (user != null) {
+        String headers = "Bearer " + user!.token;
+        var url = Uri.parse(baseUrl + postRating);
+        var response = await http.post(
+          url,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: headers
+          },
+          body: jsonEncode(<String, dynamic>{
+            "user_id": user!.id,
+            "captin_id": captinId,
+            "restaurent_id": restauretId,
+            "order_id": orderid,
+            "restaurent_rate": restaurentRating,
+            "captin_rate": captinRating,
+            "user_paid": money
+          }),
+        );
+        return response.statusCode;
+      } else {
+        return 500;
+      }
+    } else {
+      return 404;
+    }
   }
 }

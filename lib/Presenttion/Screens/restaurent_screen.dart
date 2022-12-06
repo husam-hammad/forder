@@ -6,9 +6,13 @@ import 'package:flashorder/DataAccess/Models/restaurent.dart';
 import 'package:flashorder/Presenttion/Screens/mealcategory_screen.dart';
 import 'package:flashorder/Presenttion/Widgets/appbar.dart';
 import 'package:flashorder/Presenttion/Widgets/custom_bottom.dart';
+import 'package:flashorder/Presenttion/Widgets/loading_item.dart';
 import 'package:flashorder/helpers/image_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+
+import '../../Constants/custom_styles.dart';
 
 class RestaurentScreen extends StatelessWidget {
   const RestaurentScreen({Key? key, required this.restaurent})
@@ -21,13 +25,14 @@ class RestaurentScreen extends StatelessWidget {
         Get.put(RestaurentScreenController(restaurent));
     return SafeArea(
         child: Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Get.locale!.languageCode == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       child: Scaffold(
         appBar: buildAppBar(),
-        bottomNavigationBar: CustomBotttomNav(),
+        bottomNavigationBar: const CustomBotttomNav(),
         body: Container(
           padding: const EdgeInsets.all(0),
-          color: AppColors.lightwhite,
           width: Get.width,
           height: Get.height,
           child: RefreshIndicator(
@@ -36,17 +41,63 @@ class RestaurentScreen extends StatelessWidget {
               Hero(
                 tag: "restaurent" + restaurent.id.toString(),
                 child: SizedBox(
-                  height: 250,
+                  height: 260,
                   child: Stack(
                     children: [
                       Container(
                         width: double.infinity,
                         height: 200,
                         decoration: BoxDecoration(
+                            borderRadius: CustomStyles.raduis100Bottom,
                             image: DecorationImage(
+                                colorFilter: restaurent.isOpen == 0
+                                    ? const ColorFilter.mode(
+                                        Colors.black, BlendMode.color)
+                                    : null,
                                 fit: BoxFit.cover,
                                 image: CachedNetworkImageProvider(
                                     ImageHelper.buildImage(restaurent.cover)))),
+                      ),
+                      Positioned(
+                          bottom: 0,
+                          right: 20,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "orderability".tr,
+                                style: AppTextStyles.greyBoldDetail,
+                              ),
+                              Text(
+                                restaurent.isOpen.toString() == "1"
+                                    ? "opened".tr
+                                    : "closed".tr,
+                                style: restaurent.isOpen.toString() == "1"
+                                    ? AppTextStyles.greenRegularHeading
+                                    : AppTextStyles.redRegularHeading,
+                              ),
+                            ],
+                          )),
+                      Positioned(
+                        bottom: 0,
+                        left: 20,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "deliverycost".tr,
+                              style: AppTextStyles.greyBoldDetail,
+                            ),
+                            Text(
+                                controller.restaurent
+                                        .getDeliveryCost()
+                                        .toString() +
+                                    "sp".tr,
+                                style: AppTextStyles.greenRegularHeading)
+                          ],
+                        ),
                       ),
                       Positioned(
                           bottom: 0,
@@ -55,58 +106,72 @@ class RestaurentScreen extends StatelessWidget {
                             radius: 55,
                             backgroundColor: Colors.white,
                           )),
+                      if (restaurent.isOpen == 0)
+                        LottieBuilder.asset(
+                          'assets/images/closed.json',
+                          width: 100,
+                        ),
                       Positioned(
                           bottom: 5,
                           left: Get.width / 2 - 50,
                           child: CircleAvatar(
                             radius: 50,
                             backgroundImage: CachedNetworkImageProvider(
-                                ImageHelper.buildImage(restaurent.logo)),
+                              ImageHelper.buildImage(restaurent.logo),
+                            ),
                           )),
                     ],
                   ),
                 ),
               ),
               Center(
-                child: Column(children: [
-                  Text(
-                    restaurent.name,
-                    style: AppTextStyles.greyboldHeading,
-                  ),
-                  const Text(
-                    "مفتوح",
-                    style: AppTextStyles.greyregular,
-                  ),
-                ]),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        restaurent.name,
+                        style: AppTextStyles.pinkboldHeading,
+                      ),
+                      Text(restaurent.adrees,
+                          style: Theme.of(context).brightness == Brightness.dark
+                              ? AppTextStyles.whiteRegularDetail
+                                  .apply(fontSizeFactor: 1.5)
+                              : AppTextStyles.greyregular
+                                  .apply(fontSizeFactor: 1.5)),
+                    ]),
               ),
               const SizedBox(
-                height: 20,
+                height: 5,
               ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        const Text(
-                          "كلفة التوصيل  : ",
-                          style: AppTextStyles.greenboldHeading,
-                        ),
-                        Text(
-                          controller.restaurent.getDeliveryCost().toString() +
-                              " ل.س ",
-                          style: AppTextStyles.greyregular,
-                        )
-                      ],
+              GetBuilder(
+                init: controller,
+                builder: (_) {
+                  return SizedBox(
+                    width: double.infinity,
+                    height: 40,
+                    child: Center(
+                      child: controller.restaurent.rating != 0
+                          ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: controller.restaurent.rating,
+                              itemBuilder: (BuildContext context, int index) {
+                                return const Icon(
+                                  Icons.star,
+                                  color: Colors.orangeAccent,
+                                );
+                              },
+                            )
+                          : Row(),
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
               Container(
                 padding: const EdgeInsets.all(10),
                 color: AppColors.green,
-                child: const Text(
-                  "التصنيفات",
+                child: Text(
+                  "categories".tr,
                   style: AppTextStyles.whiteboldHeading,
                 ),
               ),
@@ -133,7 +198,7 @@ class RestaurentScreen extends StatelessWidget {
                                         const EdgeInsets.symmetric(vertical: 2),
                                     margin:
                                         const EdgeInsets.symmetric(vertical: 2),
-                                    color: Colors.white,
+                                    color: Theme.of(context).backgroundColor,
                                     child: ListTile(
                                         leading: const Icon(
                                           Icons.fastfood,
@@ -144,8 +209,8 @@ class RestaurentScreen extends StatelessWidget {
                                   ),
                                 );
                               })
-                          : const Center(
-                              child: CircularProgressIndicator(),
+                          : Center(
+                              child: loadingItemGreen(),
                             );
                     }),
               ),

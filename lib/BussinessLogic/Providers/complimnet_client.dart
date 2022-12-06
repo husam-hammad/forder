@@ -26,7 +26,7 @@ class ComplimentClient {
       },
       body: jsonEncode(<String, dynamic>{"data": tosend}),
     );
-    print(response.statusCode);
+    print(response.body);
     return response.statusCode;
   }
 

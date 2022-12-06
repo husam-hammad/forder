@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:math';
 
 class Calc {
@@ -17,10 +19,28 @@ class Calc {
   }
 
   static num nearestThousand(num number) {
+    num a = number % 1000;
+
+    if (a > 0) {
+      return (number ~/ 1000) * 1000 + 1000;
+    }
+    return number;
+  }
+
+  static num nearestHundred(num number) {
     num a = number % 100;
 
     if (a > 0) {
       return (number ~/ 100) * 100 + 100;
+    }
+    return number;
+  }
+
+  static num nearestTen(num number) {
+    num a = number % 10;
+
+    if (a > 0) {
+      return (number ~/ 10) * 10 + 10;
     }
     return number;
   }

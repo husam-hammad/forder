@@ -2,6 +2,7 @@ import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/Presenttion/Widgets/appbar.dart';
 import 'package:flashorder/Presenttion/Widgets/custom_bottom.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatelessWidget {
@@ -11,10 +12,12 @@ class ContactUs extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Get.locale!.languageCode == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       child: Scaffold(
           appBar: buildAppBar(),
-          bottomNavigationBar: CustomBotttomNav(),
+          bottomNavigationBar: const CustomBotttomNav(),
           body: Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -25,16 +28,16 @@ class ContactUs extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
-                        "إتصل بنا ",
+                        "contactus".tr,
                         style: AppTextStyles.pinkboldTopPage,
                       ),
                     ],
                   ),
                 ),
-                const Text(
-                  "لأي استفسار أو شكوى مباشرة يمكنك الإتصال  على : ",
+                Text(
+                  "contactusdesc".tr,
                   style: AppTextStyles.greyregular,
                 ),
                 Padding(
@@ -50,7 +53,7 @@ class ContactUs extends StatelessWidget {
                           Icons.phone,
                           color: Colors.blueAccent,
                         ),
-                        subtitle: const Text("رقم رباعي",
+                        subtitle: Text("quadnumber".tr,
                             style: AppTextStyles.greyRegularDetail),
                         onTap: () {
                           final Uri launchUri = Uri(
@@ -61,13 +64,26 @@ class ContactUs extends StatelessWidget {
                           /* launch("tel://214324234"); */
                         },
                       ),
-                      const ListTile(
-                        title: Text(""),
-                        leading: Icon(
+                      ListTile(
+                        title: const Text(
+                          "0939998886",
+                          style: AppTextStyles.greenboldHeading,
+                        ),
+                        leading: const Icon(
                           Icons.call,
                           color: Colors.blueAccent,
                         ),
-                        subtitle: Text("رقم موبايل"),
+                        subtitle: Text(
+                          "phone".tr,
+                          style: AppTextStyles.greyRegularDetail,
+                        ),
+                        onTap: () {
+                          final Uri launchUri = Uri(
+                            scheme: 'tel',
+                            path: "0939998886",
+                          );
+                          launchUrl(launchUri);
+                        },
                       ),
                     ],
                   ),
@@ -81,8 +97,8 @@ class ContactUs extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "مؤسسة فلاش أوردر : ",
+                      Text(
+                        'companyname'.tr,
                         style: AppTextStyles.pinkboldHeading,
                         textAlign: TextAlign.right,
                       ),
@@ -90,10 +106,10 @@ class ContactUs extends StatelessWidget {
                         height: 15,
                       ),
                       Row(
-                        children: const [
-                          Icon(Icons.room),
+                        children: [
+                          const Icon(Icons.room),
                           Text(
-                            "شارع بغداد - قبل مشفى الهلال ",
+                            "companyadress".tr,
                             style: AppTextStyles.greyregular,
                           )
                         ],

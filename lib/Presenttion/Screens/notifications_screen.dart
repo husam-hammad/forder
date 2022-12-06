@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flashorder/BussinessLogic/Controllers/notification_controller.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/Presenttion/Widgets/appbar.dart';
@@ -9,15 +11,28 @@ import 'package:get/get.dart';
 class NotificationScreen extends StatelessWidget {
   NotificationScreen({Key? key}) : super(key: key);
   final notificationContoller = Get.put(NotificationContoller());
+  final ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
+    /* scrollController.addListener(() {
+// nextPageTrigger will have a value equivalent to 80% of the list size.
+      var nextPageTrigger = 0.8 * scrollController.position.maxScrollExtent;
+
+// _scrollController fetches the next paginated data when the current postion of the user on the screen has surpassed
+      if (scrollController.position.pixels > nextPageTrigger) {
+        print("is next");
+        notificationContoller.getAll();
+      }
+    }); */
     return SafeArea(
         child: Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Get.locale!.languageCode == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       child: Scaffold(
         appBar: buildAppBar(),
-        bottomNavigationBar: CustomBotttomNav(),
+        bottomNavigationBar: const CustomBotttomNav(),
         body: Column(
           children: [
             Padding(
@@ -25,20 +40,20 @@ class NotificationScreen extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Text(
-                    "الإشعارات ",
+                    "notifications".tr,
                     style: AppTextStyles.pinkboldTopPage,
                   ),
-                  /* InkWell(
+                  InkWell(
                     onTap: () async {
-                      /* await cartController.deleteAll(); */
+                      await notificationContoller.getAll(false);
                     },
-                    child: const Text(
-                      "عرض الكل",
+                    child: Text(
+                      "loadmore".tr,
                       style: AppTextStyles.greyregular,
                     ),
-                  ) */
+                  )
                 ],
               ),
             ),
@@ -53,12 +68,12 @@ class NotificationScreen extends StatelessWidget {
                       notificationContoller.endloading) {
                     return RefreshIndicator(
                       onRefresh: () async {
-                        await notificationContoller.getAll();
+                        await notificationContoller.getAll(true);
                       },
                       child: ListView.builder(
+                        controller: scrollController,
                         itemCount: notificationContoller.notifications.length,
                         itemBuilder: (BuildContext context, int index) {
-                          // ignore: avoid_print
                           return InkWell(
                             onTap: () {
                               notificationContoller.gotopage(
@@ -74,8 +89,8 @@ class NotificationScreen extends StatelessWidget {
                     );
                   } else if (notificationContoller.notifications.isEmpty &&
                       notificationContoller.endloading) {
-                    return const Center(
-                      child: Text("لا توجد إشعارات"),
+                    return Center(
+                      child: Text("nonotifications".tr),
                     );
                   } else {
                     return const Center(

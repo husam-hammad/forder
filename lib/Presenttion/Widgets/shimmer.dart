@@ -34,10 +34,10 @@ class Shimmerwidget extends StatelessWidget {
           height: height,
           decoration: ShapeDecoration(
             shape: shapeBorder,
-            color: Colors.grey[400],
+            color: const Color.fromARGB(255, 151, 151, 151),
           ),
         ),
-        baseColor: Colors.grey[400]!,
-        highlightColor: Colors.grey[300]!);
+        baseColor: const Color.fromARGB(255, 184, 184, 184),
+        highlightColor: const Color.fromARGB(255, 189, 189, 189));
   }
 }

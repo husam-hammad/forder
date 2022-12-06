@@ -51,26 +51,31 @@ class User {
     };
   }
 
+  static DateTime? testbirth(time) {
+    print(time);
+    if (time == "null") {
+      return null;
+    }
+    try {
+      return DateTime.parse(time);
+    } catch (e) {
+      return null;
+    }
+  }
+
   factory User.fromMap(Map<String, dynamic> map) {
     /*  print("start map" + map.toString()); */
-    DateTime? testbirth() {
-      try {
-        return DateTime.parse(map['birthday'].toString());
-      } catch (e) {
-        return null;
-      }
-    }
 
-    //print(map['birthday']);
+    print(map['birthday']);
     return User(
         id: map['id']?.toInt() ?? 0,
         name: map['name'] ?? '',
         phone: map['phone'] ?? '',
         points: map['points']?.toDouble() ?? 0,
         token: map['token'] ?? '',
-        birthday: (map['birthday'] != null && map['birthday'] != "")
-            ? testbirth()
-            : null,
+        birthday: map['birthday'] == null || map['birthday'] == "null"
+            ? null
+            : testbirth(map['birthday']),
         // birthday: null,
         adress: map['adress'] ?? '',
         statue: map['statue'] ?? false,
@@ -93,7 +98,7 @@ user": {
       id: map['user']['id']?.toInt() ?? 0,
       phone: map['user']['email'] ?? '',
       name: map['user']['name'] ?? '',
-      points: map['user']['points'] ?? 0,
+      points: num.parse(map['user']['points'].toString()),
       token: map['token'] ?? '',
       adress: map['user']['adress'] ?? '',
       birthday:

@@ -7,6 +7,7 @@ class BoxProvider {
   static Future<User?> getuser() async {
     var box = GetStorage();
     if (await box.read('userdata') != null) {
+      print(box.read('userdata'));
       return User.fromMap(box.read('userdata'));
     } else {
       return null;

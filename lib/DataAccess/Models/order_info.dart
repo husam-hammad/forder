@@ -7,14 +7,17 @@ class OrderInfo {
   double? pLong;
   num? orderValue;
   num? deliveryCost;
-  OrderInfo({
-    this.userId,
-    this.restaurentId,
-    this.pLat,
-    this.pLong,
-    this.orderValue,
-    this.deliveryCost,
-  });
+  String? adress;
+  num? usedpoints;
+  OrderInfo(
+      {this.userId,
+      this.restaurentId,
+      this.pLat,
+      this.pLong,
+      this.orderValue,
+      this.deliveryCost,
+      this.adress,
+      this.usedpoints});
 
   OrderInfo copyWith({
     int? userId,
@@ -42,18 +45,21 @@ class OrderInfo {
       'pLong': pLong,
       'orderValue': orderValue,
       'deliveryCost': deliveryCost,
+      'adress': adress,
+      'usedpoints': usedpoints
     };
   }
 
   factory OrderInfo.fromMap(Map<String, dynamic> map) {
     return OrderInfo(
-      userId: map['userId']?.toInt(),
-      restaurentId: map['restaurentId']?.toInt(),
-      pLat: map['pLat']?.toDouble(),
-      pLong: map['pLong']?.toDouble(),
-      orderValue: map['orderValue'],
-      deliveryCost: map['deliveryCost'],
-    );
+        userId: map['userId']?.toInt(),
+        restaurentId: map['restaurentId']?.toInt(),
+        pLat: map['pLat']?.toDouble(),
+        pLong: map['pLong']?.toDouble(),
+        orderValue: map['orderValue'],
+        deliveryCost: map['deliveryCost'],
+        adress: map['adress'],
+        usedpoints: map['usedpoints']);
   }
 
   String toJson() => json.encode(toMap());

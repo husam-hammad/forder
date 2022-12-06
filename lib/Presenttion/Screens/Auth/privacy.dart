@@ -2,10 +2,11 @@ import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/custom_styles.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/Presenttion/Screens/onboarding.dart';
-import 'package:flashorder/Presenttion/Widgets/appbar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:get/get.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   const PrivacyPolicy({Key? key, required this.forAccept}) : super(key: key);
@@ -34,10 +35,33 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Get.locale!.languageCode == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: AppColors.lightwhite,
-        appBar: buildAppBar(),
+        appBar: NewGradientAppBar(
+          gradient:
+              const LinearGradient(colors: [AppColors.pink, AppColors.pink2]),
+          shape: const ContinuousRectangleBorder(
+              borderRadius:
+                  BorderRadius.only(bottomRight: Radius.circular(100))),
+          elevation: 0,
+          centerTitle: true,
+          title: Column(
+            children: [
+              //Icon(Icons.flash_on),
+              const SizedBox(
+                height: 20,
+              ),
+              Image.asset(
+                "assets/images/logo-white.png",
+                width: 100,
+              )
+            ],
+          ),
+        ),
         bottomNavigationBar: widget.forAccept == true
             ? Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -46,8 +70,8 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                   onPressed: () {
                     Get.to(const OnBoardingPage());
                   },
-                  child: const Text(
-                    "أوافق على الأحكام والشروط",
+                  child: Text(
+                    "acceptterms".tr,
                     style: AppTextStyles.whiteRegularHeading,
                   ),
                 ),
@@ -59,9 +83,9 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               padding: const EdgeInsets.all(15.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const <Widget>[
+                children: <Widget>[
                   Text(
-                    "سياسة الاستخدام",
+                    "privacypolicy".tr,
                     style: AppTextStyles.pinkboldTopPage,
                   ),
                 ],

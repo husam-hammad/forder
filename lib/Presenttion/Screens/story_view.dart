@@ -1,24 +1,48 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, use_key_in_widget_constructors
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, use_key_in_widget_constructors, avoid_print
 
+import 'package:flashorder/BussinessLogic/Controllers/meals_controller.dart';
 import 'package:flashorder/BussinessLogic/Controllers/stories_controller.dart';
 import 'package:flashorder/Constants/colors.dart';
+import 'package:flashorder/Constants/textstyles.dart';
+
+import 'package:flashorder/DataAccess/Models/story.dart';
+import 'package:flashorder/Presenttion/Screens/restaurent_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:story_view/story_view.dart';
+
+import 'box_screen.dart';
+import 'meal_screen.dart';
 
 class StoryViewScreen extends StatelessWidget {
   final StoryController controller = StoryController();
   final StoriesController storyController = Get.find();
-  StoryViewScreen({Key? key}) : super(key: key);
+  final MealsController mealsController = Get.find();
+  StoryViewScreen({Key? key, required this.goto}) : super(key: key);
+  final int goto;
 
   @override
   Widget build(BuildContext context) {
+    /* if (goto != 0) {
+
+      controller.playbackNotifier.add(PlaybackState.next);
+    } */
+    bool firststoryshown = false;
+    int currentindex = 0;
+    Story? currentkey;
+    List<StoryItem?> list = [];
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: Get.locale!.languageCode == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.pink,
-          title: Text("العروض والقصص"),
+          title: Text(
+            "lateststories".tr,
+            style: AppTextStyles.whiteRegularHeading,
+          ),
           centerTitle: true,
         ),
         body: Container(
@@ -31,22 +55,72 @@ class StoryViewScreen extends StatelessWidget {
                 child: Container(
                   height: Get.height,
                   child: Directionality(
-                    textDirection: TextDirection.ltr,
-                    child: StoryView(
-                      controller: controller,
-                      storyItems: buildStories(),
-                      onStoryShow: (s) {},
-                      onComplete: () {
-                        Get.back();
-                      },
-                      progressPosition: ProgressPosition.top,
-                      repeat: false,
-                      inline: true,
+                    textDirection: Get.locale!.languageCode == 'en'
+                        ? TextDirection.ltr
+                        : TextDirection.rtl,
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        StoryView(
+                          controller: controller,
+                          storyItems: buildStories(list),
+                          onStoryShow: (s) {
+                            currentindex = list.indexOf(s);
+                            currentkey = storyController.stories[currentindex];
+
+                            if (goto != 0 && goto != 10000) {
+                              int gotovalue = goto;
+                              while (gotovalue > 0 && !firststoryshown) {
+                                gotovalue--;
+                                controller.next();
+                              }
+                              firststoryshown = true;
+                            }
+                          },
+                          onComplete: () {
+                            Get.back();
+                          },
+                          onVerticalSwipeComplete: (e) {
+                            if (e!.index == 0) {
+                              if (currentkey != null) {
+                                if (currentkey!.box != null) {
+                                  print(currentkey!.box!.title);
+                                  Get.to(() => BoxScreen(
+                                        box: currentkey!.box!,
+                                      ));
+                                } else if (currentkey!.meal != null) {
+                                  Get.to(() => MealScreen(),
+                                      arguments: [currentkey!.meal]);
+                                } else {
+                                  if (currentkey!.restaurent != null) {
+                                    Get.to(() => RestaurentScreen(
+                                        restaurent: currentkey!.restaurent!));
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          progressPosition: ProgressPosition.top,
+                          repeat: false,
+                          inline: true,
+                        ),
+                        Positioned(
+                          bottom: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: LottieBuilder.asset(
+                              'assets/images/swipertop.json',
+                              width: 100,
+                              repeat: true,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-              Expanded(
+              /*  Expanded(
                 flex: 1,
                 child: Material(
                   child: InkWell(
@@ -62,16 +136,16 @@ class StoryViewScreen extends StatelessWidget {
                       padding: EdgeInsets.symmetric(vertical: 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const <Widget>[
-                          Icon(
+                        children: <Widget>[
+                          const Icon(
                             Icons.arrow_forward,
                             color: Colors.white,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 16,
                           ),
                           Text(
-                            "المزيد من العروض",
+                            "morestories".tr,
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ],
@@ -80,6 +154,7 @@ class StoryViewScreen extends StatelessWidget {
                   ),
                 ),
               ),
+             */
             ],
           ),
         ),
@@ -87,23 +162,30 @@ class StoryViewScreen extends StatelessWidget {
     );
   }
 
-  List<StoryItem?> buildStories() {
-    List<StoryItem?> list = [];
+  List<StoryItem?> buildStories(list) {
+/*     storyController.stories[0] = storyController.stories[goto]; */
+
     for (var story in storyController.stories) {
       list.add(StoryItem.inlineImage(
+        imageFit: BoxFit.contain,
+        duration: Duration(seconds: 5),
         url: story.image,
         controller: controller,
+        key: ValueKey<Story?>(story),
         caption: Text(
           story.description,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.white,
-            backgroundColor: Colors.black54,
-            fontSize: 17,
-          ),
+              color: Colors.white,
+              /* backgroundColor: Colors.black54, */
+              wordSpacing: 0,
+              letterSpacing: 0,
+              fontSize: 17,
+              fontFamily: "Cairo"),
         ),
       ));
     }
+
     return list;
   }
 }
@@ -126,11 +208,11 @@ class _MoreStoriesState extends State<MoreStories> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("المزيد من العروض"),
+        title: Text("morestories".tr),
       ),
       body: StoryView(
-        storyItems: [
-          StoryItem.text(
+        storyItems: const [
+          /* StoryItem.text(
             title: "I guess you'd love to see more of our food. That's great.",
             backgroundColor: Colors.blue,
           ),
@@ -161,7 +243,7 @@ class _MoreStoriesState extends State<MoreStories> {
             url: "https://media.giphy.com/media/XcA8krYsrEAYXKf4UQ/giphy.gif",
             caption: "Hello, from the other side2",
             controller: storyController,
-          ),
+          ), */
         ],
         onStoryShow: (s) {},
         onComplete: () {

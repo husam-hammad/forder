@@ -16,8 +16,9 @@ class NotificationItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(5),
       margin: const EdgeInsets.all(5),
-      decoration: const BoxDecoration(
-          color: Colors.white, borderRadius: CustomStyles.raduis50),
+      decoration: BoxDecoration(
+          color: Theme.of(context).backgroundColor,
+          borderRadius: CustomStyles.raduis50),
       width: double.infinity,
       height: 100,
       child: Row(
@@ -51,7 +52,7 @@ class NotificationItem extends StatelessWidget {
                     notification.description,
                   ),
                   Text("${'مرسل الإشعار : ' + notification.from.name}  ",
-                      style: AppTextStyles.greyRegularDetail)
+                      style: Theme.of(context).textTheme.bodySmall)
                 ],
               ))
         ],

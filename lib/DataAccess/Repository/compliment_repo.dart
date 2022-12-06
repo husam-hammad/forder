@@ -22,7 +22,8 @@ class ComplimentRepo {
 
   Future<bool> sendCompliment(tosend, userToken) async {
     var response = await client.sendCompliment(tosend, userToken);
-
+    // ignore: avoid_print
+    print(response);
     if (response == 200) {
       return true;
     }

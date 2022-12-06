@@ -30,7 +30,11 @@ class TableCreator {
        ${CartItemFields.qty} ${FieldsTypes.int},
        ${CartItemFields.price} ${FieldsTypes.num},
        ${CartItemFields.allPrice} ${FieldsTypes.num},
-       ${CartItemFields.specialOrder} ${FieldsTypes.text}
+       ${CartItemFields.specialOrder} ${FieldsTypes.text},
+        ${CartItemFields.compoments} ${FieldsTypes.text},
+      ${CartItemFields.replacedPoints} ${FieldsTypes.num}
+        
+       
      )
      ''');
   }
@@ -40,6 +44,7 @@ class TableCreator {
      CREATE TABLE ${DBTables.places} (
        ${PlacesFields.id} ${FieldsTypes.id},
        ${PlacesFields.name} ${FieldsTypes.text},
+       ${PlacesFields.adress} ${FieldsTypes.text},
        ${PlacesFields.lat} ${FieldsTypes.num},
        ${PlacesFields.long} ${FieldsTypes.num}
 
@@ -48,7 +53,12 @@ class TableCreator {
   }
 
   static Future<void> updatePlacesTable(Database db) async {
-    await db.execute(
-        "ALTER TABLE ${DBTables.places} ADD ${PlacesFields.adress}  ${FieldsTypes.text};");
+    try {
+      await db.execute(
+          "ALTER TABLE ${DBTables.places} ADD ${PlacesFields.adress}  ${FieldsTypes.text};");
+    } catch (ex) {
+      // ignore: avoid_print
+      print(ex);
+    }
   }
 }

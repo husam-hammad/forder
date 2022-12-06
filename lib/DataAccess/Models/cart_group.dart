@@ -7,10 +7,16 @@ class CartGroup {
   int? restaurentId;
   List<CartItem> cartItems;
   OrderInfo? orderInfo;
+  num finalval = 0;
+  num categoryDiscount = 0;
+  num restaunretDiscount = 0;
   CartGroup({
     this.restaurentId,
     required this.cartItems,
     required this.orderInfo,
+    required this.finalval,
+    required this.categoryDiscount,
+    required this.restaunretDiscount,
   });
 
   CartGroup copyWith({
@@ -19,17 +25,22 @@ class CartGroup {
     OrderInfo? orderInfo,
   }) {
     return CartGroup(
-      restaurentId: restaurentId ?? this.restaurentId,
-      cartItems: cartItems ?? this.cartItems,
-      orderInfo: orderInfo ?? this.orderInfo,
-    );
+        restaurentId: restaurentId ?? this.restaurentId,
+        cartItems: cartItems ?? this.cartItems,
+        orderInfo: orderInfo ?? this.orderInfo,
+        finalval: finalval,
+        categoryDiscount: categoryDiscount,
+        restaunretDiscount: restaunretDiscount);
   }
 
   Map<String, dynamic> toMap() {
     return {
       'restaurentId': restaurentId,
       'cartItems': cartItems.map((x) => x.toMap()).toList(),
-      'orderInfo': orderInfo!.toMap(),
+      'orderInfo': orderInfo?.toMap(),
+      'finalval': finalval,
+      'categoryDiscount': categoryDiscount,
+      'restaunretDiscount': restaunretDiscount,
     };
   }
 
@@ -38,7 +49,11 @@ class CartGroup {
       restaurentId: map['restaurentId']?.toInt(),
       cartItems: List<CartItem>.from(
           map['cartItems']?.map((x) => CartItem.fromMap(x))),
-      orderInfo: OrderInfo.fromMap(map['orderInfo']),
+      orderInfo:
+          map['orderInfo'] != null ? OrderInfo.fromMap(map['orderInfo']) : null,
+      finalval: map['finalval'] ?? 0,
+      categoryDiscount: map['categoryDiscount'] ?? 0,
+      restaunretDiscount: map['restaunretDiscount'] ?? 0,
     );
   }
 

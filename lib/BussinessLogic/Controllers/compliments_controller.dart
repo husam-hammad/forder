@@ -9,6 +9,7 @@ import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/compliments.dart';
 import 'package:flashorder/DataAccess/Models/user.dart';
 import 'package:flashorder/DataAccess/Repository/compliment_repo.dart';
+import 'package:flashorder/Presenttion/Widgets/loading_item.dart';
 /* import 'package:flashorder/DataAccess/Models/restaurent.dart'; */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ class ComplimentController extends GetxController {
   var box = GetStorage();
   bool loaded = false;
   User? user;
+  var sending = false.obs;
   @override
   void onInit() async {
     super.onInit();
@@ -57,42 +59,65 @@ class ComplimentController extends GetxController {
                 child: ElevatedButton(
                     style: CustomStyles.acceptButtonStyle,
                     onPressed: () async {
-                      complimentRepo = ComplimentRepo(ComplimentClient());
-                      if (box.read('userdata') != null) {
-                        user = User.fromMap(box.read('userdata'));
-                      }
-                      Compliment compliment = Compliment(
-                          id: 0,
-                          userId: user!.id,
-                          description: description.text,
-                          reply: null,
-                          createdAt: null,
-                          repliedAt: null,
-                          restaurentId: restaurentId);
-                      if (user != null) {
-                        String token = user!.token;
+                      if (sending.value != true) {
+                        sending.value = true;
+                        complimentRepo = ComplimentRepo(ComplimentClient());
+                        if (box.read('userdata') != null) {
+                          user = User.fromMap(box.read('userdata'));
+                        }
+                        Compliment compliment = Compliment(
+                            id: 0,
+                            userId: user!.id,
+                            description: description.text,
+                            reply: null,
+                            createdAt: null,
+                            repliedAt: null,
+                            restaurentId: restaurentId);
+                        if (user != null) {
+                          String token = user!.token;
 
-                        if (await complimentRepo.sendCompliment(
-                            compliment.toJson(), token)) {
-                          Get.back();
-                          Get.rawSnackbar(
-                            duration: const Duration(seconds: 1),
-                            messageText: const Text(
-                              "تم الإرسال  بنجاح",
-                              textAlign: TextAlign.center,
-                              style: AppTextStyles.whiteRegularHeading,
-                            ),
-                            backgroundColor: AppColors.green,
-                          );
-                          await getAll();
+                          if (await complimentRepo.sendCompliment(
+                              compliment.toJson(), token)) {
+                            description.text = "";
+                            Get.back();
+                            Get.rawSnackbar(
+                              duration: const Duration(seconds: 1),
+                              messageText: Text(
+                                "complementsent".tr,
+                                textAlign: TextAlign.center,
+                                style: AppTextStyles.whiteRegularHeading,
+                              ),
+                              backgroundColor: AppColors.green,
+                            );
+                            await getAll();
+                            sending.value = false;
+                          }
                         }
                       }
                     },
-                    child: const Text(
-                      "إرسال",
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.whiteRegularDetail,
-                    )),
+                    child: Obx(() {
+                      return sending.value == false
+                          ? Text(
+                              "sendcomp".tr,
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.whiteRegularDetail,
+                            )
+                          : Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                loadingItem(),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "sendingcomp".tr,
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.whiteRegularDetail,
+                                )
+                              ],
+                            );
+                    })),
               )
             ],
           ),

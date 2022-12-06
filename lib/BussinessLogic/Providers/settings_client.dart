@@ -11,8 +11,27 @@ class SettingClient {
 
   SettingClient();
 
+  Future<dynamic> getSettings() async {
+    var response = await client.get(Uri.parse(baseUrl + "settings/all"));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return Responses.empty;
+    }
+  }
+
   Future<String> costbyKm() async {
     var response = await client.get(Uri.parse(baseUrl + "settings/costbykm"));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return Responses.empty;
+    }
+  }
+
+  Future<String> orderAllowEditionState() async {
+    var response = await client
+        .get(Uri.parse(baseUrl + "settings/orderAllowEditionState"));
     if (response.statusCode == 200) {
       return response.body;
     } else {

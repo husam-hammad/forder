@@ -32,6 +32,7 @@ class FavoriteClient {
     final db = await Helper.instance.database;
 
     final result = await db?.query(DBTables.favorites);
+    print(result);
     return result!.map((json) => Favorite.fromMap(json)).toList();
   }
 

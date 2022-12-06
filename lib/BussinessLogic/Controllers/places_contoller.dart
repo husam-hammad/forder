@@ -16,22 +16,25 @@ class PlacesController extends GetxController {
   TextEditingController placeadress = TextEditingController();
 
   @override
-  void onInit() async {
-    super.onInit();
+  void onReady() async {
     placesRepo = PlacesRepo(PlaceClient());
     await getAll();
   }
 
   Future<void> getAll() async {
     places = await placesRepo.getAll();
-    print(places);
     update();
+  }
+
+  Future<void> delete(id) async {
+    await placesRepo.delete(id);
+    await getAll();
   }
 
   Future<void> showNewPlaceDialog(Position position) async {
     await Get.defaultDialog(
-        title: "هل تريد إضافة الموقع الحالي إلى الأماكن المثبتة",
-        titlePadding: const EdgeInsets.all(25),
+        title: "addcurrentlocation".tr,
+        titlePadding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
         titleStyle: AppTextStyles.pinkboldHeading,
         radius: 25,
         content: Column(
@@ -41,7 +44,7 @@ class PlacesController extends GetxController {
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 alignLabelWithHint: true,
-                hintText: "اسم المكان ",
+                hintText: "palcename".tr,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: const BorderSide(
@@ -56,12 +59,15 @@ class PlacesController extends GetxController {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 20,
+            ),
             TextField(
               controller: placeadress,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 alignLabelWithHint: true,
-                hintText: "العنوان ",
+                hintText: "adress".tr,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: const BorderSide(
@@ -80,13 +86,13 @@ class PlacesController extends GetxController {
         ),
         contentPadding: const EdgeInsets.all(25),
         confirm: ElevatedButton(
-            child: const Text(
-              "إضافة",
+            child: Text(
+              "add".tr,
               style: AppTextStyles.whiteRegularHeading,
             ),
             style: ElevatedButton.styleFrom(
               elevation: 0,
-              primary: AppColors.green,
+              backgroundColor: AppColors.green,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
             ),
@@ -99,17 +105,19 @@ class PlacesController extends GetxController {
                     lat: position.latitude,
                     long: position.longitude));
                 await getAll();
+                placename.text = "";
+                placeadress.text = "";
                 Get.back();
               }
             }),
         cancel: ElevatedButton(
-            child: const Text("تخطي"),
+            child: Text('skip'.tr, style: AppTextStyles.whiteRegularHeading),
             onPressed: () {
               Get.back();
             },
             style: ElevatedButton.styleFrom(
               elevation: 0,
-              primary: AppColors.grey,
+              backgroundColor: AppColors.grey,
               shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(15))),
             )),

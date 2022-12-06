@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flashorder/DataAccess/Models/box.dart';
+import 'package:flashorder/DataAccess/Models/meal.dart';
 import 'package:flashorder/DataAccess/Models/restaurent.dart';
 
 class Story {
@@ -7,12 +9,15 @@ class Story {
   late String image;
   late String description;
   late Restaurent? restaurent;
-  Story({
-    required this.id,
-    required this.image,
-    required this.description,
-    required this.restaurent,
-  });
+  late Meal? meal;
+  late Box? box;
+  Story(
+      {required this.id,
+      required this.image,
+      required this.description,
+      required this.restaurent,
+      required this.meal,
+      required this.box});
 
   factory Story.fromMap(Map<String, dynamic> map) {
     return Story(
@@ -20,6 +25,8 @@ class Story {
       image: map['image'] ?? '',
       description: map['description'] ?? '',
       restaurent: Restaurent.fromMap(map['restaurent']),
+      meal: map['meal'] != null ? Meal.fromMap(map['meal']) : null,
+      box: map['box'] != null ? Box.fromMap(map['box']) : null,
     );
   }
 

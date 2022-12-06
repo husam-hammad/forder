@@ -2,34 +2,75 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flashorder/BussinessLogic/Controllers/orders_controller.dart';
+import 'package:flashorder/BussinessLogic/Controllers/user_contoller.dart';
+import 'package:flashorder/BussinessLogic/Providers/user_client.dart';
 import 'package:flashorder/Constants/colors.dart';
 import 'package:flashorder/Constants/custom_styles.dart';
+import 'package:flashorder/Constants/routes.dart';
 import 'package:flashorder/Constants/textstyles.dart';
 import 'package:flashorder/DataAccess/Models/captin.dart';
 import 'package:flashorder/DataAccess/Models/user_order.dart';
+//import 'package:flashorder/Presenttion/Screens/googlemap_screen.dart';
 import 'package:flashorder/helpers/image_helper.dart';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+/////////import '../../Presenttion/Screens/map_screen.dart';
 
 class OrderScreenController extends GetxController {
   final OrderController orderController = Get.find();
 
   final String? orderid;
-  late UserOrder order;
-
+  UserOrder? order;
+  var orderLodaded = false.obs;
   OrderScreenController(this.orderid);
+
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    order = orderController.userOrderFormID(int.parse(orderid!));
+    await orderController.getAll();
+    refresh();
   }
 
   @override
   void onReady() {
     super.onReady();
+
+    order = orderController.userOrderFormID(int.parse(orderid!));
+    update();
+    orderLodaded.value = true;
+    print("showcaptin -- :" + Get.parameters["showcaptin"].toString());
     if (Get.parameters["showcaptin"] == "1") {
-      showCaptinInfo(order.captin!);
+      print("showing captin");
+
+      showCaptinInfo(order!.captin!);
+    }
+    update();
+  }
+
+  @override
+  void onClose() async {
+    super.onClose();
+    await stopSendLocation();
+  }
+
+  Future<void> requirelocation() async {
+    UserClient userClient = UserClient();
+    UserController userController = Get.find();
+    await userClient.requireLocation(
+        userController.user!.token, order!.captin!.id, userController.user!.id);
+    print("CAAAAAAAAAAAAAAAPTIN");
+    print(order!.captin!);
+    Get.toNamed(AppRoutes.mapscreen, arguments: [order!.captin!]);
+  }
+
+  Future<void> stopSendLocation() async {
+    UserClient userClient = UserClient();
+    UserController userController = Get.find();
+    if (order!.captin != null) {
+      await userClient.stopSendLocation(userController.user!.token,
+          order!.captin!.id, userController.user!.id);
     }
   }
 
@@ -50,8 +91,8 @@ class OrderScreenController extends GetxController {
                       decoration: const BoxDecoration(
                           color: AppColors.pink2,
                           borderRadius: CustomStyles.raduis50),
-                      child: const Text(
-                        "كابتن التوصيل",
+                      child: Text(
+                        "captin".tr,
                         style: AppTextStyles.whiteboldHeading,
                         textAlign: TextAlign.center,
                       ),
@@ -83,17 +124,26 @@ class OrderScreenController extends GetxController {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                          color: AppColors.lightwhite,
-                          borderRadius: CustomStyles.raduis50),
-                      child: Text(
-                        captin.phone,
-                        style: AppTextStyles.greenRegularHeading,
-                        textAlign: TextAlign.center,
+                    InkWell(
+                      onTap: () {
+                        final Uri launchUri = Uri(
+                          scheme: 'tel',
+                          path: captin.phone,
+                        );
+                        launchUrl(launchUri);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                            color: AppColors.lightwhite,
+                            borderRadius: CustomStyles.raduis50),
+                        child: Text(
+                          captin.phone,
+                          style: AppTextStyles.greenRegularHeading,
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ],

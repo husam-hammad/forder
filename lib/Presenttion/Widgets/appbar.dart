@@ -15,14 +15,14 @@ PreferredSizeWidget buildAppBar() {
     elevation: 0,
     centerTitle: true,
     title: Column(
-      children: const [
+      children: [
         //Icon(Icons.flash_on),
         SizedBox(
-          height: 5,
+          height: 20,
         ),
-        Text(
-          "The Flash Order",
-          style: TextStyle(color: Colors.white),
+        Image.asset(
+          "assets/images/logo-white.png",
+          width: 100,
         )
       ],
     ),

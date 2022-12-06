@@ -11,50 +11,51 @@ class UserOrderDetail {
   String special;
   String compoments;
   String allInOne;
-  UserOrderDetail({
-    required this.id,
-    required this.meal,
-    required this.qty,
-    required this.price,
-    required this.allPrice,
-    required this.special,
-    required this.compoments,
-    required this.allInOne,
-  });
+  num? replacedPoints;
+  UserOrderDetail(
+      {required this.id,
+      required this.meal,
+      required this.qty,
+      required this.price,
+      required this.allPrice,
+      required this.special,
+      required this.compoments,
+      required this.allInOne,
+      required this.replacedPoints});
 
-  UserOrderDetail copyWith({
-    int? id,
-    Meal? meal,
-    num? qty,
-    num? price,
-    num? allPrice,
-    String? special,
-    String? compoments,
-    String? allInOne,
-  }) {
+  UserOrderDetail copyWith(
+      {int? id,
+      Meal? meal,
+      num? qty,
+      num? price,
+      num? allPrice,
+      String? special,
+      String? compoments,
+      String? allInOne,
+      num? replacedPoints}) {
     return UserOrderDetail(
-      id: id ?? this.id,
-      meal: meal ?? this.meal,
-      qty: qty ?? this.qty,
-      price: price ?? this.price,
-      allPrice: allPrice ?? this.allPrice,
-      special: special ?? this.special,
-      compoments: compoments ?? this.compoments,
-      allInOne: allInOne ?? this.allInOne,
-    );
+        id: id ?? this.id,
+        meal: meal ?? this.meal,
+        qty: qty ?? this.qty,
+        price: price ?? this.price,
+        allPrice: allPrice ?? this.allPrice,
+        special: special ?? this.special,
+        compoments: compoments ?? this.compoments,
+        allInOne: allInOne ?? this.allInOne,
+        replacedPoints: replacedPoints ?? this.replacedPoints);
   }
 
   factory UserOrderDetail.fromMap(Map<String, dynamic> map) {
     return UserOrderDetail(
-      id: map['id']?.toInt() ?? 0,
-      meal: Meal.fromMap(map['meal']),
-      qty: map['qty'] ?? 0,
-      price: map['price'] ?? 0,
-      allPrice: map['allPrice'] ?? 0,
-      special: map['special'] ?? '',
-      compoments: map['compoments'] ?? '',
-      allInOne: map['all_in_one'] ?? '',
-    );
+        id: map['id']?.toInt() ?? 0,
+        meal: Meal.fromMap(map['meal']),
+        qty: map['qty'] ?? 0,
+        price: map['price'] ?? 0,
+        allPrice: map['allPrice'] ?? 0,
+        special: map['special'] ?? '',
+        compoments: map['compoments'] ?? '',
+        allInOne: map['all_in_one'] ?? '',
+        replacedPoints: map['replaced_points']);
   }
 
   factory UserOrderDetail.fromJson(String source) =>
